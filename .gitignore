@@ -31,8 +31,3 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Dataset files kept local
-data/raw/*
-!data/raw/.gitkeep
-NinaproDB1.zip
-Ninapro_DB1.csv
