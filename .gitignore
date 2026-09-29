@@ -30,3 +30,7 @@ htmlcov/
 Thumbs.db
 .vscode/
 .idea/
+
+# Dataset files kept local
+NinaproDB1.zip
+Ninapro_DB1.csv
