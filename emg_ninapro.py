@@ -19,8 +19,7 @@ Two evaluation modes (electrode placement makes cross-subject sEMG much harder):
 from __future__ import annotations
 import numpy as np
 
-from adapter import (TrackAdapter, TrackMeta, Recording, default_baseline,
-                     denoise)
+from adapter import TrackAdapter, TrackMeta, Recording, default_baseline, denoise
 
 FS = 100.0
 WIN = 20          # 200 ms window
