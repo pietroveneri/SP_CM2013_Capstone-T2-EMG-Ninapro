@@ -112,7 +112,7 @@ your achievable accuracy? Why is high *sensitivity* hard here (and why does that
 
 ---
 
-## EMG gesture — `emg_ninapro.py`
+## EMG gesture — `../src/emg_ninapro.py`
 
 **Signal / task:** 10-channel surface-EMG envelope (100 Hz) → 12-class hand gesture; two eval
 modes (within-subject vs new-subject).

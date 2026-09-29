@@ -1,1 +1,2 @@
-Ninapro_DB1.csv filter=lfs diff=lfs merge=lfs -text
+data/raw/*.csv filter=lfs diff=lfs merge=lfs -text
+data/raw/*.zip filter=lfs diff=lfs merge=lfs -text

@@ -1,6 +1,6 @@
 # Track instructions — EMG gesture, Ninapro DB1
 
-*Attach the dataset card (`emg_ninapro_card.md`). Adapter: `emg_ninapro.py`.*
+*Attach the dataset card (`emg_ninapro_card.md`). Adapter: `../src/emg_ninapro.py`.*
 
 > **Before you build — background & literature review.** Refresh the methods and do a short literature
 > review of the application domain using **[`BACKGROUND_MAP.md`](BACKGROUND_MAP.md)** (the "EMG gesture"
@@ -21,8 +21,8 @@ From **10-channel surface EMG** of the forearm, classify which **hand gesture** 
 - Smoke subset: subjects `S1, S2, S3`. Two evaluation modes: **within-subject** and **new-subject**.
 
 ## 3. What you are given (do not rebuild these)
-- The modular pipeline + a working baseline (`tracks.adapter.default_baseline`).
-- The adapter (`emg_ninapro.py`) with `smoke()`, `preprocess()` (identity by default), 
+- The modular pipeline + a working baseline (`adapter.default_baseline` in `../src/adapter.py`).
+- The adapter (`../src/emg_ninapro.py`) with `smoke()`, `preprocess()` (identity by default), 
   `extract_features()` (MAV/RMS/WL/VAR/MNF per channel, windowed), `download()/load()`, and
   **`evaluate_modes()`** that reports within- and new-subject side by side, each with its
   per-subject spread.
@@ -38,15 +38,14 @@ From **10-channel surface EMG** of the forearm, classify which **hand gesture** 
 
 Those steps are a *menu, not a march*: which preprocessing, which features, whether to select
 features at all, and which learner to climb to are decisions the scaffold deliberately leaves
-open (see `preprocess()` and `make_selector()` / `default_baseline()` in `adapter.py` for the options and their
+open (see `preprocess()` and `make_selector()` / `default_baseline()` in `../src/adapter.py` for the options and their
 trade-offs). The grade is on the quality of the reasoning, not on matching one blessed recipe.
 
 ## 4c. The design-decision menus (stages 2-5) — what the scaffold offers, and the trade-off
 
-Everything here is a **menu, not a recipe**. `tracks/adapter.py` ships each option *with its
+Everything here is a **menu, not a recipe**. `../src/adapter.py` ships each option *with its
 trade-off* and no blessed answer; the rubric grades the reasoning (criteria 2 and 5), not the
-choice. The notebook's "Decision points on this track" section runs several of them side by side
-so you can watch the numbers move.
+choice. The decision-point guidance in this file gives you the comparisons to run and log.
 
 ### Stage 2 — preprocessing · a stub you fill in
 
@@ -159,8 +158,7 @@ name it). Report which regime each number belongs to, exactly as you state the s
 
 The leakage-safe split (LOSO / GroupKFold on this track's split unit) is **not** a design choice, and
 there is deliberately no config key to turn it off. It is the only number that counts for your grade,
-and `evaluate()` enforces it on every fold. The notebook's decision-points section contains a
-**required one-time demonstration** that scores the data twice — a naive random stratified split and
+and `evaluate()` enforces it on every fold. As a **required one-time demonstration**, score the data twice — a naive random stratified split and
 the honest group-aware split — and prints the gap between them. Run it once, predict the gap first,
 and record both numbers in `RESULTS.md`.
 
@@ -168,7 +166,7 @@ and record both numbers in `RESULTS.md`.
 - A short **report** stating the **evaluation mode** for every number (within- vs new-subject).
 - `predictions.csv` on the held-out split for hold-out evaluation.
 - A cross-track showcase slot: "same energy/frequency features, our signal — what broke cross-subject?"
-- A **results log**: copy `results_log_TEMPLATE.md` into your team repo as `RESULTS.md` and add one row per iteration — what changed and why, the metric **with its spread**, whether it beat the previous iteration (or why you kept it anyway), and the commit. **This file is graded** (rubric Criterion 9, 3 pts) and it asks specifically for at least one decision you went back and **revised because of a downstream result** — the notebook's "Decision points on this track" section has a symptom → stage table to diagnose from, and prints an A/B of several options so you can see the numbers move.
+- A **results log**: use `RESULTS.md` and add one row per iteration — what changed and why, the metric **with its spread**, whether it beat the previous iteration (or why you kept it anyway), and the commit. **This file is graded** (rubric Criterion 9, 3 pts) and it asks specifically for at least one decision you went back and **revised because of a downstream result**.
 
 ## 6. Rules
 - Compare against the supplied baseline **honestly, per mode** — beating it is not required; a

@@ -1,5 +1,5 @@
-# Core dependencies for the companion notebooks.
-# Floors below are conservative; the versions the notebooks were built and
+# Core dependencies for the EMG pipeline.
+# Floors below are conservative; the versions the pipeline was built and
 # executed against (a known-good, reproducible set) are pinned in the comment.
 #
 # tested with: numpy==2.2.6 scipy==1.15.3 matplotlib==3.10.9
@@ -12,11 +12,10 @@ PyWavelets>=1.6   # >=1.6 is numpy-2 ABI compatible (1.4.x is NOT)
 pillow>=9.5
 
 # Capstone tracks only: the cfg={"imbalance": "smote"|"adasyn"} option in
-# tracks/adapter.py (adapter.SMOTEd). Every other imbalance option is sklearn-only,
+# src/adapter.py (adapter.SMOTEd). Every other imbalance option is sklearn-only,
 # and the whole scaffold runs without this — the SMOTEd wrapper raises a clear
 # install message if it is missing. >=0.13 is required for scikit-learn>=1.7.
 imbalanced-learn>=0.13
 
-# Optional: interactive widgets (Colab / local only; not needed for the static,
-# nbviewer-safe notebooks that ship pre-executed here).
+# Optional: interactive widgets for local exploration.
 # ipywidgets>=8.0

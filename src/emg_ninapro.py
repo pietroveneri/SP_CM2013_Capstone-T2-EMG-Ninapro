@@ -142,7 +142,7 @@ class EMGNinaproTrack(TrackAdapter):
         band-pass) are meaningless here — knowing that is half the exercise. What
         belongs in this stage on this track is per-channel normalisation *within a
         subject*, extra envelope smoothing, window length, and channel
-        re-ordering; see the notebook's stage-2 menu.
+        re-ordering; see `docs/emg_ninapro_instructions.md` for the stage-2 menu.
 
         This method reads **no cfg key**, so none is declared in
         `SUPPORTED_CFG_KEYS` and `cfg={"preprocess": "denoise", ...}` raises here

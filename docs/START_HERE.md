@@ -8,7 +8,7 @@ they behave differently on EEG vs ECG vs IMU vs EMG vs CTG.
 
 ```
   1. PICK a track ─▶ 2. REFRESH + LIT REVIEW ─▶ 3. RUN the baseline ─▶ 4. IMPROVE it ─▶ 5. REPORT + SUBMIT
-     (card +           (BACKGROUND_MAP.md:          (notebook:            (honestly,        (predictions.csv
+     (card +           (BACKGROUND_MAP.md:          (script:              (honestly,        (predictions.csv
       instructions)     book §§ + guiding Qs)        synthetic → real)     no leakage)       + showcase)
 ```
 
@@ -16,8 +16,8 @@ they behave differently on EEG vs ECG vs IMU vs EMG vs CTG.
 |------|-------------|-------|
 | **1. Pick a track** | Read its **dataset card** (task, signals, split unit, known pitfalls, measured baseline + yardstick) and **instructions**. | `<track>_card.md`, `<track>_instructions.md` |
 | **2. Refresh + literature review** | Skim the **book sections** that cover each method (a refresher — you already learned them), then do a short (~5–8 source) **literature review** of the *application* to **motivate** your design. This is course outcome **L5** and is graded. | **`BACKGROUND_MAP.md`** |
-| **3. Run the baseline** | Open the track's notebook. It runs on **synthetic data offline** by default; set `USE_REAL = True` in **Colab** for the real dataset. Read the **honest metric panel** (κ / macro-F1 / confusion), not accuracy. | `notebooks/track_<name>.ipynb` |
-| **4. Improve the baseline** | Do **real DSP** — better preprocessing and **feature construction** (the point of the course), then a better model. Validate **inside the folds**, keep the **declared split unit**. Log each iteration as you go. | the adapter's `preprocess()` and `extract_features()` are where you work; `results_log_TEMPLATE.md` is where you log it |
+| **3. Run the baseline** | Run the EMG track script on **synthetic data offline** by default. Read the **honest metric panel** (κ / macro-F1 / confusion), not accuracy. | from repo root: `python src/emg_ninapro.py` |
+| **4. Improve the baseline** | Do **real DSP** — better preprocessing and **feature construction** (the point of the course), then a better model. Validate **inside the folds**, keep the **declared split unit**. Log each iteration as you go. | the adapter's `preprocess()` and `extract_features()` are where you work; `RESULTS.md` is where you log it |
 | **5. Report + submit** | Write up your design (justified, read against the **yardstick**), submit `predictions.csv` for hold-out evaluation, and take a slot in the **cross-track showcase**. | `HOLDOUT_EVALUATION.md`, `CAPSTONE_REPORT_RUBRIC.md`, `report.py` |
 
 ## The seven modules (this is what "pipeline integrity" means)
@@ -45,7 +45,7 @@ stage, so any stage can be swapped, tested, or rewritten without touching the ot
 
 Defaults are *starting points, not recommendations*: pass-through selection and identity
 preprocessing exist so the baseline runs on day one. The alternatives and their trade-offs are
-documented on each stage (`adapter.py`), and choosing among them — and writing down why — is the
+documented on each stage (`../src/adapter.py`), and choosing among them — and writing down why — is the
 assessed part. The book's k-NN → SVM → random-forest → tuned-RF ladder is likewise an *illustrative*
 history (its numbers are explicitly simulated), not a route you must walk: a team that keeps one
 learner and spends every iteration on features has an equally defensible story, provided each rung is
@@ -53,15 +53,14 @@ measured under the same honest harness.
 
 These seven modules are units of **work**, not a headcount: one person may own several, two people
 may share one, and ownership can rotate between iterations. Divide them however your team's size and
-strengths suggest, and record who actually did what (`results_log_TEMPLATE.md` has a place for it).
+strengths suggest, and record who actually did what (`RESULTS.md` has a place for it).
 
 ## Every iteration gets logged (definition of "done")
 
 Chapter 16 §16.3 calls an iteration finished only when it (1) runs end to end to a result, (2) reports
 the primary metric **with its spread** across subjects/records/folds, (3) is committed with a note of
 what changed and why, and (4) beats the previous iteration — or explains in writing why the change was
-kept anyway. Copy **[`results_log_TEMPLATE.md`](results_log_TEMPLATE.md)** into your team repo as
-`RESULTS.md` on day one and add a row each time; `rep["summary"]` from `evaluate()` prints the metric
+kept anyway. Update **[`RESULTS.md`](RESULTS.md)** each time; `rep["summary"]` from `evaluate()` prints the metric
 in exactly the required shape.
 
 ## How you'll be assessed (published in full — nothing held back)
@@ -80,7 +79,7 @@ sheets, so you can hold your work against them before handing anything in.
 
 | Instrument | Points | Format | When |
 |---|:-:|---|---|
-| **Code** | 11 | The submitted repository/notebook itself — pipeline structure, DSP, leakage-safe validation, reproducibility | Report deadline |
+| **Code** | 11 | The submitted repository itself — pipeline structure, DSP, leakage-safe validation, reproducibility | Report deadline |
 | **Report** | 12 | Written, submitted with `predictions.csv` | Report deadline |
 | **Presentation** | 6 | 10–15 min talk + 5–10 min Q&A | Showcase day |
 | **Deadlines** | 1 | On-time submission of the code, report, `predictions.csv`, and your showcase slot | Throughout |
@@ -119,7 +118,7 @@ a project session, within one week of the grade being posted.
 ## The three golden rules (you will be graded on these)
 
 1. **No leakage.** Never let the same subject/record appear in train and test; fit scalers and any
-   feature/spatial selection **inside** each CV fold. See `../docs/LEAKAGE.md`.
+   feature/spatial selection **inside** each CV fold.
 2. **Honest metrics.** Never accuracy alone — report Cohen's κ, macro-F1, and the confusion matrix.
    State the **split unit** (and evaluation mode) with **every** number, and quote the metric **with
    its spread** ("mean κ 0.61, range 0.34–0.73 across 8 subjects"), never the pooled number alone.

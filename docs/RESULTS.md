@@ -71,7 +71,7 @@ Either way, two habits that cost nothing:
   the spread across your subjects/folds, it is not a result. Say "no measurable difference; we
   kept the simpler one" — that sentence earns marks, and claiming the 0.01 does not.
 
-**Related, and equally invisible: *where* your preprocessing is fitted.** The notebook builds
+**Related, and equally invisible: *where* your preprocessing is fitted.** The pipeline builds
 features for every recording **before** `evaluate()` cuts the folds. That is safe for everything
 the scaffold ships, because all of it is **stateless** — a fixed filter, or a threshold estimated
 from one epoch's own samples. It stops being safe the moment you add a stage that **learns**:
@@ -103,7 +103,7 @@ add rows as the pipeline grows, and note the alternative you rejected.
 
 Adding iterations forward is a to-do list. What this section wants is the place a number
 downstream sent you back **up** the pipeline. One row is enough; two is a good project.
-The notebook's "Decision points on this track" section has a symptom → stage table to
+The track instructions have a symptom → stage table to
 diagnose from.
 
 | # | The downstream result that triggered it | Which earlier decision it indicted | What you changed | What happened to the metric |
