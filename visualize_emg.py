@@ -1,7 +1,7 @@
-"""Temporary preview of Ninapro DB1: python visualizza_emg.py.
+"""Temporary preview of Ninapro DB1: python visualize_emg.py.
 
-Example: python visualizza_emg.py --subject 2 --channel 4 --seconds 20
-To save only the PNG: python visualizza_emg.py --no-show
+Example: python visualize_emg.py --subject 2 --channel 4 --seconds 20
+To save only the PNG: python visualize_emg.py --no-show
 """
 
 import argparse
