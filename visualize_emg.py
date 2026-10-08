@@ -74,7 +74,7 @@ def main():
     axes[2].grid(alpha=0.25)
     axes[2].set_xlim(lo / fs, hi / fs)
 
-    fig.savefig(args.output, dpi=160)
+    # fig.savefig(args.output, dpi=160)
     print(f"File: {path.name} | total duration: {len(emg) / fs:.1f} s")
     print(f"Displayed segment: {lo / fs:.2f}-{hi / fs:.2f} s | channel {args.channel}")
     print(f"Plot saved: {args.output.resolve()}")

@@ -84,7 +84,7 @@ class EMGNinaproTrack(TrackAdapter):
     }
 
     # ---- synthetic smoke (offline / CI) ----
-    def smoke(self, n_subjects=5, n_reps=6, win_per_rep=4, electrode_shift=2,
+    def smoke(self, n_subjects=27, n_reps=6, win_per_rep=4, electrode_shift=2,
               bleed=0.5, rep_sd=0.40, win_noise=0.20, gain_sd=0.35, seed0=4000):
         """Synthetic sEMG whose difficulty comes from the three things that
         actually make sEMG gesture recognition hard — and that the old separable
