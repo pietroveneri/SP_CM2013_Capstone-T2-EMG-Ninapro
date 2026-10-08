@@ -160,13 +160,13 @@ The leakage-safe split (LOSO / GroupKFold on this track's split unit) is **not**
 there is deliberately no config key to turn it off. It is the only number that counts for your grade,
 and `evaluate()` enforces it on every fold. As a **required one-time demonstration**, score the data twice — a naive random stratified split and
 the honest group-aware split — and prints the gap between them. Run it once, predict the gap first,
-and record both numbers in `RESULTS.md`.
+and record both numbers in `RESULTS_TEMPLATE.md`.
 
 ## 5. Deliverables
 - A short **report** stating the **evaluation mode** for every number (within- vs new-subject).
 - `predictions.csv` on the held-out split for hold-out evaluation.
 - A cross-track showcase slot: "same energy/frequency features, our signal — what broke cross-subject?"
-- A **results log**: use `RESULTS.md` and add one row per iteration — what changed and why, the metric **with its spread**, whether it beat the previous iteration (or why you kept it anyway), and the commit. **This file is graded** (rubric Criterion 9, 3 pts) and it asks specifically for at least one decision you went back and **revised because of a downstream result**.
+- A **results log**: use `RESULTS_TEMPLATE.md` and add one row per iteration — what changed and why, the metric **with its spread**, whether it beat the previous iteration (or why you kept it anyway), and the commit. **This file is graded** (rubric Criterion 9, 3 pts) and it asks specifically for at least one decision you went back and **revised because of a downstream result**.
 
 ## 6. Rules
 - Compare against the supplied baseline **honestly, per mode** — beating it is not required; a

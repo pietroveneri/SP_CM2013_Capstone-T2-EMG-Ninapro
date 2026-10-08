@@ -17,7 +17,7 @@ they behave differently on EEG vs ECG vs IMU vs EMG vs CTG.
 | **1. Pick a track** | Read its **dataset card** (task, signals, split unit, known pitfalls, measured baseline + yardstick) and **instructions**. | `<track>_card.md`, `<track>_instructions.md` |
 | **2. Refresh + literature review** | Skim the **book sections** that cover each method (a refresher — you already learned them), then do a short (~5–8 source) **literature review** of the *application* to **motivate** your design. This is course outcome **L5** and is graded. | **`BACKGROUND_MAP.md`** |
 | **3. Run the baseline** | Run the EMG track script on **synthetic data offline** by default. Read the **honest metric panel** (κ / macro-F1 / confusion), not accuracy. | from repo root: `python src/emg_ninapro.py` |
-| **4. Improve the baseline** | Do **real DSP** — better preprocessing and **feature construction** (the point of the course), then a better model. Validate **inside the folds**, keep the **declared split unit**. Log each iteration as you go. | the adapter's `preprocess()` and `extract_features()` are where you work; `RESULTS.md` is where you log it |
+| **4. Improve the baseline** | Do **real DSP** — better preprocessing and **feature construction** (the point of the course), then a better model. Validate **inside the folds**, keep the **declared split unit**. Log each iteration as you go. | the adapter's `preprocess()` and `extract_features()` are where you work; `RESULTS_TEMPLATE.md` is where you log it |
 | **5. Report + submit** | Write up your design (justified, read against the **yardstick**), submit `predictions.csv` for hold-out evaluation, and take a slot in the **cross-track showcase**. | `HOLDOUT_EVALUATION.md`, `CAPSTONE_REPORT_RUBRIC.md`, `report.py` |
 
 ## The seven modules (this is what "pipeline integrity" means)
@@ -53,14 +53,14 @@ measured under the same honest harness.
 
 These seven modules are units of **work**, not a headcount: one person may own several, two people
 may share one, and ownership can rotate between iterations. Divide them however your team's size and
-strengths suggest, and record who actually did what (`RESULTS.md` has a place for it).
+strengths suggest, and record who actually did what (`RESULTS_TEMPLATE.md` has a place for it).
 
 ## Every iteration gets logged (definition of "done")
 
 Chapter 16 §16.3 calls an iteration finished only when it (1) runs end to end to a result, (2) reports
 the primary metric **with its spread** across subjects/records/folds, (3) is committed with a note of
 what changed and why, and (4) beats the previous iteration — or explains in writing why the change was
-kept anyway. Update **[`RESULTS.md`](RESULTS.md)** each time; `rep["summary"]` from `evaluate()` prints the metric
+kept anyway. Update **[`RESULTS_TEMPLATE.md`](RESULTS_TEMPLATE.md)** each time; `rep["summary"]` from `evaluate()` prints the metric
 in exactly the required shape.
 
 ## How you'll be assessed (published in full — nothing held back)

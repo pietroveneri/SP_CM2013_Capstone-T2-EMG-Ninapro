@@ -1495,7 +1495,7 @@ class TrackAdapter:
         places are `select_features()` (which `evaluate()` already calls on the
         training fold only) and the classifier pipeline you pass as `clf=` (an
         `sklearn.pipeline.Pipeline` step is refit per fold by `clone()`). Say in
-        `RESULTS.md` which of the two you used and why — "we fit CSP inside the
+        `RESULTS_TEMPLATE.md` which of the two you used and why — "we fit CSP inside the
         fold" is a sentence Criterion 8 is looking for."""
         cfg = self._cfg(cfg)
         Xs, ys, gs = [], [], []
