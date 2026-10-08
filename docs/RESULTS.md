@@ -1,16 +1,14 @@
 # Results log — `EMG NinaPro`, `T2`
 
 **Track:** `<emg_ninapro >` ·
-**Split unit:** `<subject | repetition>` · **Primary metric:** `<Cohen's κ | macro-F1>` ·
+**Split unit:** `<record>` · **Primary metric:** `<Cohen's κ | macro-F1>` ·
 **Evaluation mode(s):** `<new-subject | within-subject + new-subject>`
 
 `cfg={"seed": 0}`
 
 ## Iteration log
 
-Paste the metric straight from the harness — `rep["summary"]` prints the required shape, e.g.
-`mean cohens_kappa 0.61 (sd 0.12, range 0.34-0.73 across 8 subjects)`. A pooled number with no
-spread is half a result.
+Paste the metric straight from the harness — `rep["summary"]` prints the required shape.
 
 | # | Date | What changed & why (one line) | Primary metric **with spread** | Better than previous? | If not — why it was kept | Commit |
 |---|---|---|---|---|---|---|
