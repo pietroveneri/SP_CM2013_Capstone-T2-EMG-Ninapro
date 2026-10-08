@@ -48,7 +48,7 @@ git push -u origin experiment/normalization
 ```
 Then open a Pull Request into main.
 
-## Experiment
+## Experiments
 For every experimental iteration:
 1. Start from the current accepted pipeline.
 2. Change one clearly defined component when possible.
@@ -57,11 +57,3 @@ For every experimental iteration:
 5. Report the metric together with its spread.
 6. Update docs/RESULTS.md.
 7. Record negative or rejected experiments as well as successful ones.
-
-Poi: 
-
-```bash
-git add README.md data/README.md .gitignore
-git commit -m "Set up repository structure and workflow"
-git push
-```

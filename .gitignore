@@ -31,9 +31,6 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Images
-.png
-
 # Local datasets
-NinaPro_Mat
+NinaPro_Mat/
 data/raw/
