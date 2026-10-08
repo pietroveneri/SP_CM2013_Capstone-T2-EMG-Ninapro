@@ -32,4 +32,8 @@ Thumbs.db
 .idea/
 
 # Images
-.png 
+.png
+
+# Local datasets
+NinaPro_Mat
+data/raw/
