@@ -2,6 +2,8 @@
 
 Example: python visualize_emg.py --subject 2 --channel 4 --seconds 20
 To save only the PNG: python visualize_emg.py --no-show
+
+The Fourier panel uses the same selected channel and time interval.
 """
 
 import argparse
@@ -10,6 +12,24 @@ from pathlib import Path
 import matplotlib
 import numpy as np
 from scipy.io import loadmat
+
+
+def fourier_amplitude(signal, fs):
+    """One-sided amplitude spectrum of a mean-centered, Hann-windowed signal.
+
+    Normalize by the window sum to preserve bin-centered sinusoid amplitudes.
+    DC and the Nyquist bin (when present) are not doubled.
+    """
+    signal = np.asarray(signal, dtype=float)
+    if signal.ndim != 1 or signal.size < 2 or not np.all(np.isfinite(signal)):
+        raise ValueError("Expected a finite, one-dimensional signal with at least two samples")
+    if fs <= 0 or not np.isfinite(fs):
+        raise ValueError("Sampling rate must be positive and finite")
+    n = signal.size
+    window = 0.5 - 0.5 * np.cos(2 * np.pi * np.arange(n) / n)
+    amplitude = np.abs(np.fft.rfft((signal - signal.mean()) * window)) / window.sum()
+    amplitude[1:-1 if n % 2 == 0 else None] *= 2
+    return np.fft.rfftfreq(n, d=1 / fs), amplitude
 
 
 def main():
@@ -47,8 +67,10 @@ def main():
     time = np.arange(lo, hi) / fs
     segment = emg[lo:hi]
 
-    fig, axes = plt.subplots(3, 1, figsize=(13, 8), sharex=True,
-                             gridspec_kw={"height_ratios": [2, 2, 1]}, layout="constrained")
+    fig, axes = plt.subplots(4, 1, figsize=(13, 11),
+                             gridspec_kw={"height_ratios": [2, 2, 1, 2]}, layout="constrained")
+    axes[1].sharex(axes[0])
+    axes[2].sharex(axes[0])
     fig.suptitle(f"Ninapro DB1 | S{args.subject}, E1 | EMG envelope at 100 Hz\n"
                  "Signal already rectified and filtered; original amplitudes, without normalization",
                  fontsize=13)
@@ -74,10 +96,22 @@ def main():
     axes[2].grid(alpha=0.25)
     axes[2].set_xlim(lo / fs, hi / fs)
 
-    # fig.savefig(args.output, dpi=160)
+    frequencies, amplitude = fourier_amplitude(segment[:, args.channel - 1], fs)
+    axes[3].plot(frequencies, amplitude, color="#009E73", linewidth=1)
+    axes[3].set_title(
+        f"Channel {args.channel}: Fourier amplitude spectrum | mean removed, Hann window\n"
+        f"Envelope frequencies | FFT bin spacing: {fs / len(segment):.3f} Hz", loc="left")
+    axes[3].set_xlabel("Frequency (Hz)")
+    axes[3].set_ylabel("Amplitude\n(file units)")
+    axes[3].set_xlim(0, fs / 2)
+    axes[3].set_ylim(bottom=0)
+    axes[3].grid(alpha=0.25)
+
+    if args.no_show:
+        fig.savefig(args.output, dpi=160)
+        print(f"Plot saved: {args.output.resolve()}")
     print(f"File: {path.name} | total duration: {len(emg) / fs:.1f} s")
     print(f"Displayed segment: {lo / fs:.2f}-{hi / fs:.2f} s | channel {args.channel}")
-    print(f"Plot saved: {args.output.resolve()}")
     print("The ML loader excludes rest and windows spanning gesture/repetition changes.")
     if not args.no_show:
         plt.show()
