@@ -1,10 +1,16 @@
 # Results log — `EMG NinaPro`, `T2`
 
 **Track:** `<emg_ninapro >` ·
-**Split unit:** `<record>` · **Primary metric:** `<Cohen's κ | macro-F1>` ·
+**Split unit:** `<within-subject + new-subject>` · **Primary metric:** `<Cohen's κ | macro-F1>` ·
 **Evaluation mode(s):** `<new-subject | within-subject + new-subject>`
 
-`cfg={"seed": 0}`
+`cfg = {
+    "seed": 0, 
+    "select": "none",
+    "imbalance": "balanced",
+    "cv_max_splits": 5,
+    "loso_max_groups": 12
+}`
 
 ## Iteration log
 
@@ -12,7 +18,7 @@ Paste the metric straight from the harness — `rep["summary"]` prints the requi
 
 | # | Date | What changed & why (one line) | Primary metric **with spread** | Better than previous? | If not — why it was kept | Commit |
 |---|---|---|---|---|---|---|
-| 1 | 2026-10-08 | supplied baseline, unchanged | within_subject mean macro_f1 0.798 (sd 0.049, range 0.697-0.879 across 27 subjects) - new_subject mean macro_f1 0.204 (sd 0.074, range 0.080-0.381 across 27 subjects) | — | (baseline) | `a1b2c3d` |
+| 1 | 2026-10-08 | supplied baseline, unchanged | within_subject mean macro_f1 0.798 (sd 0.049, range 0.697-0.879, spread is per subject) - new_subject mean macro_f1 0.204 (sd 0.074, range 0.080-0.381, spread is per subject) | — | (baseline) | `4c2fb7a` |
 | 2 |  |  |  | yes / no |  |  |
 | 3 |  |  |  | yes / no |  |  |
 | 4 |  |  |  | yes / no |  |  |
@@ -40,8 +46,8 @@ add rows as the pipeline grows, and note the alternative you rejected.
 | 1. Data loading | |  | | — |
 | 2. Preprocessing |  |  |  |  |  |
 | 3. Feature extraction |  |  |  |  |  |
-| 4. Feature selection | `select="none"` | ANOVA `SelectKBest`, tree importances | 14 features vs. ~1 800 epochs — pruning risked more than it saved | 1 | *e.g.* **yes, iter 4** — `select_k=20` was a no-op (harness said so); switched to `k=6` |
-| 5. Classification, incl. `imbalance` | *e.g.* `imbalance="balanced"` | `"none"`, `"resample"`, `"threshold"` | *(if you kept the default, say you looked and why — a silent default earns nothing)* |  |  |
+| 4. Feature selection |  |  |  |  |  |
+| 5. Classification, incl. `imbalance` |  |  |  |  |  |
 | 6. Inference |  |  |  |  |  |
 | 7. Reporting |  |  |  |  |  |
 
@@ -66,7 +72,9 @@ between iterations. Record what actually happened.
 
 | Iteration | Who | Modules / tasks owned | Reviewed by |
 |---|---|---|---|
-| 1 |  |  |  |
+| 0 | Pietro  | Run baseline configuration |  |
+| 1 | - | - | - | 
+"
 
 ## Final numbers 
 
