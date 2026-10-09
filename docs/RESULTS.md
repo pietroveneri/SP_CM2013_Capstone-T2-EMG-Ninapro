@@ -1,7 +1,7 @@
 # Results log — `EMG NinaPro`, `T2`
 
 **Track:** `<emg_ninapro >` ·
-**Split unit:** `<within-subject + new-subject>` · **Primary metric:** `<Cohen's κ | macro-F1>` ·
+**Split unit:** `<repetition (within-subject); subject (new-subject)>` · **Primary metric:** `<Cohen's κ | macro-F1>` ·
 **Evaluation mode(s):** `<new-subject | within-subject + new-subject>`
 
 `cfg = {

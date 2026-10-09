@@ -17,7 +17,7 @@ from emg_ninapro import EMGNinaproTrack
 track = EMGNinaproTrack()
 records = track.load(root / "NinaPro_Mat", exercise="E1")
 
-results = track.evaluate_modes(records, cfg={"seed": 0})
+results = track.evaluate_modes(records, cfg=cfg)
 
 for mode, result in results.items():
     print(mode, result["summary"])
