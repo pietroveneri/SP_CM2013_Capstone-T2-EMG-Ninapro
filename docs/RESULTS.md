@@ -2,8 +2,8 @@
 
 **Track:** `<emg_ninapro >` · **Subjects:** 27 · **Classes:** g01-g12; rest excluded · **Windows:** 75,197 per evaluation mode 
 
-**Evaluation modes:** `<new-subject | within-subject + new-subject>` · **Split unit:** `<repetition (within-subject); subject (new-subject)>` ·  **CV:** 5-fold GroupKFold on repetitions within each subject; 5 fold GroupKFold on subjects for new-subject
-**Primary metric:** `<Cohen's κ | macro-F1>` · **Secondary metrics:** Cohen's κ, balanced accuracy, accuracy **Spdread:** mean, sample SD and min-max across 27 subjects.
+**Evaluation modes:** `<within-subject + new-subject>` · **Split unit:** `<repetition (within-subject); subject (new-subject)>` ·  **CV:** 5-fold GroupKFold on repetitions within each subject; 5 fold GroupKFold on subjects for new-subject
+**Primary metric:** `<macro-F1>` · **Secondary metrics:** Cohen's κ, balanced accuracy, accuracy **Spread:** mean, sample SD and min-max across 27 subjects.
  
 **Detailed baseline results:** [BASELINE.md](BASELINE.md)
 
@@ -32,7 +32,7 @@ Paste the metric straight from the harness — `rep["summary"]` prints the requi
 
 - Results registered in commit: `4c2fb7a`.
 - Exact commit executed for the original run: `4c2fb7a`.
-- Original execution environment: [requirements-lock.txt](requirements-lock.txt).
+- Original execution environment: [requirements-lock.txt](../requirements-lock.txt)
 - Detailed metric panel and confusion matrices: [BASELINE.md](BASELINE.md).
 - Per-window predictions and complete per-subject results: not yet archived.
 
@@ -49,14 +49,11 @@ silent higher mean.*
 
 ## Decision log — the choices behind the numbers
 
-Rows above say *what happened*; this says *what you chose and why*, which is what §16.4 asks you
-to make traceable and what the report's defence is built from. There is no single correct
-pipeline here — the scaffold deliberately ships options, not answers. One line per decision;
-add rows as the pipeline grows, and note the alternative you rejected.
+Baseline's detailed decision log: [BASELINE.md](BASELINE.md)
 
 | Pipeline module | Option chosen | Alternative(s) considered | Why this one (one sentence) | Iteration | Revised later? |
 |---|---|---|---|---|---|
-| 1. Data loading | DB1 E1; all 27 subjects; restimulus/repetition; rest excluded | - | Use the prescribed dataset scope and the supplied correct labels | - |
+| 1. Data loading | DB1 E1; all 27 subjects; restimulus/rerepetition; rest excluded | - | Use the prescribed dataset scope and the supplied correct labels | - |
 | 2. Preprocessing |  |  |  |  |  |
 | 3. Feature extraction |  |  |  |  |  |
 | 4. Feature selection |  |  |  |  |  |

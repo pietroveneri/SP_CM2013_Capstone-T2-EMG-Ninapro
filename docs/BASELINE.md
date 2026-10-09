@@ -2,8 +2,8 @@
 
 | Pipeline module | Option chosen | Alternative(s) considered | Why this one (one sentence) | Iteration | Revised later? |
 |---|---|---|---|---|---|
-| 1. Data loading | DB1 E1; all 27 subjects; restimulus/repetition; rest excluded | Not evaluated in the baseline run | Use the prescribed dataset scope and the supplied correct labels | 1 | No |
-| 2. Preprocessing | Identity signal processing | Not evaluated in the baseline run | Preserve the supplied reference pipeline; DB1 already contains and EMG envelope | 1 | No |
+| 1. Data loading | DB1 E1; all 27 subjects; restimulus/rerepetition; rest excluded | Not evaluated in the baseline run | Use the prescribed dataset scope and the supplied correct labels | 1 | No |
+| 2. Preprocessing | Identity signal processing | Not evaluated in the baseline run | Preserve the supplied reference pipeline; DB1 already contains an EMG envelope | 1 | No |
 | 3. Feature extraction | 50 features: MAV, RMS, WL, variance and magnitude-spectrum frequency centroid per channel | Not evaluated in the baseline run | Establish the supplied feature representation as the reference for controlled comparisons | 1 | No |
 | 4. Feature selection | `select="none"` | Not evaluated in the baseline run | Keep all 50 features in the reference run and evaluate selection separately later |  1|  No|
 | 5. Classification | StandardScaler -> RF; 200 trees; `class_weight="balanced"`; `seed=0` | Not evaluated in the baseline run | Preserve the supplied classifier and its train-fold scaling and class weighting  | 1 | No |
