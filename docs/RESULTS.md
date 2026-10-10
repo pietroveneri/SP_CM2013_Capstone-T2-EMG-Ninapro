@@ -33,7 +33,7 @@ Paste the metric straight from the harness — `rep["summary"]` prints the requi
 - Results registered in commit: `4c2fb7a`.
 - Exact commit executed for the original run: `4c2fb7a`.
 - Original execution environment: [requirements-lock.txt](../requirements-lock.txt)
-- Detailed metric panel and confusion matrices: [BASELINE.md](BASELINE.md).
+- Detailed metric panel and confusion matrices: [BASELINE.md](Baseline/BASELINE.md).
 - Per-window predictions and complete per-subject results: not yet archived.
 
 *"Better" means better under the same honest harness — same split unit, same evaluation mode,

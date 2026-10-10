@@ -1,0 +1,55 @@
+{
+  "requested": {
+    "seed": 0,
+    "select": "none",
+    "imbalance": "balanced",
+    "cv_max_splits": 5,
+    "loso_max_groups": 12
+  },
+  "resolved_framework_defaults": {
+    "seed": 0,
+    "preprocess": "none",
+    "impulsive": null,
+    "baseline": null,
+    "powerline": null,
+    "broadband": null,
+    "hp_fc": 0.5,
+    "f0": 50.0,
+    "q": 30.0,
+    "win": 5,
+    "causal": false,
+    "spectral_method": "welch",
+    "ar_order": 16,
+    "mt_bandwidth": 4.0,
+    "select": "none",
+    "select_k": 20,
+    "select_C": 1.0,
+    "imbalance": "balanced",
+    "threshold": 0.5,
+    "smote_k": 5,
+    "wavelet": "db4",
+    "wavelet_level": null,
+    "cv_max_splits": 5,
+    "loso_max_groups": 12
+  },
+  "fixed_signal": {
+    "fs": 100.0,
+    "window_samples": 20,
+    "step_samples": 15,
+    "channels": 10,
+    "preprocessing": "identity",
+    "features": 50
+  },
+  "model": {
+    "pipeline": "StandardScaler -> RandomForestClassifier",
+    "n_estimators": 200,
+    "class_weight": "balanced",
+    "random_state": 0,
+    "n_jobs": null
+  },
+  "evaluation": {
+    "within_subject": "GroupKFold(5) per subject on repetition number across gestures",
+    "new_subject": "GroupKFold(5) on 27 subjects",
+    "rest": "excluded"
+  }
+}

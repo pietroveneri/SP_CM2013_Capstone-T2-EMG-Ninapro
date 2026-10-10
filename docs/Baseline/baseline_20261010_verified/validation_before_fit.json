@@ -1,0 +1,19 @@
+{
+  "windows": 75197,
+  "features": 50,
+  "subjects": 27,
+  "planned_fits": 140,
+  "exact_duplicate_feature_rows": 0,
+  "feature_sha256": "a4efebe529cb5111a975ea401510e455c67fb21fac13868556cced312506d730",
+  "finite_features": true,
+  "aligned_metadata": true,
+  "group_disjointness": true,
+  "sample_disjointness": true,
+  "oof_test_coverage_exactly_once": true,
+  "unique_window_ids": true,
+  "reused_manifest": false,
+  "limitations": [
+    "Identity preprocessing is verified in source; these checks cannot prove safety of arbitrary learned preprocessing.",
+    "Equal feature values at distinct valid intervals are counted, not interpreted as shared samples."
+  ]
+}

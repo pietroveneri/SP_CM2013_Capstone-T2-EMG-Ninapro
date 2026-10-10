@@ -1,0 +1,120 @@
+{
+  "new_subject": {
+    "mode": "new_subject",
+    "prediction_kind": "out_of_fold",
+    "labels": [
+      "g01",
+      "g02",
+      "g03",
+      "g04",
+      "g05",
+      "g06",
+      "g07",
+      "g08",
+      "g09",
+      "g10",
+      "g11",
+      "g12"
+    ],
+    "split_unit": "subject",
+    "n_subjects": 27,
+    "n_folds": 5,
+    "pooled": {
+      "n": 75197,
+      "macro_f1": 0.22083459804095307,
+      "cohens_kappa": 0.15520063478054225,
+      "balanced_accuracy": 0.22717364853314095,
+      "accuracy": 0.22552761413354255
+    },
+    "per_subject_spread": {
+      "macro_f1": {
+        "mean": 0.20501998829318888,
+        "sample_sd": 0.07328680458324026,
+        "min": 0.08197427744984725,
+        "max": 0.38035708530845286,
+        "n": 27
+      },
+      "cohens_kappa": {
+        "mean": 0.15603328757909,
+        "sample_sd": 0.07575193429773863,
+        "min": 0.026895031434895023,
+        "max": 0.3528085625092636,
+        "n": 27
+      },
+      "balanced_accuracy": {
+        "mean": 0.23215547489046434,
+        "sample_sd": 0.07201082209532149,
+        "min": 0.11215213202225666,
+        "max": 0.4042709746486452,
+        "n": 27
+      },
+      "accuracy": {
+        "mean": 0.22685072452830304,
+        "sample_sd": 0.06997707335276696,
+        "min": 0.10873896954170224,
+        "max": 0.41052971576227393,
+        "n": 27
+      }
+    },
+    "framework_summary": "mean macro_f1 0.205 (sd 0.073, range 0.082-0.380 across 27 subjects)"
+  },
+  "within_subject": {
+    "mode": "within_subject",
+    "prediction_kind": "out_of_fold",
+    "labels": [
+      "g01",
+      "g02",
+      "g03",
+      "g04",
+      "g05",
+      "g06",
+      "g07",
+      "g08",
+      "g09",
+      "g10",
+      "g11",
+      "g12"
+    ],
+    "split_unit": "repetition (within subject)",
+    "n_subjects": 27,
+    "n_folds": 135,
+    "pooled": {
+      "n": 75197,
+      "macro_f1": 0.7960850551772869,
+      "cohens_kappa": 0.7781705839479761,
+      "balanced_accuracy": 0.7960632724770199,
+      "accuracy": 0.7967472106599998
+    },
+    "per_subject_spread": {
+      "macro_f1": {
+        "mean": 0.7977940220838937,
+        "sample_sd": 0.04604834345882573,
+        "min": 0.7064402569392758,
+        "max": 0.8804688542791999,
+        "n": 27
+      },
+      "cohens_kappa": {
+        "mean": 0.7787511859865325,
+        "sample_sd": 0.051437890138907,
+        "min": 0.6706936137087001,
+        "max": 0.8702865382056933,
+        "n": 27
+      },
+      "balanced_accuracy": {
+        "mean": 0.7965161412430616,
+        "sample_sd": 0.045966269719630845,
+        "min": 0.702861570246152,
+        "max": 0.877776463133603,
+        "n": 27
+      },
+      "accuracy": {
+        "mean": 0.7977691473241793,
+        "sample_sd": 0.047058151613761895,
+        "min": 0.6992429456297315,
+        "max": 0.8814968814968815,
+        "n": 27
+      }
+    },
+    "framework_summary": "mean macro_f1 0.798 (sd 0.046, range 0.706-0.880 across 27 subjects)"
+  }
+}
