@@ -5,7 +5,7 @@
 **Evaluation modes:** `<within-subject + new-subject>` · **Split unit:** `<repetition (within-subject); subject (new-subject)>` ·  **CV:** 5-fold GroupKFold on repetitions within each subject; 5 fold GroupKFold on subjects for new-subject
 **Primary metric:** `<macro-F1>` · **Secondary metrics:** Cohen's κ, balanced accuracy, accuracy **Spread:** mean, sample SD and min-max across 27 subjects.
  
-**Detailed baseline results:** [BASELINE.md](BASELINE.md)
+**Detailed baseline results:** [BASELINE.md](Baseline/BASELINE.md)
 
 ```python
 cfg = {
@@ -30,11 +30,11 @@ Paste the metric straight from the harness — `rep["summary"]` prints the requi
 
 ### Baseline provenance
 
-- Results registered in commit: `4c2fb7a`.
-- Exact commit executed for the original run: `4c2fb7a`.
+- Results registered in commit: `379f1e6`.
+- Exact commit executed for the original run: `379f1e6` - verification run in commit `ecfd6e4` .
 - Original execution environment: [requirements-lock.txt](../requirements-lock.txt)
 - Detailed metric panel and confusion matrices: [BASELINE.md](Baseline/BASELINE.md).
-- Per-window predictions and complete per-subject results: not yet archived.
+- Per-window predictions and complete per-subject results: [BASELINE 10/10/2026](Baseline/baseline_20261010_verified).
 
 *"Better" means better under the same honest harness — same split unit, same evaluation mode,
 same seed. A change that lowers the metric can still be the right call (simpler, faster, more
@@ -49,7 +49,7 @@ silent higher mean.*
 
 ## Decision log — the choices behind the numbers
 
-Baseline's detailed decision log: [BASELINE.md](BASELINE.md)
+Baseline's detailed decision log: [BASELINE.md](Baseline/BASELINE.md)
 
 | Pipeline module | Option chosen | Alternative(s) considered | Why this one (one sentence) | Iteration | Revised later? |
 |---|---|---|---|---|---|
