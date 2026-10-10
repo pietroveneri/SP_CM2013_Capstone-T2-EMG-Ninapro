@@ -15,11 +15,7 @@ Both results use out-of-fold predictions. The within-subject evaluation comprise
 - `config.json`: effective run configuration.
 - `run.json`: execution metadata and source provenance.
 - `environment.json`: execution environment and package versions.
-- `data_manifest.json`: input data inventory.
-- `validation_before_fit.json`: validation results before training.
 - `folds.json`: train/test fold assignments.
-- `window_fold_manifest.csv`: window-level fold mapping.
-- `checksums.json`: artifact integrity checksums.
 
 The complete local archive also contains per-mode outputs, the execution log and a source snapshot. Retain these alongside the files committed here.
 
@@ -28,3 +24,4 @@ The complete local archive also contains per-mode outputs, the execution log and
 These results establish the reference for subsequent experiments. Reuse the recorded folds for controlled comparisons. Out-of-fold evaluation does not constitute an untouched final test set.
 
 Files supplied by the course framework remain unchanged; project-specific validation and archiving belong in separate team-owned modules.
+Run metadata and summaries are versioned here; complete predictions and per-subject outputs are retained in the local archive.

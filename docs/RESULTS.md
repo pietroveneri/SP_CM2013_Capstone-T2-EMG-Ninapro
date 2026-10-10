@@ -31,7 +31,7 @@ Paste the metric straight from the harness — `rep["summary"]` prints the requi
 ### Baseline provenance
 
 - Results registered in commit: `379f1e6`.
-- Exact commit executed for the original run: `379f1e6` - verification run in commit `ecfd6e4` .
+- Verification run from commit `0b85ef5`.
 - Original execution environment: [requirements-lock.txt](../requirements-lock.txt)
 - Detailed metric panel and confusion matrices: [BASELINE.md](Baseline/BASELINE.md).
 - Per-window predictions and complete per-subject results: [BASELINE 10/10/2026](Baseline/baseline_20261010_verified).
