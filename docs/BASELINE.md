@@ -13,8 +13,6 @@
 within_subject mean macro_f1 0.798 (sd 0.049, range 0.697-0.879 across 27 subjects)
 
 
-
-
 ### Results — split unit: repetition (within subject) (n=27)
 
 **Confusion matrix** (rows = true, columns = predicted, row-normalised)
@@ -34,13 +32,13 @@ within_subject mean macro_f1 0.798 (sd 0.049, range 0.697-0.879 across 27 subjec
 | **g11** | 0.00 | 0.01 | 0.00 | 0.00 | 0.00 | 0.01 | 0.01 | 0.01 | 0.10 | 0.06 | 0.78 | 0.03 | 5581 |
 | **g12** | 0.01 | 0.01 | 0.02 | 0.00 | 0.00 | 0.01 | 0.01 | 0.01 | 0.05 | 0.05 | 0.03 | 0.81 | 6278 |
 
-**macro_f1** — mean macro_f1 0.798 (sd 0.049, range 0.697-0.879 across 27 subjects); pooled 0.797
-- cohens_kappa: pooled 0.779, mean over subjects 0.779
-- balanced_accuracy: pooled 0.797, mean over subjects 0.798
+**macro_f1** mean macro_f1 0.798 (sd 0.046, range 0.706-0.880 across 27 subjects); pooled 0.796
+- cohens_kappa: pooled 0.778, mean over subjects 0.779
+- balanced_accuracy: pooled 0.796, mean over subjects 0.797
 - accuracy: pooled 0.797, mean over subjects 0.798
-- worst subject: S18 (macro_f1 0.697, n=2819) — read this one's errors before the mean's
+- worst subject: S14 (macro_f1 0.706, n=2906) � read this one's errors before the mean's
 
-new_subject mean macro_f1 0.204 (sd 0.074, range 0.080-0.381 across 27 subjects)
+new_subject mean macro_f1 0.205 (sd 0.073, range 0.082-0.380 across 27 subjects)
 ### Results — split unit: subject (n=27)
 
 **Confusion matrix** (rows = true, columns = predicted, row-normalised)
@@ -60,8 +58,8 @@ new_subject mean macro_f1 0.204 (sd 0.074, range 0.080-0.381 across 27 subjects)
 | **g11** | 0.03 | 0.09 | 0.05 | 0.02 | 0.05 | 0.03 | 0.03 | 0.07 | 0.06 | 0.13 | 0.35 | 0.09 | 5581 |
 | **g12** | 0.07 | 0.13 | 0.07 | 0.02 | 0.10 | 0.01 | 0.03 | 0.07 | 0.07 | 0.16 | 0.11 | 0.16 | 6278 |
 
-**macro_f1** — mean macro_f1 0.204 (sd 0.074, range 0.080-0.381 across 27 subjects); pooled 0.220
+**macro_f1** mean macro_f1 0.205 (sd 0.073, range 0.082-0.380 across 27 subjects); pooled 0.221
 - cohens_kappa: pooled 0.155, mean over subjects 0.156
 - balanced_accuracy: pooled 0.227, mean over subjects 0.232
-- accuracy: pooled 0.225, mean over subjects 0.227
-- worst subject: S2 (macro_f1 0.080, n=2637) — read this one's errors before the mean's
+- accuracy: pooled 0.226, mean over subjects 0.227
+- worst subject: S2 (macro_f1 0.082, n=2637) read this one's errors before the mean's
