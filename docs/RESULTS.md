@@ -23,7 +23,7 @@ Paste the metric straight from the harness — `rep["summary"]` prints the requi
 
 | # | Date | What changed & why (one line) | Primary metric **with spread** | Better than previous? | If not — why it was kept | Commit |
 |---|---|---|---|---|---|---|
-| 1 | 2026-10-08 | supplied baseline, unchanged | within_subject mean macro_f1 0.798 (sd 0.049, range 0.697-0.879, spread is per subject) across 27 subjects - new_subject mean macro_f1 0.204 (sd 0.074, range 0.080-0.381, spread is per subject) across 27 subjects | — | (baseline) | `4c2fb7a` |
+| 1 | 2026-10-08 | supplied baseline, unchanged | within_subject mean macro_f1 0.798 (sd 0.049, range 0.697-0.879 across 27 subjects, spread is per subject) - new_subject mean macro_f1 0.204 (mean macro_f1 0.205 (sd 0.073, range 0.082-0.380 across 27 subjects), spread is per subject) | — | (baseline) | `379f1e6` |
 | 2 |  |  |  | yes / no |  |  |
 | 3 |  |  |  | yes / no |  |  |
 | 4 |  |  |  | yes / no |  |  |
