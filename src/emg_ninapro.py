@@ -18,6 +18,7 @@ Two evaluation modes (electrode placement makes cross-subject sEMG much harder):
 """
 from __future__ import annotations
 import numpy as np
+from numpy import rec
 
 from adapter import TrackAdapter, TrackMeta, Recording, default_baseline, denoise
 
@@ -185,14 +186,21 @@ class EMGNinaproTrack(TrackAdapter):
         """
         return rec
 
-    def extract_features(self, rec: Recording, cfg=None):
-        """Module 3 — per-window, per-channel time-domain descriptors (MAV, RMS,
-        waveform length, variance) plus a mean-frequency term. Rectification and
-        envelope smoothing, per-channel normalisation, and a wider window are all
-        candidate improvements that belong partly in `preprocess()` — the window
-        length in particular trades responsiveness against feature stability."""
-        X = [_win_features(w, rec.fs) for w in rec.epochs["emg"]]
-        return np.array(X), np.asarray(rec.labels), rec.group
+    def extract_features(rec: Recording, cfg=None):
+            """Module 3 — per-window, per-channel time-domain descriptors (MAV, RMS,
+            waveform length, variance) plus a mean-frequency term. Rectification and
+            envelope smoothing, per-channel normalisation, and a wider window are all
+            candidate improvements that belong partly in `preprocess()` — the window
+            length in particular trades responsiveness against feature stability."""
+            windows = rec.epochs["emg"]
+
+            X = np.vstack([
+                _win_features(window, fs=rec.fs)
+                for window in windows])
+
+            y = np.asarray(rec.labels)
+
+            return X, y, rec.group
 
     def baseline(self, cfg=None):
         """Module 5 — the supplied random forest. `cfg["imbalance"]` selects how
@@ -309,3 +317,4 @@ if __name__ == "__main__":
             name, f1_score(rep["y_true"], rep["y_pred"], average="macro"),
             rep["cohens_kappa"], rep["split_unit"]))
         print("   spread:", rep["summary"])   # the per-subject range, not just the pool
+
