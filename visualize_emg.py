@@ -8,10 +8,17 @@ The Fourier panel uses the same selected channel and time interval.
 
 import argparse
 from pathlib import Path
+import sys
 
 import matplotlib
 import numpy as np
 from scipy.io import loadmat
+
+sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
+
+# To visualize filtered data using our child class change_filters.py, uncomment the lines below:
+# from change_filters import TeamEMGTrack as EMGNinaproTrack
+# track = EMGNinaproTrack()
 
 
 def fourier_amplitude(signal, fs):
@@ -58,6 +65,18 @@ def main():
     emg = np.asarray(data["emg"], dtype=float)
     gesture = data["restimulus"].ravel().astype(int)
     fs = 100.0  # DB1 dataset sampling rate, as in the supplied loader.
+    filtered_emg = None
+    if "track" in globals():
+        from adapter import Recording
+
+        recording = Recording(
+            group=f"S{args.subject}",
+            fs=fs,
+            epochs={"emg": emg[np.newaxis, :, :]},
+            labels=np.zeros(1, dtype=int),
+        )
+        filtered_emg = track.preprocess(recording).epochs["emg"][0]
+
     active = np.flatnonzero(gesture > 0)
     start = args.start if args.start is not None else max(0.0, active[0] / fs - 2) if active.size else 0.0
     lo = int(start * fs)
@@ -71,12 +90,27 @@ def main():
                              gridspec_kw={"height_ratios": [2, 2, 1, 2]}, layout="constrained")
     axes[1].sharex(axes[0])
     axes[2].sharex(axes[0])
-    fig.suptitle(f"Ninapro DB1 | S{args.subject}, E1 | EMG envelope at 100 Hz\n"
-                 "Signal already rectified and filtered; original amplitudes, without normalization",
-                 fontsize=13)
-    axes[0].plot(time, segment[:, args.channel - 1], color="#0072B2", linewidth=1)
-    axes[0].set_title(f"Channel {args.channel}: muscle signal amplitude over time", loc="left")
-    axes[0].set_ylabel("Amplitude\n(file units)")
+    fig.suptitle(
+        f"Ninapro DB1 | S{args.subject}, E1 | EMG envelope at 100 Hz\n"
+        + ("Raw and child-track filtered/normalized signals" if filtered_emg is not None
+           else "Signal already rectified and filtered; original amplitudes, without normalization"),
+        fontsize=13,
+    )
+    axes[0].plot(time, segment[:, args.channel - 1], color="#0072B2", linewidth=1,
+                  label="Raw" if filtered_emg is not None else None)
+    if filtered_emg is not None:
+        axes[0].plot(time, filtered_emg[lo:hi, args.channel - 1],
+                     color="#D55E00", linewidth=1, linestyle="--",
+                     label="Filtered + normalized")
+        axes[0].legend()
+    axes[0].set_title(
+        f"Channel {args.channel}: raw and filtered muscle signal" if filtered_emg is not None
+        else f"Channel {args.channel}: muscle signal amplitude over time",
+        loc="left",
+    )
+    axes[0].set_ylabel(
+        "Amplitude\n(raw / normalized)" if filtered_emg is not None else "Amplitude\n(file units)"
+    )
     axes[0].grid(alpha=0.25)
 
     mesh = axes[1].imshow(segment.T, aspect="auto", origin="lower", interpolation="nearest",
@@ -98,6 +132,13 @@ def main():
 
     frequencies, amplitude = fourier_amplitude(segment[:, args.channel - 1], fs)
     axes[3].plot(frequencies, amplitude, color="#009E73", linewidth=1)
+    if filtered_emg is not None:
+        filtered_frequencies, filtered_amplitude = fourier_amplitude(
+            filtered_emg[lo:hi, args.channel - 1], fs
+        )
+        axes[3].plot(filtered_frequencies, filtered_amplitude, color="#D55E00",
+                     linewidth=1, linestyle="--", label="Filtered + normalized")
+        axes[3].legend()
     axes[3].set_title(
         f"Channel {args.channel}: Fourier amplitude spectrum | mean removed, Hann window\n"
         f"Envelope frequencies | FFT bin spacing: {fs / len(segment):.3f} Hz", loc="left")

@@ -186,7 +186,7 @@ class EMGNinaproTrack(TrackAdapter):
         """
         return rec
 
-    def extract_features(rec: Recording, cfg=None):
+    def extract_features(self, rec: Recording, cfg=None):
             """Module 3 — per-window, per-channel time-domain descriptors (MAV, RMS,
             waveform length, variance) plus a mean-frequency term. Rectification and
             envelope smoothing, per-channel normalisation, and a wider window are all
