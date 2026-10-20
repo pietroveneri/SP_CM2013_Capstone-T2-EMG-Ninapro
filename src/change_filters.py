@@ -11,6 +11,7 @@ class FilterTrack(EMGNinaproTrack):
         "baseline",
         "powerline",
         "broadband",
+        "hp_fc",
         "win",
         "savgol_order",
         "normalization",
@@ -19,9 +20,10 @@ class FilterTrack(EMGNinaproTrack):
     PREPROCESS_DEFAULTS = {
         "filter_method": "denoise",
         "impulsive": "median",
-        "baseline": None,
+        "baseline": "highpass",
         "powerline": None,
         "broadband": "savgol",
+        "hp_fc": 0.1,
         "win": 7,
         "savgol_order": 2,
         "normalization": "zscore",
@@ -52,8 +54,10 @@ class FilterTrack(EMGNinaproTrack):
                 baseline=cfg.get("baseline"),
                 powerline=cfg.get("powerline"),
                 broadband=cfg.get("broadband"),
+                hp_fc=cfg.get("hp_fc", 0.1),
                 win=cfg.get("win", 7),
                 savgol_order=cfg.get("savgol_order", 2),
+                causal=False,
             )
         elif filter_method == "none":
             filtered_input = filter_input
