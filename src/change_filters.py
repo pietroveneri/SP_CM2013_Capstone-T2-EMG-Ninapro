@@ -1,8 +1,7 @@
 from emg_ninapro import EMGNinaproTrack
 import numpy as np
 
-# Add or remove optional adapter helper imports here.
-from adapter import bandpass_notch, denoise
+from adapter import denoise
 
 
 class FilterTrack(EMGNinaproTrack):
@@ -12,35 +11,19 @@ class FilterTrack(EMGNinaproTrack):
         "baseline",
         "powerline",
         "broadband",
-        "hp_fc",
-        "f0",
-        "q",
         "win",
-        "causal",
-        "order",
-        "band",
-        "notch",
-        "notch_q",
+        "savgol_order",
         "normalization",
     })
-    # Add or remove custom config keys here.
 
-    # Tune your default parameters and hyperparameters here.
     PREPROCESS_DEFAULTS = {
-        "filter_method": "denoise",  # Choose "denoise", "bandpass_notch", or "none".
-        "impulsive": "median",       # Example filter choice.
-        "win": 3,                    # Example median-filter window in samples.
+        "filter_method": "denoise",
+        "impulsive": "median",
         "baseline": None,
         "powerline": None,
-        "broadband": None,
-        "hp_fc": 0.5,                # Example high-pass corner if baseline is enabled.
-        "f0": 50.0,
-        "q": 30.0,
-        "causal": False,
-        "order": 4,
-        "band": None,
-        "notch": None,
-        "notch_q": 30.0,
+        "broadband": "savgol",
+        "win": 7,
+        "savgol_order": 2,
         "normalization": "zscore",
     }
 
@@ -61,7 +44,6 @@ class FilterTrack(EMGNinaproTrack):
         }
         filter_input = rec.replace_epochs(filter_epochs)
 
-        # Insert or swap your preprocessing filter logic here.
         filter_method = cfg.get("filter_method", "denoise")
         if filter_method == "denoise":
             filtered_input = denoise(
@@ -70,27 +52,14 @@ class FilterTrack(EMGNinaproTrack):
                 baseline=cfg.get("baseline"),
                 powerline=cfg.get("powerline"),
                 broadband=cfg.get("broadband"),
-                hp_fc=cfg.get("hp_fc", 0.5),
-                f0=cfg.get("f0", 50.0),
-                q=cfg.get("q", 30.0),
-                win=cfg.get("win", 3),
-                causal=cfg.get("causal", False),
-                order=cfg.get("order", 4),
-            )
-        elif filter_method == "bandpass_notch":
-            filtered_input = bandpass_notch(
-                filter_input,
-                band=cfg.get("band"),
-                notch=cfg.get("notch"),
-                order=cfg.get("order", 4),
-                notch_q=cfg.get("notch_q", 30.0),
-                causal=cfg.get("causal", False),
+                win=cfg.get("win", 7),
+                savgol_order=cfg.get("savgol_order", 2),
             )
         elif filter_method == "none":
             filtered_input = filter_input
         else:
             raise ValueError(
-                "filter_method must be 'denoise', 'bandpass_notch', or 'none'; "
+                "filter_method must be 'denoise' or 'none'; "
                 f"got {filter_method!r}"
             )
 
@@ -120,6 +89,17 @@ class FilterTrack(EMGNinaproTrack):
 
         # Step 3: package the normalized epochs into a new recording.
         return rec_filtered.replace_epochs(norm_epochs)
+
+if __name__ == "__main__":
+    t = FilterTrack()
+    print(t.dataset_card())
+    modes = t.evaluate_modes(t.smoke())
+    from sklearn.metrics import f1_score
+    for name, rep in modes.items():
+        print("SMOKE %-15s macroF1=%.3f kappa=%.3f (%s)" % (
+            name, f1_score(rep["y_true"], rep["y_pred"], average="macro"),
+            rep["cohens_kappa"], rep["split_unit"]))
+        print("    spread:", rep["summary"])   # the per-subject range, not just the pool
 
 
 # External runner wiring:

@@ -1,6 +1,6 @@
 """Temporary preview of Ninapro DB1: python visualize_emg.py.
 
-Example: python visualize_emg.py --subject 2 --channel 4 --seconds 20
+Example: python visualize_emg.py --subject 19 --channel 1 --seconds 20
 To save only the PNG: python visualize_emg.py --no-show
 
 The Fourier panel uses the same selected channel and time interval.
