@@ -5,7 +5,7 @@ import numpy as np
 from adapter import bandpass_notch, denoise
 
 
-class TeamEMGTrack(EMGNinaproTrack):
+class FilterTrack(EMGNinaproTrack):
     SUPPORTED_CFG_KEYS = EMGNinaproTrack.SUPPORTED_CFG_KEYS | frozenset({
         "filter_method",
         "impulsive",
@@ -123,7 +123,7 @@ class TeamEMGTrack(EMGNinaproTrack):
 
 
 # External runner wiring:
-# src/run_baseline.py now imports and instantiates TeamEMGTrack, so its records
+# src/run_baseline.py now imports and instantiates FilterTrack, so its records
 # flow through this class's filtering and normalization before feature extraction.
 # The root visualize_emg.py is a standalone raw-MAT preview and does not import
 # EMGNinaproTrack; it is not part of the track preprocessing pipeline.
