@@ -26,6 +26,7 @@ FS = 100.0
 WIN = 20          # 200 ms window
 STEP = 15         # 150 ms step
 N_CH = 10
+HOLDOUT_SUBJECTS = (23, 24, 25, 26, 27)
 
 
 def _win_features(win, fs=FS):
@@ -62,6 +63,7 @@ class EMGNinaproTrack(TrackAdapter):
         dsp_focus="windowing, MAV/RMS/waveform-length/variance + mean-frequency per channel",
         difficulty=3,
         eval_modes=("within-subject", "new-subject"),
+        holdout_ids=tuple(f"S{i}" for i in HOLDOUT_SUBJECTS),
     )
 
     #: Capability declaration (see `TrackAdapter.SUPPORTED_CFG_KEYS`). EMG ships
@@ -85,7 +87,7 @@ class EMGNinaproTrack(TrackAdapter):
     }
 
     # ---- synthetic smoke (offline / CI) ----
-    def smoke(self, n_subjects=27, n_reps=6, win_per_rep=4, electrode_shift=2,
+    def smoke(self, n_subjects=5, n_reps=6, win_per_rep=4, electrode_shift=2,
               bleed=0.5, rep_sd=0.40, win_noise=0.20, gain_sd=0.35, seed0=4000):
         """Synthetic sEMG whose difficulty comes from the three things that
         actually make sEMG gesture recognition hard — and that the old separable
@@ -186,7 +188,7 @@ class EMGNinaproTrack(TrackAdapter):
         """
         return rec
 
-    def extract_features(rec: Recording, cfg=None):
+    def extract_features(self, rec: Recording, cfg=None):
             """Module 3 — per-window, per-channel time-domain descriptors (MAV, RMS,
             waveform length, variance) plus a mean-frequency term. Rectification and
             envelope smoothing, per-channel normalisation, and a wider window are all
@@ -237,6 +239,7 @@ class EMGNinaproTrack(TrackAdapter):
         subjects drive it."""
         from sklearn.base import clone
         from sklearn.model_selection import GroupKFold
+        self.assert_no_holdout(recs)
         cfg = self._cfg(cfg)
         X, y, subj, rep = self._build(recs, cfg)
         new_subject = self.evaluate(X, y, subj, cfg=cfg)       # LOSO/GroupKFold on subject
@@ -262,12 +265,15 @@ class EMGNinaproTrack(TrackAdapter):
     # ---- REAL data: Ninapro DB1 subject zips ----
     _BASE = "https://ninapro.hevs.ch/files/DB1/Preprocessed/"
 
-    def download(self, cache_dir, subset=range(1, 6)):
+    def download(self, cache_dir, subset=range(1, 6), include_holdout=False):
         """Download + extract Ninapro DB1 subject zips (s1.zip ...) into cache_dir.
-        Needs network. ~20 MB/subject. `subset` is 1-based subject ids (1..27)."""
+        Needs network. ~20 MB/subject. `subset` is 1-based subject ids (1..27).
+        Hold-out subjects are skipped unless explicitly requested for final inference."""
         import os, io, zipfile, urllib.request
         os.makedirs(cache_dir, exist_ok=True)
         for s in subset:
+            if not include_holdout and s in HOLDOUT_SUBJECTS:
+                continue
             marker = os.path.join(cache_dir, f"S{s}_A1_E1.mat")
             if os.path.exists(marker):
                 continue
@@ -277,9 +283,15 @@ class EMGNinaproTrack(TrackAdapter):
         print(f"[emg_ninapro] ready in {cache_dir}")
         return cache_dir
 
-    def load(self, cache_dir, exercise="E1"):
+    def download_holdout(self, cache_dir):
+        """Download only the final hold-out, after registering EXPECTED_SCORE.md."""
+        return self.download(cache_dir, subset=HOLDOUT_SUBJECTS, include_holdout=True)
+
+    def load(self, cache_dir, exercise="E1", include_holdout=False):
         """Read Ninapro DB1 `*_{exercise}.mat` files, window the sEMG within each
-        (movement, repetition) segment, label by movement. Groups by SUBJECT."""
+        (movement, repetition) segment, label by movement. Groups by SUBJECT.
+        Existing hold-out files are skipped before reading; final inference requires
+        `include_holdout=True`."""
         import os, glob, re
         from scipy.io import loadmat
         gest_set = {int(g[1:]) for g in self.meta.classes}
@@ -289,7 +301,9 @@ class EMGNinaproTrack(TrackAdapter):
             m = re.search(r"S(\d+)_", os.path.basename(mat))
             if not m:
                 continue
-            subj = f"S{m.group(1)}"
+            subj = f"S{int(m.group(1))}"
+            if not include_holdout and subj in self.meta.holdout_ids:
+                continue
             d = loadmat(mat)
             emg = np.asarray(d["emg"], float)                  # [N, 10]
             lab = np.asarray(d["restimulus"]).ravel()

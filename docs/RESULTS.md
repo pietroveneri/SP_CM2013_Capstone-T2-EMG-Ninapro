@@ -1,5 +1,13 @@
 # Results log — `EMG NinaPro`, `T2`
 
+## Hold-out correction — 2026-10-21
+
+**All results recorded before this correction that used all 27 subjects are invalid under the current course hold-out protocol.** The baseline included S23–S27 in training and cross-validation before their hold-out designation was published. These results and artifacts are retained only for historical transparency; they must not be used as valid development scores or as the registered expected hold-out score.
+
+Development now uses **S1–S22 only (22 subjects)**; **S23–S27 are reserved for final new-subject evaluation**. The loader excludes these subjects before reading their files, including in existing local downloads; evaluation and final training reject hold-out groups. Rerun the baseline and affected experiments on the permitted subjects before reporting replacement results. No replacement baseline was run for this correction.
+
+The historical statistics below describe the old 27-subject run. Their spread is **across subjects**, not the **across-fold** mean ± SD required in `EXPECTED_SCORE.md`. Register new-subject macro-F1, subject split unit, fold count and the frozen-model commit before final hold-out access. The earlier exposure to S23–S27 is disclosed here and is not undone by filtering them now.
+
 **Track:** `<emg_ninapro >` · **Subjects:** 27 · **Classes:** g01-g12; rest excluded · **Windows:** 75,197 per evaluation mode 
 
 **Evaluation modes:** `<within-subject + new-subject>` · **Split unit:** `<repetition (within-subject); subject (new-subject)>` ·  **CV:** 5-fold GroupKFold on repetitions within each subject; 5 fold GroupKFold on subjects for new-subject

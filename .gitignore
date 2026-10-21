@@ -34,4 +34,5 @@ Thumbs.db
 # Local datasets
 NinaPro_Mat/
 data/raw/
+data/holdout/
 *.mat

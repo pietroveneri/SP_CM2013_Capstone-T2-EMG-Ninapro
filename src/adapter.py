@@ -1370,6 +1370,15 @@ class TrackAdapter:
     def load(self, cache_dir: str) -> list:          # -> [Recording]  (REAL data)
         raise NotImplementedError
 
+    def assert_no_holdout(self, recs):
+        """Reject instructor-reserved groups in development or training data."""
+        leaked = sorted({r.group for r in recs} & set(self.meta.holdout_ids))
+        if leaked:
+            raise ValueError(
+                f"Hold-out groups found in training data: {leaked}. "
+                "Remove them and document the correction in RESULTS.md."
+            )
+
     def smoke(self) -> list:                          # -> [Recording]  (SYNTHETIC, offline)
         raise NotImplementedError
 
@@ -1842,6 +1851,7 @@ class TrackAdapter:
         later be asked to predict from default-pipeline features. See
         `infer.__doc__` for what happens if you pass a conflicting cfg anyway."""
         cfg = self._cfg(cfg)
+        self.assert_no_holdout(train_recs)
         X, y, g = self.build_dataset(train_recs, cfg)
         sel = self.select_features(X, y, cfg)               # fit on train only — no test data here
         clf = clf or self._baseline(cfg)
