@@ -15,6 +15,7 @@ root = Path(__file__).resolve().parents[1]
 from emg_ninapro import EMGNinaproTrack
 
 track = EMGNinaproTrack()
+track.download(root / "NinaPro_Mat", subset=range(1, 23))
 records = track.load(root / "NinaPro_Mat", exercise="E1")
 
 results = track.evaluate_modes(records, cfg=cfg)

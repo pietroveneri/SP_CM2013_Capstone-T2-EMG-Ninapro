@@ -1372,7 +1372,11 @@ class TrackAdapter:
 
     def assert_no_holdout(self, recs):
         """Reject instructor-reserved groups in development or training data."""
-        leaked = sorted({r.group for r in recs} & set(self.meta.holdout_ids))
+        self._assert_no_holdout_groups(r.group for r in recs)
+
+    def _assert_no_holdout_groups(self, groups):
+        """Apply the same hold-out guard to recordings and feature-matrix groups."""
+        leaked = sorted(set(groups) & set(self.meta.holdout_ids))
         if leaked:
             raise ValueError(
                 f"Hold-out groups found in training data: {leaked}. "
@@ -1811,6 +1815,8 @@ class TrackAdapter:
         """
         from sklearn.base import clone
         from sklearn.model_selection import LeaveOneGroupOut, GroupKFold
+        groups = np.asarray(groups)
+        self._assert_no_holdout_groups(groups.tolist())
         if clf is not None and cfg and "imbalance" in cfg:
             self.note(
                 "evaluate(): cfg['imbalance'] is only applied inside the shipped "
@@ -1819,7 +1825,6 @@ class TrackAdapter:
                 "(e.g. its own class_weight, or wrap it in the same Pipeline denoise() uses).")
         cfg = self._cfg(cfg)
         clf = clf or self._baseline(cfg)
-        groups = np.asarray(groups)
         n_groups = len(set(groups.tolist()))
         if n_groups <= int(cfg.get("loso_max_groups", 12)):
             folds = LeaveOneGroupOut().split(X, y, groups)

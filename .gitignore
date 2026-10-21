@@ -32,7 +32,10 @@ Thumbs.db
 .idea/
 
 # Local datasets
-NinaPro_Mat/
+!NinaPro_Mat/
+NinaPro_Mat/*
+!NinaPro_Mat/.gitkeep
 data/raw/
-data/holdout/
+data/holdout/*
+!data/holdout/.gitkeep
 *.mat

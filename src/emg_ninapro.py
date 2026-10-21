@@ -268,18 +268,20 @@ class EMGNinaproTrack(TrackAdapter):
     def download(self, cache_dir, subset=range(1, 6), include_holdout=False):
         """Download + extract Ninapro DB1 subject zips (s1.zip ...) into cache_dir.
         Needs network. ~20 MB/subject. `subset` is 1-based subject ids (1..27).
-        Hold-out subjects are skipped unless explicitly requested for final inference."""
-        import os, io, zipfile, urllib.request
-        os.makedirs(cache_dir, exist_ok=True)
+        Hold-out subjects are skipped unless explicitly requested for final inference.
+        New downloads go in `cache_dir/sN`; existing flat or nested caches are reused."""
+        import io, zipfile, urllib.request
+        from pathlib import Path
+        cache_path = Path(cache_dir)
+        cache_path.mkdir(parents=True, exist_ok=True)
         for s in subset:
             if not include_holdout and s in HOLDOUT_SUBJECTS:
                 continue
-            marker = os.path.join(cache_dir, f"S{s}_A1_E1.mat")
-            if os.path.exists(marker):
+            if any(cache_path.rglob(f"S{s}_A1_E1.mat")):
                 continue
             blob = urllib.request.urlopen(f"{self._BASE}s{s}.zip", timeout=180).read()
             with zipfile.ZipFile(io.BytesIO(blob)) as z:
-                z.extractall(cache_dir)
+                z.extractall(cache_path / f"s{s}")
         print(f"[emg_ninapro] ready in {cache_dir}")
         return cache_dir
 
@@ -290,6 +292,8 @@ class EMGNinaproTrack(TrackAdapter):
     def load(self, cache_dir, exercise="E1", include_holdout=False):
         """Read Ninapro DB1 `*_{exercise}.mat` files, window the sEMG within each
         (movement, repetition) segment, label by movement. Groups by SUBJECT.
+        Searches recursively: use `NinaPro_Mat` for development (S1-S22), or
+        `data/holdout` for final inference (S23-S27).
         Existing hold-out files are skipped before reading; final inference requires
         `include_holdout=True`."""
         import os, glob, re

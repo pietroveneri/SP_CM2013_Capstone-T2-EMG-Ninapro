@@ -39,8 +39,19 @@ src/
 docs/                   # track documentation and RESULTS.md
 Notes/                  # internal notes
 Reference/              # literature/background material
-data/                   # local working data
+NinaPro_Mat/
+├── s1/ ... s22/         # development subjects; default baseline cache
+data/
+├── holdout/
+│   └── s23/ ... s27/    # reserved for final inference after model freeze
+└── raw/                # original ZIP/CSV archives, not CV inputs
 ```
+
+The real-data loader recursively reads Exercise E1 `.mat` files from the chosen
+cache. Use `NinaPro_Mat` for development; `load()` excludes S23–S27 by default even
+if they are present in a cache. Subject IDs in `.mat` filenames become uppercase
+`Recording.group` values such as `S23`, matching the adapter's `holdout_ids` and
+`assert_no_holdout()` checks. See [data/README.md](data/README.md) for the data layout.
 
 Each experiment or isolated change is developed on a short-lived branch:
 ```
