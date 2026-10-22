@@ -29,7 +29,8 @@ cfg = {
 | # | Date | What changed & why (one line) | Primary metric **with spread** | Better than previous? | If not — why it was kept | Commit |
 |---|---|---|---|---|---|---|
 | 1 | 2026-10-08 | Historical supplied baseline; verification on 2026-10-10 used all 27 subjects without a separate hold-out test | Invalid under current protocol; see historical archive | — | Provenance only; superseded | `379f1e6` |
-| 2 | 2026-10-22 | Rerun unchanged pipeline on S1–S22; reserve S23–S27 | within_subject mean macro_f1 0.794 (sd 0.048, range 0.706-0.880 across 22 subjects); new_subject mean macro_f1 0.177 (sd 0.055, range 0.064-0.276 across 22 subjects) | Not comparable: different cohort and folds | Correct subject scope; no tuning or configuration search | Uncommitted at user request |
+| 2 | 2026-10-22 | Rerun unchanged pipeline on S1–S22; reserve S23–S27 | within_subject mean macro_f1 0.794 (sd 0.048, range 0.706-0.880 across 22 subjects); new_subject mean macro_f1 0.177 (sd 0.055, range 0.064-0.276 across 22 subjects) | Not comparable: different cohort and folds | Correct subject scope; no tuning or configuration search |` 8ed9ab8`
+ |
 
 ### Baseline provenance
 
