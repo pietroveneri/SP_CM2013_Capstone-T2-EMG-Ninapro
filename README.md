@@ -4,16 +4,18 @@ Team project for CM2013 Biomedical Signal Processing & Data Analytics.
 
 The project investigates hand-gesture classification using the Ninapro DB1 surface-EMG dataset, with particular attention to the difference between within-subject and new-subject generalization.
 
-## Historical baseline — invalid under the current hold-out protocol
+## Development baseline — hold-out separated
 
-The supplied pipeline was evaluated on all 27 subjects using `cfg={"seed": 0}`, including the now-reserved S23–S27. The results below are retained only as historical records and are invalid for the current hold-out protocol. A replacement baseline on S1–S22 is pending.
+The supplied pipeline was rerun unchanged on **S1–S22** on 2026-10-22: 60,182 windows per mode. **S23–S27 were neither read nor scored** and remain reserved for final inference.
 
-| Evaluation mode | Macro-F1 |
-| --- | --- |
-| Within-subject | 0.798 ± 0.049 |
-| New-subject | 0.204 ± 0.074 |
+| Evaluation mode | Mean subject macro-F1 ± sample SD | Pooled macro-F1 |
+| --- | --- | --- |
+| Within-subject | 0.794 ± 0.048 | 0.793 |
+| New-subject | 0.177 ± 0.055 | 0.196 |
 
-Full experiment history is recorded in `docs/RESULTS.md`.
+New-subject CV uses five subject folds; macro-F1 across folds is 0.190 ± 0.016. The [run archive](docs/Baseline/baseline_20261022_holdout_separated/README.md) contains predictions, fold assignments and checks. Full results and decisions are in [docs/RESULTS.md](docs/RESULTS.md).
+
+The historical all-27 baseline had no separate hold-out test and is invalid under the current protocol. Earlier exposure to S23–S27 remains disclosed in the results log. The final expected-score registration is still pending.
 
 ## Final evaluation
 

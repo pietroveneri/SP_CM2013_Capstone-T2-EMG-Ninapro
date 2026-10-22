@@ -1,4 +1,7 @@
 {
+  "valid_for_current_protocol": false,
+  "invalid_reason": "No separate hold-out test: S23-S27 were included in training and cross-validation.",
+  "superseded_by": "../baseline_20261022_holdout_separated",
   "status": "complete",
   "started_utc": "2026-10-10T12:30:31.215451+00:00",
   "framework_commit": "0b85ef5baf5879b616816bc51e2d1e995e8bf9d2",

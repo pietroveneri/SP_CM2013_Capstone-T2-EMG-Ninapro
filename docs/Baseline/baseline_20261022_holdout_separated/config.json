@@ -49,7 +49,39 @@
   },
   "evaluation": {
     "within_subject": "GroupKFold(5) per subject on repetition number across gestures",
-    "new_subject": "GroupKFold(5) on 27 subjects",
-    "rest": "excluded"
+    "new_subject": "GroupKFold(5) on 22 development subjects",
+    "rest": "excluded",
+    "development_subjects": [
+      "S1",
+      "S10",
+      "S11",
+      "S12",
+      "S13",
+      "S14",
+      "S15",
+      "S16",
+      "S17",
+      "S18",
+      "S19",
+      "S2",
+      "S20",
+      "S21",
+      "S22",
+      "S3",
+      "S4",
+      "S5",
+      "S6",
+      "S7",
+      "S8",
+      "S9"
+    ],
+    "reserved_holdout_subjects": [
+      "S23",
+      "S24",
+      "S25",
+      "S26",
+      "S27"
+    ],
+    "holdout_evaluated": false
   }
 }

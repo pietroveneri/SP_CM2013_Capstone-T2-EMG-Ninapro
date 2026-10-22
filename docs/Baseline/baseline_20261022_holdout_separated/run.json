@@ -1,0 +1,32 @@
+{
+  "status": "complete",
+  "started_utc": "2026-10-22T12:01:27.791475+00:00",
+  "base_commit": "a534402e790e014265de3837accf4b97b6d45f28",
+  "execution_commit": null,
+  "execution_revision_note": "Uncommitted run at user request; existing run_baseline.py executed with runpy. Instrumentation only logs fits, checks MAT access and archives outputs.",
+  "command": [
+    "C:\\Users\\h3r03\\OneDrive\\Desktop\\KTH\\SP_CM2013_Capstone-T2-EMG-Ninapro\\venv\\Scripts\\python.exe",
+    "src/run_baseline.py"
+  ],
+  "prediction_kind": "out_of_fold",
+  "configurations_evaluated": 1,
+  "data_root": "C:\\Users\\h3r03\\OneDrive\\Desktop\\KTH\\SP_CM2013_Capstone-T2-EMG-Ninapro\\NinaPro_Mat",
+  "source_sha256": {
+    "src/run_baseline.py": "325523efc9f61251ccd9f7d29f00b58c6c8ac84d4b54b1d7769f80f1c9540287",
+    "src/emg_ninapro.py": "2cd37f2c97a722af8fb7007568567fd1554b10b64c02c9d46206f649585b97f4",
+    "src/adapter.py": "6bdd36d625ea76ff39b351045a544b80795b60b0e3fd2d7e698e8fd24dce7e2d",
+    "src/report.py": "41d576b268fd62898ff99c48a9188c06dd9c8b53a329f5420567685efb7e6c28",
+    "src/bsp/metrics.py": "fe01db478b9a14a2d760f79500a7f801a87461baa6f8cfe4738b8bfadb87956c",
+    "src/bsp/notebook_checks.py": "ad364ee71386ad6d816897e124af6e85399e3b2270568729ca0c7ae618792109"
+  },
+  "git_index_sha256_before": "e7b1c4dee1dd27c2b22610a78ba2018440f2fe9f6f5185a04be0bb3b9c7ca67b",
+  "finished_utc": "2026-10-22T12:15:45.489628+00:00",
+  "elapsed_seconds": 857.698184,
+  "evaluation_elapsed_seconds": 712.6,
+  "fits": 115,
+  "windows_per_mode": 60182,
+  "source_unchanged": true,
+  "holdout_mat_reads": 0,
+  "holdout_scored": false,
+  "archiving_note": "Package metadata inventory raised OSError after all fits and prediction exports completed. Postprocessing resumed from saved predictions; metrics and folds were verified without refitting. Core versions were verified from imports; unreadable duplicate metadata is listed in environment.json."
+}

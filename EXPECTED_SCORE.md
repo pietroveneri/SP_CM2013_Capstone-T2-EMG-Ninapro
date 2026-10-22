@@ -1,6 +1,6 @@
 # Expected hold-out score — EMG Ninapro DB1
 
-**Status: DRAFT — NOT REGISTERED.** No final model is frozen and no valid replacement CV score has been produced. Committing this template does not register an expected score.
+**Status: DRAFT — NOT REGISTERED.** No final model is frozen. The corrected S1–S22 baseline is a development reference, not a final score registration. No staging or commit was performed for this run.
 
 | Required field | Value |
 | --- | --- |
@@ -8,10 +8,12 @@
 | Development subjects | S1–S22 only |
 | Hold-out subjects | S23–S27 |
 | Metric | macro-F1 |
-| CV mean ± sample SD across folds | PENDING — compute on S1–S22 |
+| CV mean ± sample SD across folds | PENDING — register the final frozen run |
 | Split unit | subject |
 | Number of CV folds | PENDING — record the final run |
 | Frozen final-model commit | PENDING |
+
+Baseline reference (2026-10-22): new-subject macro-F1 **0.190 ± 0.016 across 5 subject folds**; subject spread **0.177 ± 0.055**. See [the run records](docs/Baseline/baseline_20261022_holdout_separated/README.md). Register the final frozen pipeline separately.
 
 Complete and commit this file after freezing the final pipeline and before final hold-out access. Keep the existing per-subject spread separate from the required across-fold statistic.
 

@@ -1,4 +1,6 @@
 {
+  "archive_status": "historical_invalid_no_holdout_separation",
+  "superseded_by": "../baseline_20261022_holdout_separated",
   "python": "3.13.2 (tags/v3.13.2:4f8bb39, Feb  4 2025, 15:23:48) [MSC v.1942 64 bit (AMD64)]",
   "executable": "C:\\Users\\h3r03\\OneDrive\\Desktop\\KTH\\SP_CM2013_Capstone-T2-EMG-Ninapro\\venv\\Scripts\\python.exe",
   "platform": "Windows-11-10.0.26200-SP0",
