@@ -14,10 +14,12 @@ cfg = {
 root = Path(__file__).resolve().parents[1]
 
 # from emg_ninapro import EMGNinaproTrack
-from change_filters import FilterTrack
+# from change_filters import FilterTrack
+from filter_option05 import FilterOption05
 
 # track = EMGNinaproTrack()
-track = FilterTrack()  # Use the custom FilterTrack class for filtering and normalization. 
+# track = FilterTrack()  
+track = FilterOption05()  # peak scaling with dead-channel guard
 
 records = track.load(root / "NinaPro_Mat", exercise="E1")
 
