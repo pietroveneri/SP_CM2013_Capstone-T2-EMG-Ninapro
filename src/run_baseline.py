@@ -13,13 +13,9 @@ cfg = {
 
 root = Path(__file__).resolve().parents[1]
 
-# from emg_ninapro import EMGNinaproTrack
-# from change_filters import FilterTrack
-from filter_option05 import FilterOption05
+from emg_ninapro import EMGNinaproTrack
 
-# track = EMGNinaproTrack()
-# track = FilterTrack()  
-track = FilterOption05()  # peak scaling with dead-channel guard
+track = EMGNinaproTrack()
 
 records = track.load(root / "NinaPro_Mat", exercise="E1")
 

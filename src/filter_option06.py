@@ -19,7 +19,7 @@ def peak_scale(X, guard=0.05):  # X: samples x channels, one subject
     return X / scale
 
 
-class FilterTrack(EMGNinaproTrack):
+class FilterOption06(EMGNinaproTrack):
     SUPPORTED_CFG_KEYS = EMGNinaproTrack.SUPPORTED_CFG_KEYS | frozenset({"guard"})
     PREPROCESS_DEFAULTS = {"guard": 0.05}
 
@@ -43,7 +43,7 @@ class FilterTrack(EMGNinaproTrack):
 
 
 if __name__ == "__main__":
-    t = FilterTrack()
+    t = FilterOption06()
     print(t.dataset_card())
     modes = t.evaluate_modes(t.smoke())
     from sklearn.metrics import f1_score
