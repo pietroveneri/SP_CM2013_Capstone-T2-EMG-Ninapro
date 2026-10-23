@@ -1,5 +1,5 @@
-# Complete scientific dependency closure verified before the 2026-10-10 run.
-# Python 3.13.2, Windows x86-64; extra installed tools are listed in environment.json.
+# Scientific runtime for the 2026-10-22 S1-S22 baseline.
+# Core versions verified from imports; see environment.json for unreadable duplicate metadata.
 numpy==2.2.6
 scipy==1.15.3
 matplotlib==3.10.9

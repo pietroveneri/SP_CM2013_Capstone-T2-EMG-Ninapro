@@ -1,0 +1,23 @@
+{
+    "cleanup_audit.json":  "0122a20121eb9588b26b4d3d25f65ec41b53a429111ed6b083037f181b00998d",
+    "config.json":  "5e66c24c35479c2c12dfd6b5c8b7254b3651ed8bb2e993367fa0cfc7b65fd744",
+    "data_manifest.json":  "984dd9d9f582712d2f423403dc0a72d765f7b7261ea3043d61d0cc8393ee85b6",
+    "environment.json":  "947cc536398c13289601ce7eec3f61d55625b17b545f5da58dee32ac7fa15f5c",
+    "folds.json":  "e8b2501b8cc66afb616aab3b42c82289ae6217412f409edf28bdd06149f82724",
+    "new_subject/confusion.json":  "8b649544571dc86f4825623350c1b7b7715c6970e1e313488fb80a6974e9ae7f",
+    "new_subject/per_fold.json":  "3f408a8374bac92de9066b68edc231e11a684d7e0413452c9b1c1e65270476f6",
+    "new_subject/per_group.json":  "62c48027b0dd179e34ec278777b5ae2c0c1d71366ca484c6a749b00ecea39dfa",
+    "new_subject/predictions.csv":  "249a24e3405f92e9ec4e4680e48ece48e1e6b51bd5c041c0ee06a44b996efb3c",
+    "new_subject/report.md":  "a13b09c47f453ae17cd19caeb6f82aa0622984a3c4c9e3e975de26656097a1a6",
+    "README.md":  "541716070286c7d8649c4149dd9b9430ce3d4b35e6c7f0846f5fe516f661a352",
+    "requirements-baseline-runtime.txt":  "8ecab98f5fd93d966f580dff36da13eabf2eb38d59092f73c96f7188150589ec",
+    "run.json":  "52369e4a270fda0e2ab7e213f8113ccc910062e5f9aca223cddec2c0643f19d3",
+    "run.log":  "28b7ebdb97e3c69b7d91588672753893963fa1628db24dd6a797d888527d5c6a",
+    "summary.json":  "2f2303d422f71e1dc15381e08a8292b8b65bf2d8ffb7b01850a0a90f7a2b7294",
+    "validation.json":  "7a806703c63ed7bb2d7ebe3aff44f41accb55073a14cbcc3e96af3bb2e5be478",
+    "within_subject/confusion.json":  "f424cb7d65bbdc539460a7a25820405742afae9fced279e560ea7651ec659ee9",
+    "within_subject/per_fold.json":  "0af8d4f15c7a4011f0a584f136befce13deeb122a5f24a7cf2f7683da946b856",
+    "within_subject/per_group.json":  "b127b71eee4396ef05541d8c77011e7fdbe4a72c64f378780bcdd469464f0b8c",
+    "within_subject/predictions.csv":  "52332906803937202ae51bb06007cd0293075c92feec5267f3a979e1e2a6409d",
+    "within_subject/report.md":  "c55b653036b87e60f6986aafe899dc41396daaa3f6d890f3d65fda18f009ffa2"
+}

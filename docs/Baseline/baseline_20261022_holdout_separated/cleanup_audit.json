@@ -1,0 +1,288 @@
+{
+    "status":  "passed",
+    "checked_files":  46,
+    "modified_files":  13,
+    "removed_files":  33,
+    "unchanged_previous_result_files":  0,
+    "source_unchanged":  true,
+    "git_index_unchanged":  true,
+    "note":  "Reusable runner, framework and tests remain unchanged. The unrelated synthetic E05 configuration is retained. Historical metadata is explicitly invalid; obsolete local results were removed.",
+    "files":  [
+                  {
+                      "path":  "artifacts/baseline_20261010/results.pkl",
+                      "action":  "removed",
+                      "before_sha256":  "347ca8412c5bd0bd8456d7c75e00e9cf6720622783aac817fb37d36647c80f93",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010/run.log",
+                      "action":  "removed",
+                      "before_sha256":  "591d87eda2e79099cdd9428bc282b4da8040079ef8bfbd95ef67d03a2e77737e",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010/run.log~",
+                      "action":  "removed",
+                      "before_sha256":  "12ab534d8e426d526176adc7108fc7c29c812c9f98551cb46b9214d4a2c03728",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/checksums.json",
+                      "action":  "removed",
+                      "before_sha256":  "58a5e0a346a11b4cb376957019120e20a3a92ba7005937edc6346c8f8b23766f",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/config.json",
+                      "action":  "removed",
+                      "before_sha256":  "27f2de29debdd7a599eb568006607331d3d2ce598f56d038e4016b0dd29bdec9",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/data_manifest.json",
+                      "action":  "removed",
+                      "before_sha256":  "ac975d929b09ffaa2c105217aa5e3dfdf5cabfb467fe74255e97deb321dbd908",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/environment.json",
+                      "action":  "removed",
+                      "before_sha256":  "5d85749988e64d7ac1531fd7ed114d637855c6930f96fc0ec1c75b1955ec2f6b",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/folds.json",
+                      "action":  "removed",
+                      "before_sha256":  "42614dba508be98a6a3e2f17693544235e339b70c8d790d32e929fae7799c85d",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/run.json",
+                      "action":  "removed",
+                      "before_sha256":  "8cf01abf7d77d7934026cad00ed2cc671236f216b27b7bd1f9d5ccf3c741e16d",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/run.log",
+                      "action":  "removed",
+                      "before_sha256":  "12999541497d05b112e4cbacc96a3aa8d020fc6cdf106d2f8f3be4cd64fee9e9",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/summary.json",
+                      "action":  "removed",
+                      "before_sha256":  "495d8528f0a0192b6ddfea7a3a9d1a2392e63150b67c87d213c86e2daacccf9b",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/validation_before_fit.json",
+                      "action":  "removed",
+                      "before_sha256":  "8955a0f060f04a5eacc595c113863da1338c6e78925bd889d83b6a7977a3b0c6",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/window_fold_manifest.csv",
+                      "action":  "removed",
+                      "before_sha256":  "23fcd2669298182e9c744342a0a1cc67fb4341f8ca0345b1e8239692503076ca",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/new_subject/confusion_matrices.csv",
+                      "action":  "removed",
+                      "before_sha256":  "001632b309db7988cda042b5ee52e3d43b41db5b890a0f46dbb611984c59472c",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/new_subject/framework_report.json",
+                      "action":  "removed",
+                      "before_sha256":  "d6b9f3e31bd92b03b7f91390a2a054367f21d9a8f3ac52d9ea6932a2c9d4055e",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/new_subject/metrics_per_class.csv",
+                      "action":  "removed",
+                      "before_sha256":  "81ea67becb328221b49f6d7dbf349efa8b886644c1028366db9427917fb9c880",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/new_subject/metrics_per_fold.csv",
+                      "action":  "removed",
+                      "before_sha256":  "d6ccc95bff2f0c97b02bca8a416dc1915e886642c1c8ba318fac639fcfda875e",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/new_subject/metrics_per_subject.csv",
+                      "action":  "removed",
+                      "before_sha256":  "bd510196339b4dd5baef5ce9daf49f7bbd2d4faf872097bafb94c4150731a412",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/new_subject/predictions.csv",
+                      "action":  "removed",
+                      "before_sha256":  "f37fb48b4e10fe408b147ca8505d6eecb7416e28a217d93a68a91ce50d391044",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/new_subject/summary.json",
+                      "action":  "removed",
+                      "before_sha256":  "2564625054d3d56a86fa5ebabcf9d543e1aeae501d8b0c1d9fd6a810ac9d4df5",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/source_snapshot/requirements-baseline-runtime.txt",
+                      "action":  "removed",
+                      "before_sha256":  "162502697bb1e32c4da634f59ab881c6748999a11368a0ece900ca0d565e4302",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/source_snapshot/requirements-lock.txt",
+                      "action":  "removed",
+                      "before_sha256":  "f2a23b7638cc2c27407631a2a17c20f1ccfeeaee70b7e6232aef0c548f3aab16",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/source_snapshot/requirements-real.txt",
+                      "action":  "removed",
+                      "before_sha256":  "66d4d720e809877e685abaa4b7b706dd3c18c556d8e91b3a183f685b44538628",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/within_subject/confusion_matrices.csv",
+                      "action":  "removed",
+                      "before_sha256":  "f4463e0ad266b3b4c3a2acd5c571b73f34369350c5b76660fc3cb03f23773909",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/within_subject/framework_report.json",
+                      "action":  "removed",
+                      "before_sha256":  "053add8297f5b4ce654c14ac6bf0438b3f20dd4315769f7c416e1fbfbb8dd5e6",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/within_subject/metrics_per_class.csv",
+                      "action":  "removed",
+                      "before_sha256":  "1b13688d83e0d119d406289509303bbf7c14b7fe137a0ce5896afe072ed1acf5",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/within_subject/metrics_per_fold.csv",
+                      "action":  "removed",
+                      "before_sha256":  "f04a593d53c805bff2c5f349f592d03b6180e3e6b807ff3cf875f7393019ddce",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/within_subject/metrics_per_subject.csv",
+                      "action":  "removed",
+                      "before_sha256":  "fe8d3bf2c00dbea47a7b04ba38e986b85a49f1a72a98ac6bbc88ef35968ebe31",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/within_subject/predictions.csv",
+                      "action":  "removed",
+                      "before_sha256":  "0223f75ccc3aa280c092280856d5d88e2c9c8b48d27566e14dcfa42f00bc792f",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/within_subject/summary.json",
+                      "action":  "removed",
+                      "before_sha256":  "738e88caa969af00fcaac4eebe52609a584974bc97ea7d459bc89419b9f163e0",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/source_snapshot/configs/baseline_archive.json",
+                      "action":  "removed",
+                      "before_sha256":  "718eb299deecad9a37352beb432cebead57213747e3783c0770e2603e37b48b3",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/baseline_20261010_verified/source_snapshot/tests/test_baseline_archive.py",
+                      "action":  "removed",
+                      "before_sha256":  "0f7b681cbbab0da9c67087805e3329b2c8fb599dfa610e69e75741da0b904d29",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "artifacts/diagnosis_20261010/analyse.py",
+                      "action":  "removed",
+                      "before_sha256":  "1d9cfc411caa7d7b67823d786d5bc2ff4449f8126ed46ed46cfcc6bd5337ca0d",
+                      "after_sha256":  null
+                  },
+                  {
+                      "path":  "docs/Baseline/baseline_20261010_REDACTED_NOHELDOUT/config.json",
+                      "action":  "modified",
+                      "before_sha256":  "27f2de29debdd7a599eb568006607331d3d2ce598f56d038e4016b0dd29bdec9",
+                      "after_sha256":  "2f4be1b0eca0460dd2739213bf265c48b491e53857a7c163777252f35f80c620"
+                  },
+                  {
+                      "path":  "docs/Baseline/baseline_20261010_REDACTED_NOHELDOUT/environment.json",
+                      "action":  "modified",
+                      "before_sha256":  "5d85749988e64d7ac1531fd7ed114d637855c6930f96fc0ec1c75b1955ec2f6b",
+                      "after_sha256":  "c6d3e90693bcc2f0f8d1859a993ebc377160aa8136c0d1f672b4a64de04b4a42"
+                  },
+                  {
+                      "path":  "docs/Baseline/baseline_20261010_REDACTED_NOHELDOUT/folds.json",
+                      "action":  "modified",
+                      "before_sha256":  "42614dba508be98a6a3e2f17693544235e339b70c8d790d32e929fae7799c85d",
+                      "after_sha256":  "c76e43024e60634ac495e090e9fcd37bc149c74d604bf9035a0e6b7960668d91"
+                  },
+                  {
+                      "path":  "docs/Baseline/baseline_20261010_REDACTED_NOHELDOUT/README.md",
+                      "action":  "modified",
+                      "before_sha256":  "d252cbe81872e3906e8e840dd86eb5703ee3ba89decbf3c1772e73557720ecd1",
+                      "after_sha256":  "8d5966b73c6232f546e6bd579c14bdb04a8ed7f7a4e1de1052dc88d8b51ee4bf"
+                  },
+                  {
+                      "path":  "docs/Baseline/baseline_20261010_REDACTED_NOHELDOUT/requirements-baseline-runtime.txt",
+                      "action":  "modified",
+                      "before_sha256":  "dac300dc422b2b63dd5e44209ea36381cf5bc2f6208f6ce34017573af295cd7f",
+                      "after_sha256":  "030274ff4577e567d2a56697b389a797d59ac6dbe97793f6a7b0b964d71936de"
+                  },
+                  {
+                      "path":  "docs/Baseline/baseline_20261010_REDACTED_NOHELDOUT/run.json",
+                      "action":  "modified",
+                      "before_sha256":  "8cf01abf7d77d7934026cad00ed2cc671236f216b27b7bd1f9d5ccf3c741e16d",
+                      "after_sha256":  "88e739b0ae9bc6b7d6c0866e8ab6d19638c73f7a77be55a8dcf0e3dfc4ff266f"
+                  },
+                  {
+                      "path":  "docs/Baseline/baseline_20261010_REDACTED_NOHELDOUT/summary.json",
+                      "action":  "modified",
+                      "before_sha256":  "495d8528f0a0192b6ddfea7a3a9d1a2392e63150b67c87d213c86e2daacccf9b",
+                      "after_sha256":  "559f554f631bcf4b37a33266cab7ee83d55cbe54e8f5d56ce63c0eb27dcff28d"
+                  },
+                  {
+                      "path":  "docs/Baseline/BASELINE.md",
+                      "action":  "modified",
+                      "before_sha256":  "4cac21e7f8738b9bc34ee58e7d9b23473f9949a8175bbbf3025c29a8c74ce740",
+                      "after_sha256":  "5ce512812bee3c2fc37e101ae01a68ab600ce0923e804f0e3f15c6a208c8aa1a"
+                  },
+                  {
+                      "path":  "docs/Baseline/DIAGNOSIS.md",
+                      "action":  "modified",
+                      "before_sha256":  "8cfdafb2fa7adfe2911069d4aeb3b71cf16372213b1a48e2fec95bbc8be70345",
+                      "after_sha256":  "670dbf7bfbdf1f1962fea7353b0f90c38e5ed586eaaeb893143bd9c5ec054a8f"
+                  },
+                  {
+                      "path":  "docs/Baseline/diagnosis_evidence.json",
+                      "action":  "modified",
+                      "before_sha256":  "4e8bc60c7ea96135fa90340310d280b03fff80ea7eee8a41d201927f2b5f197d",
+                      "after_sha256":  "0504810706b224c4558958cd88b60d1d09af3b9e753e8fae365327057e3b046e"
+                  },
+                  {
+                      "path":  "docs/RESULTS.md",
+                      "action":  "modified",
+                      "before_sha256":  "ad160c1d336eea03b8dac6bec630a5ac1c1f04a2afe6c605cabbe0887bc62c48",
+                      "after_sha256":  "b179f446d41441255cd3ca4909a4070812aead09a6e3d522d5b25eaefd271447"
+                  },
+                  {
+                      "path":  "README.md",
+                      "action":  "modified",
+                      "before_sha256":  "1ae3921aace35d9f2a6cadf9967e7adbf0ba674ee728974c29d31ca2e5a385a9",
+                      "after_sha256":  "e18f32db5537de56f0bc18334c7139a67e47eab563e3f5bcc6a339a12f72fb5d"
+                  },
+                  {
+                      "path":  "EXPECTED_SCORE.md",
+                      "action":  "modified",
+                      "before_sha256":  "dd591a5f0047b9171d6b8fa8cfa7214b4133686680eaf6af1e73701593c86374",
+                      "after_sha256":  "dc3f5eb1bb8dcc4be53efec266a4ba9424ec648fc82eba325b58710da09bda77"
+                  }
+              ]
+}

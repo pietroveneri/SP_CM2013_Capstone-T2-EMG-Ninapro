@@ -13,7 +13,7 @@ root = Path(__file__).resolve().parents[1]
 
 # Uses the feature extraction defined in ExpandedFeatureTrack.
 track = ExpandedFeatureTrack()
-records = track.load(root / "data" / "raw", exercise="E1")
+records = track.load(root / "NinaPro_Mat", exercise="E1")
 
 if not records:
     raise RuntimeError("No recordings found. Check the data path.")

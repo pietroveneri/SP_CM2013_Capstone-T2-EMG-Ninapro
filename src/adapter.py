@@ -1370,6 +1370,19 @@ class TrackAdapter:
     def load(self, cache_dir: str) -> list:          # -> [Recording]  (REAL data)
         raise NotImplementedError
 
+    def assert_no_holdout(self, recs):
+        """Reject instructor-reserved groups in development or training data."""
+        self._assert_no_holdout_groups(r.group for r in recs)
+
+    def _assert_no_holdout_groups(self, groups):
+        """Apply the same hold-out guard to recordings and feature-matrix groups."""
+        leaked = sorted(set(groups) & set(self.meta.holdout_ids))
+        if leaked:
+            raise ValueError(
+                f"Hold-out groups found in training data: {leaked}. "
+                "Remove them and document the correction in RESULTS.md."
+            )
+
     def smoke(self) -> list:                          # -> [Recording]  (SYNTHETIC, offline)
         raise NotImplementedError
 
@@ -1802,6 +1815,8 @@ class TrackAdapter:
         """
         from sklearn.base import clone
         from sklearn.model_selection import LeaveOneGroupOut, GroupKFold
+        groups = np.asarray(groups)
+        self._assert_no_holdout_groups(groups.tolist())
         if clf is not None and cfg and "imbalance" in cfg:
             self.note(
                 "evaluate(): cfg['imbalance'] is only applied inside the shipped "
@@ -1810,7 +1825,6 @@ class TrackAdapter:
                 "(e.g. its own class_weight, or wrap it in the same Pipeline denoise() uses).")
         cfg = self._cfg(cfg)
         clf = clf or self._baseline(cfg)
-        groups = np.asarray(groups)
         n_groups = len(set(groups.tolist()))
         if n_groups <= int(cfg.get("loso_max_groups", 12)):
             folds = LeaveOneGroupOut().split(X, y, groups)
@@ -1842,6 +1856,7 @@ class TrackAdapter:
         later be asked to predict from default-pipeline features. See
         `infer.__doc__` for what happens if you pass a conflicting cfg anyway."""
         cfg = self._cfg(cfg)
+        self.assert_no_holdout(train_recs)
         X, y, g = self.build_dataset(train_recs, cfg)
         sel = self.select_features(X, y, cfg)               # fit on train only — no test data here
         clf = clf or self._baseline(cfg)

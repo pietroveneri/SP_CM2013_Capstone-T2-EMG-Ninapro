@@ -22,6 +22,12 @@ they behave differently on EEG vs ECG vs IMU vs EMG vs CTG.
 
 ## The seven modules (this is what "pipeline integrity" means)
 
+For this repository's real EMG data, use **S1–S22 only** from `NinaPro_Mat` for
+development and both evaluation modes. **S23–S27** are stored separately in
+`data/holdout` and remain reserved for final frozen-model inference; do not score
+them or use the original archives in `data/raw` for CV. The recursive E1 `.mat`
+loader and final submission flow are described in [`../data/README.md`](../data/README.md).
+
 The adapter is not one `run_everything()` — it is the book's §16.2 pipeline with one method per
 stage, so any stage can be swapped, tested, or rewritten without touching the others:
 

@@ -1,0 +1,43 @@
+{
+  "status": "passed",
+  "existing_tests_passed": 8,
+  "subjects": [
+    "S1",
+    "S10",
+    "S11",
+    "S12",
+    "S13",
+    "S14",
+    "S15",
+    "S16",
+    "S17",
+    "S18",
+    "S19",
+    "S2",
+    "S20",
+    "S21",
+    "S22",
+    "S3",
+    "S4",
+    "S5",
+    "S6",
+    "S7",
+    "S8",
+    "S9"
+  ],
+  "holdout_subjects": [
+    "S23",
+    "S24",
+    "S25",
+    "S26",
+    "S27"
+  ],
+  "reserved_mat_reads": 0,
+  "holdout_scored": false,
+  "folds_checked": 115,
+  "split_groups_disjoint": true,
+  "one_oof_prediction_per_window_per_mode": true,
+  "archived_metrics_recomputed_and_matched": true,
+  "source_unchanged": true,
+  "git_index_unchanged": true
+}

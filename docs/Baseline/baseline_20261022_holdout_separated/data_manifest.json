@@ -1,0 +1,156 @@
+[
+  {
+    "subject": "S1",
+    "relative_path": "s1/S1_A1_E1.mat",
+    "sha256": "cf439f96c4327094ae9f4a6acdef8527523faa6f67b1bb021d3f00ee41d9b971",
+    "bytes": 2891171,
+    "windows": 2361
+  },
+  {
+    "subject": "S10",
+    "relative_path": "s10/S10_A1_E1.mat",
+    "sha256": "119fc9b6ab61c2961578018b5743c66e1d887ed708fb4120d16119f74a61f794",
+    "bytes": 4100066,
+    "windows": 2824
+  },
+  {
+    "subject": "S11",
+    "relative_path": "s11/S11_A1_E1.mat",
+    "sha256": "6091b27dbed7f4f21aab4bde73ddde95c80fcee3f5b47c323355154f06ea75b8",
+    "bytes": 4115926,
+    "windows": 3300
+  },
+  {
+    "subject": "S12",
+    "relative_path": "s12/S12_A1_E1.mat",
+    "sha256": "bf80464749ebc5195ef25f86bbbe10e25b4c258831a31e930f5450a449e87eb0",
+    "bytes": 3607364,
+    "windows": 2983
+  },
+  {
+    "subject": "S13",
+    "relative_path": "s13/S13_A1_E1.mat",
+    "sha256": "b89eadbd8ce6c8009dc7f3fe0b6e36718a3017cd1c62d067222a78127e5ffb36",
+    "bytes": 3185213,
+    "windows": 2216
+  },
+  {
+    "subject": "S14",
+    "relative_path": "s14/S14_A1_E1.mat",
+    "sha256": "e39db846ac167417200ddb30d036936f9f77e64e1b2931d44663b7067623fa39",
+    "bytes": 3916415,
+    "windows": 2906
+  },
+  {
+    "subject": "S15",
+    "relative_path": "s15/S15_A1_E1.mat",
+    "sha256": "08fa85a460f6e99e7f791ab01876644a9d932aff39ab411a62c065c1948c07df",
+    "bytes": 3657433,
+    "windows": 2632
+  },
+  {
+    "subject": "S16",
+    "relative_path": "s16/S16_A1_E1.mat",
+    "sha256": "dbbbef62e657d49af7d2b36b404f4f19fccd397e760de0b7437f579a26d907ec",
+    "bytes": 4009661,
+    "windows": 2410
+  },
+  {
+    "subject": "S17",
+    "relative_path": "s17/S17_A1_E1.mat",
+    "sha256": "657a840f0e966ebd7a73e01f972eeb8a20adf2336dfebfc03dfb6bd29d3d95d7",
+    "bytes": 3966569,
+    "windows": 2281
+  },
+  {
+    "subject": "S18",
+    "relative_path": "s18/S18_A1_E1.mat",
+    "sha256": "3123687583d4bea569e9fee8992ca82aae4239be38c6660d9ccd29a709ca2542",
+    "bytes": 4099606,
+    "windows": 2819
+  },
+  {
+    "subject": "S19",
+    "relative_path": "s19/S19_A1_E1.mat",
+    "sha256": "a1afd20464b60c4892c68b36d4d0a06de8f4b8f2ad902937685171a2d895a272",
+    "bytes": 3527535,
+    "windows": 2664
+  },
+  {
+    "subject": "S2",
+    "relative_path": "s2/S2_A1_E1.mat",
+    "sha256": "e34f43ee718b2a641201f72763bcdd8e5d7b292507410c96a9bd697cd77ae3cd",
+    "bytes": 3916780,
+    "windows": 2637
+  },
+  {
+    "subject": "S20",
+    "relative_path": "s20/S20_A1_E1.mat",
+    "sha256": "fa6062ec863fccb39681f6e7c262d923cce89383c5242c4a5b8dfcec5d363501",
+    "bytes": 4111280,
+    "windows": 2344
+  },
+  {
+    "subject": "S21",
+    "relative_path": "s21/S21_A1_E1.mat",
+    "sha256": "1b685f361f5b36ae50752cb24dd41a4c5423bffdfac31927c836425de2a620b7",
+    "bytes": 3281006,
+    "windows": 2711
+  },
+  {
+    "subject": "S22",
+    "relative_path": "s22/S22_A1_E1.mat",
+    "sha256": "c790ce5d8a3254e3b08abd3af24510596e0d979f0ea076059ece7d969d1420e2",
+    "bytes": 3278288,
+    "windows": 3341
+  },
+  {
+    "subject": "S3",
+    "relative_path": "s3/S3_A1_E1.mat",
+    "sha256": "b669a8d8634aeeaa6051d050267310fd77955e8008fb834c962157f7538af0f0",
+    "bytes": 3207304,
+    "windows": 2405
+  },
+  {
+    "subject": "S4",
+    "relative_path": "s4/S4_A1_E1.mat",
+    "sha256": "279144d0eddbea4f8d0fbcadbb0a1f2b30cc38b5e27a47ea6c0bb512477f9fc0",
+    "bytes": 3124570,
+    "windows": 2953
+  },
+  {
+    "subject": "S5",
+    "relative_path": "s5/S5_A1_E1.mat",
+    "sha256": "8aeb4d2db119bae2b1bd8cf7fb1dc834396b809ed5e1826daa1c27daff95c351",
+    "bytes": 5390820,
+    "windows": 3519
+  },
+  {
+    "subject": "S6",
+    "relative_path": "s6/S6_A1_E1.mat",
+    "sha256": "a600a6fb025963dfd3e0ca08852e0a250c1536aa57b453ce8798b0aac9b30e4e",
+    "bytes": 4989478,
+    "windows": 3024
+  },
+  {
+    "subject": "S7",
+    "relative_path": "s7/S7_A1_E1.mat",
+    "sha256": "479897e9764f8695177749ebd50b7d8fdf12b6c7cff0af90cbcb27cea2a76224",
+    "bytes": 3252026,
+    "windows": 2723
+  },
+  {
+    "subject": "S8",
+    "relative_path": "s8/S8_A1_E1.mat",
+    "sha256": "76b78ebf85a26e40c3b884530af11db361ab0d609ae119b95c5f0db2af8f25fd",
+    "bytes": 3338672,
+    "windows": 2293
+  },
+  {
+    "subject": "S9",
+    "relative_path": "s9/S9_A1_E1.mat",
+    "sha256": "4e9a857d2ce9031a480cf2cacf7ce7570df25218229278f3b6a7476856541c75",
+    "bytes": 2509776,
+    "windows": 2836
+  }
+]

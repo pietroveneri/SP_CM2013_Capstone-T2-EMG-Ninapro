@@ -1,5 +1,7 @@
 {
   "new_subject": {
+    "valid_for_current_protocol": false,
+    "invalid_reason": "No hold-out separation; includes S23-S27. Use the 2026-10-22 replacement.",
     "mode": "new_subject",
     "prediction_kind": "out_of_fold",
     "labels": [
@@ -59,6 +61,8 @@
     "framework_summary": "mean macro_f1 0.205 (sd 0.073, range 0.082-0.380 across 27 subjects)"
   },
   "within_subject": {
+    "valid_for_current_protocol": false,
+    "invalid_reason": "No hold-out separation; includes S23-S27. Use the 2026-10-22 replacement.",
     "mode": "within_subject",
     "prediction_kind": "out_of_fold",
     "labels": [

@@ -1,0 +1,103 @@
+test_download_reuses_subject_folders_without_network (test_dataset_layout.DatasetLayoutTests.test_download_reuses_subject_folders_without_network) ... [emg_ninapro] ready in C:\Users\h3r03\AppData\Local\Temp\tmpuzs5ej5b
+ok
+test_holdout_directory_requires_explicit_opt_in (test_dataset_layout.DatasetLayoutTests.test_holdout_directory_requires_explicit_opt_in) ... ok
+test_mixed_root_skips_holdout_before_reading (test_dataset_layout.DatasetLayoutTests.test_mixed_root_skips_holdout_before_reading) ... ok
+test_new_downloads_use_subject_folders_and_skip_holdout (test_dataset_layout.DatasetLayoutTests.test_new_downloads_use_subject_folders_and_skip_holdout) ... [emg_ninapro] ready in C:\Users\h3r03\AppData\Local\Temp\tmpn4r0vwmq
+ok
+test_direct_evaluate_rejects_every_holdout_before_model_or_selector (test_holdout.HoldoutTests.test_direct_evaluate_rejects_every_holdout_before_model_or_selector) ... ok
+test_evaluate_modes_rejects_every_holdout_before_feature_construction (test_holdout.HoldoutTests.test_evaluate_modes_rejects_every_holdout_before_feature_construction) ... ok
+test_frozen_inference_and_submission_accept_synthetic_holdout_without_refitting (test_holdout.HoldoutTests.test_frozen_inference_and_submission_accept_synthetic_holdout_without_refitting) ... ok
+test_train_baseline_rejects_every_holdout_before_feature_construction (test_holdout.HoldoutTests.test_train_baseline_rejects_every_holdout_before_feature_construction) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.199s
+
+OK
+Preflight passed. Running the existing baseline runner.
+[emg_ninapro] ready in C:\Users\h3r03\OneDrive\Desktop\KTH\SP_CM2013_Capstone-T2-EMG-Ninapro\NinaPro_Mat
+Completed fit 1/115; elapsed 114.1s
+Completed fit 2/115; elapsed 199.6s
+Completed fit 3/115; elapsed 290.6s
+Completed fit 4/115; elapsed 370.1s
+Completed fit 5/115; elapsed 451.1s
+Completed fit 10/115; elapsed 461.4s
+Completed fit 20/115; elapsed 489.2s
+Completed fit 30/115; elapsed 510.3s
+Completed fit 40/115; elapsed 538.0s
+Completed fit 50/115; elapsed 558.1s
+Completed fit 60/115; elapsed 579.8s
+Completed fit 70/115; elapsed 601.7s
+Completed fit 80/115; elapsed 628.1s
+Completed fit 90/115; elapsed 649.4s
+Completed fit 100/115; elapsed 682.1s
+Completed fit 110/115; elapsed 701.7s
+Completed fit 115/115; elapsed 712.6s
+within_subject mean macro_f1 0.794 (sd 0.048, range 0.706-0.880 across 22 subjects)
+### Results � split unit: repetition (within subject) (n=22)
+
+**Confusion matrix** (rows = true, columns = predicted, row-normalised)
+
+| true \ pred | g01 | g02 | g03 | g04 | g05 | g06 | g07 | g08 | g09 | g10 | g11 | g12 | n |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| **g01** | 0.84 | 0.04 | 0.04 | 0.02 | 0.01 | 0.01 | 0.02 | 0.01 | 0.01 | 0.01 | 0.01 | 0.01 | 5303 |
+| **g02** | 0.04 | 0.85 | 0.03 | 0.02 | 0.00 | 0.01 | 0.00 | 0.00 | 0.01 | 0.01 | 0.01 | 0.02 | 5149 |
+| **g03** | 0.03 | 0.03 | 0.79 | 0.03 | 0.04 | 0.02 | 0.02 | 0.02 | 0.01 | 0.01 | 0.01 | 0.01 | 5632 |
+| **g04** | 0.02 | 0.03 | 0.05 | 0.80 | 0.03 | 0.03 | 0.02 | 0.01 | 0.00 | 0.00 | 0.00 | 0.00 | 4723 |
+| **g05** | 0.01 | 0.01 | 0.04 | 0.03 | 0.83 | 0.02 | 0.02 | 0.03 | 0.00 | 0.00 | 0.00 | 0.00 | 4918 |
+| **g06** | 0.01 | 0.01 | 0.03 | 0.03 | 0.04 | 0.77 | 0.04 | 0.05 | 0.01 | 0.01 | 0.00 | 0.01 | 5005 |
+| **g07** | 0.02 | 0.00 | 0.02 | 0.02 | 0.02 | 0.04 | 0.80 | 0.05 | 0.01 | 0.00 | 0.00 | 0.01 | 5217 |
+| **g08** | 0.01 | 0.00 | 0.03 | 0.01 | 0.02 | 0.05 | 0.06 | 0.77 | 0.02 | 0.01 | 0.01 | 0.01 | 5270 |
+| **g09** | 0.01 | 0.02 | 0.01 | 0.00 | 0.00 | 0.01 | 0.01 | 0.03 | 0.69 | 0.06 | 0.10 | 0.05 | 4753 |
+| **g10** | 0.01 | 0.00 | 0.01 | 0.00 | 0.01 | 0.00 | 0.01 | 0.01 | 0.06 | 0.80 | 0.05 | 0.04 | 4617 |
+| **g11** | 0.00 | 0.01 | 0.00 | 0.00 | 0.00 | 0.01 | 0.01 | 0.01 | 0.08 | 0.06 | 0.77 | 0.03 | 4527 |
+| **g12** | 0.01 | 0.01 | 0.01 | 0.00 | 0.00 | 0.01 | 0.01 | 0.01 | 0.05 | 0.04 | 0.04 | 0.80 | 5068 |
+
+**macro_f1** � mean macro_f1 0.794 (sd 0.048, range 0.706-0.880 across 22 subjects); pooled 0.793
+- cohens_kappa: pooled 0.775, mean over subjects 0.776
+- balanced_accuracy: pooled 0.793, mean over subjects 0.793
+- accuracy: pooled 0.794, mean over subjects 0.795
+- worst subject: S14 (macro_f1 0.706, n=2906) � read this one's errors before the mean's
+
+*Now read it:* which classes trade places in the matrix, is the spread driven by one hard group, and what would you change next?
+new_subject mean macro_f1 0.177 (sd 0.055, range 0.064-0.276 across 22 subjects)
+### Results � split unit: subject (n=22)
+
+**Confusion matrix** (rows = true, columns = predicted, row-normalised)
+
+| true \ pred | g01 | g02 | g03 | g04 | g05 | g06 | g07 | g08 | g09 | g10 | g11 | g12 | n |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| **g01** | 0.19 | 0.12 | 0.08 | 0.14 | 0.03 | 0.02 | 0.07 | 0.03 | 0.04 | 0.09 | 0.07 | 0.13 | 5303 |
+| **g02** | 0.06 | 0.42 | 0.05 | 0.02 | 0.03 | 0.02 | 0.05 | 0.03 | 0.03 | 0.09 | 0.11 | 0.09 | 5149 |
+| **g03** | 0.06 | 0.10 | 0.14 | 0.10 | 0.05 | 0.02 | 0.13 | 0.10 | 0.04 | 0.08 | 0.10 | 0.08 | 5632 |
+| **g04** | 0.14 | 0.04 | 0.07 | 0.23 | 0.04 | 0.05 | 0.10 | 0.08 | 0.05 | 0.08 | 0.03 | 0.07 | 4723 |
+| **g05** | 0.06 | 0.07 | 0.11 | 0.07 | 0.19 | 0.01 | 0.11 | 0.12 | 0.06 | 0.04 | 0.07 | 0.10 | 4918 |
+| **g06** | 0.03 | 0.05 | 0.06 | 0.20 | 0.03 | 0.14 | 0.10 | 0.10 | 0.10 | 0.05 | 0.08 | 0.04 | 5005 |
+| **g07** | 0.06 | 0.07 | 0.08 | 0.11 | 0.08 | 0.05 | 0.18 | 0.12 | 0.04 | 0.03 | 0.09 | 0.09 | 5217 |
+| **g08** | 0.02 | 0.06 | 0.08 | 0.06 | 0.07 | 0.04 | 0.08 | 0.27 | 0.06 | 0.07 | 0.09 | 0.10 | 5270 |
+| **g09** | 0.04 | 0.08 | 0.06 | 0.05 | 0.09 | 0.05 | 0.04 | 0.06 | 0.11 | 0.16 | 0.12 | 0.14 | 4753 |
+| **g10** | 0.09 | 0.12 | 0.06 | 0.05 | 0.04 | 0.01 | 0.02 | 0.08 | 0.06 | 0.20 | 0.15 | 0.11 | 4617 |
+| **g11** | 0.05 | 0.15 | 0.08 | 0.02 | 0.05 | 0.01 | 0.03 | 0.07 | 0.07 | 0.15 | 0.21 | 0.09 | 4527 |
+| **g12** | 0.09 | 0.14 | 0.06 | 0.02 | 0.08 | 0.00 | 0.04 | 0.10 | 0.10 | 0.15 | 0.11 | 0.12 | 5068 |
+
+**macro_f1** � mean macro_f1 0.177 (sd 0.055, range 0.064-0.276 across 22 subjects); pooled 0.196
+- cohens_kappa: pooled 0.127, mean over subjects 0.127
+- balanced_accuracy: pooled 0.199, mean over subjects 0.201
+- accuracy: pooled 0.199, mean over subjects 0.200
+- worst subject: S2 (macro_f1 0.064, n=2637) � read this one's errors before the mean's
+
+*Now read it:* which classes trade places in the matrix, is the spread driven by one hard group, and what would you change next?
+python.exe : Traceback (most recent call last):
+At line:126 char:16
++ ... selineRun | & 'C:\Users\h3r03\OneDrive\Desktop\KTH\SP_CM2013_Capstone ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "<stdin>", line 111, in <module>
+  File "importlib\metadata\__init__.py", line 463, in metadata
+  File "importlib\metadata\__init__.py", line 915, in read_text
+  File "pathlib\_local.py", line 546, in read_text
+  File "pathlib\_abc.py", line 633, in read_text
+OSError: [Errno 22] Invalid argument
+
+Postprocessing completed from saved predictions without refitting. Archived metrics and all 115 folds verified; 8 existing tests passed. Zero reserved MAT reads. Sources and pre-existing Git index unchanged. See run.json and environment.json for the package metadata inventory issue.

@@ -19,6 +19,15 @@ From **10-channel surface EMG** of the forearm, classify which **hand gesture** 
 - **Split unit (leakage): subject** (new-subject) or **repetition** (within-subject) — never let windows
   from the same repetition span train and test.
 - Smoke subset: subjects `S1, S2, S3`. Two evaluation modes: **within-subject** and **new-subject**.
+- **Development subjects:** S1–S22 in `NinaPro_Mat/s1`–`s22`. The loader recursively
+  reads E1 `.mat` files and excludes S23–S27 by default. Folder names may be
+  lowercase; recording groups are uppercase IDs matching the adapter's hold-out guards.
+- **Reserved hold-out:** S23–S27 in `data/holdout/s23`–`s27`, for final inference
+  only after freezing the model and registering `EXPECTED_SCORE.md`. Then use
+  `download_holdout("data/holdout")` if needed, `load("data/holdout",
+  include_holdout=True)`, and `write_submission()` with the frozen model. Do not
+  score it. Original ZIP/CSV archives in `data/raw` may contain every subject and
+  must not be loaded for CV. See [`../data/README.md`](../data/README.md).
 
 ## 3. What you are given (do not rebuild these)
 - The modular pipeline + a working baseline (`adapter.default_baseline` in `../src/adapter.py`).
