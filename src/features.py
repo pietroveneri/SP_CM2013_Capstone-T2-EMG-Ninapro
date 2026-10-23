@@ -52,9 +52,9 @@ def _expanded_win_features(win, fs=FS):
             mean_frequency = 0.0
             median_frequency = 0.0
 
+#rms removed from features because it is highly correlated with MAV and adds little information. It is still computed for completeness, but not returned. TJ 23/10
         features.extend([
             mav,
-            rms,
             waveform_length,
             variance,
             relative_mav[ch],
@@ -88,3 +88,26 @@ def extract_window_features(rec: Recording, cfg=None):
         # | `X`         | Number of windows × 70 features |
         # | `y`         | One gesture label per window |
         # | `rec.group` | Subject identifier, such as `"S1"` |
+
+FEATURE_TYPES = (
+    "MAV",
+    "RMS",
+    "WL",
+    "VAR",
+    "relative_MAV",
+    "mean_frequency",
+    "median_frequency",
+)
+
+
+def expanded_feature_names(n_channels=10):
+    retained_features = [
+        feature for feature in FEATURE_TYPES 
+        if feature != "RMS"
+    ]  # helps reduce feature correlation and dimensionality, while retaining the most informative features. TJ 23/10
+
+    return [
+        f"ch{channel:02d}_{feature}"
+        for channel in range(1, n_channels + 1)
+        for feature in retained_features
+    ]
