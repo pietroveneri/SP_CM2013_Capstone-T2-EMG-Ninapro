@@ -14,6 +14,7 @@ cfg = {
 root = Path(__file__).resolve().parents[1]
 
 from emg_ninapro import EMGNinaproTrack
+# from filter_option06 import FilterOption06 as EMGNinaproTrack
 
 track = EMGNinaproTrack()
 track.download(root / "NinaPro_Mat", subset=range(1, 23))
