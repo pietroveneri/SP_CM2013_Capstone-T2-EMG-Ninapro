@@ -46,6 +46,8 @@ class FilterOption01(EMGNinaproTrack):
 
         filter_method = cfg.get("filter_method", "denoise")
         if filter_method == "denoise":
+            # causal is not passed, so adapter default causal=False applies (zero-phase / offline filtering).
+            # The median and Savitzky-Golay filters use centered windows and are non-causal regardless of this flag.
             filtered_input = denoise(
                 filter_input,
                 impulsive=cfg.get("impulsive"),
@@ -70,6 +72,9 @@ class FilterOption01(EMGNinaproTrack):
         })
 
         # Step 2: normalize each subject/channel independently after filtering.
+        # Z-score mean/std use the whole subject recording, including CV-held-out windows, without labels or other subjects.
+        # This implies unlabeled per-subject calibration before use; it is a known, slightly generous offline assumption.
+        # See the preprocess() docstring in emg_ninapro.py and RESULTS.md.
         normalization = cfg.get("normalization", "zscore")
         norm_epochs = {}
         for name, values in rec_filtered.epochs.items():

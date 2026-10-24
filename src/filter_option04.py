@@ -48,6 +48,9 @@ class FilterOption04(EMGNinaproTrack):
 
         filter_method = cfg.get("filter_method", "denoise")
         if filter_method == "denoise":
+            # causal=False is hardcoded here (zero-phase / offline).
+            # The 0.1 Hz high-pass is applied independently to each 20-sample window, so it is not a meaningful drift filter at this length.
+            # Median and Savitzky-Golay are non-causal regardless of the flag.
             filtered_input = denoise(
                 filter_input,
                 impulsive=cfg.get("impulsive"),
@@ -73,6 +76,9 @@ class FilterOption04(EMGNinaproTrack):
             for name, values in filtered_input.epochs.items()
         })
 
+        # Z-score mean/std use the whole subject recording, including CV-held-out windows, without labels or other subjects.
+        # This implies unlabeled per-subject calibration before use; it is a known, slightly generous offline assumption.
+        # See the preprocess() docstring in emg_ninapro.py and RESULTS.md.
         normalization = cfg.get("normalization", "zscore")
         norm_epochs = {}
         for name, values in rec_filtered.epochs.items():

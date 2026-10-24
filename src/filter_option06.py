@@ -19,6 +19,7 @@ def peak_scale(X, guard=0.05):  # X: samples x channels, one subject
     return X / scale
 
 
+# No IIR filter is applied here, so causality / the causal flag does not apply; scaling uses whole-recording statistics.
 class FilterOption06(EMGNinaproTrack):
     SUPPORTED_CFG_KEYS = EMGNinaproTrack.SUPPORTED_CFG_KEYS | frozenset({"guard"})
     PREPROCESS_DEFAULTS = {"guard": 0.05}
@@ -37,6 +38,9 @@ class FilterOption06(EMGNinaproTrack):
             flat = arr.reshape(-1, arr.shape[-1])
             # Kok et al. (2024), GRABMyo: average referencing before scaling.
             # Only channels above the guard threshold contribute to the reference.
+            # The live-channel mask and peak scale use the whole subject recording, including CV-held-out windows,
+            # without labels or other subjects. This implies unlabeled per-subject calibration before use.
+            # It is a known, slightly generous offline assumption; see emg_ninapro.py and RESULTS.md.
             referenced = average_reference(flat, guard=guard)
             processed_epochs[name] = peak_scale(referenced, guard=guard).reshape(arr.shape)
         return rec.replace_epochs(processed_epochs)

@@ -11,6 +11,7 @@ def peak_scale(X, guard=0.05):  # X: samples x channels, one subject
     return X / scale
 
 
+# No IIR filter is applied here, so causality / the causal flag does not apply; scaling uses whole-recording statistics.
 class FilterOption05(EMGNinaproTrack):
     SUPPORTED_CFG_KEYS = EMGNinaproTrack.SUPPORTED_CFG_KEYS | frozenset({"guard"})
     PREPROCESS_DEFAULTS = {"guard": 0.05}
@@ -27,6 +28,9 @@ class FilterOption05(EMGNinaproTrack):
         for name, values in rec.epochs.items():
             arr = np.asarray(values, dtype=float)
             flat = arr.reshape(-1, arr.shape[-1])
+            # Peak scale uses the whole subject recording, including CV-held-out windows, without labels or other subjects.
+            # This implies unlabeled per-subject calibration before use; it is a known, slightly generous offline assumption.
+            # See the preprocess() docstring in emg_ninapro.py and RESULTS.md.
             scaled_epochs[name] = peak_scale(flat, guard=guard).reshape(arr.shape)
         return rec.replace_epochs(scaled_epochs)
 
