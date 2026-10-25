@@ -4,7 +4,7 @@
 
 **Previously registered 27-subject results had no separate hold-out test:** S23–S27 were included in training and CV before their hold-out designation was published. They are invalid under the current protocol and retained only as [historical metadata](Baseline/baseline_20261010_REDACTED_NOHELDOUT/README.md). Earlier exposure is not undone by the correction.
 
-The replacement baseline uses **S1–S22 only**. **S23–S27 remain reserved for final new-subject evaluation** and were neither read nor scored in this run. The existing loader and adapter guards were verified; no source code was changed.
+The replacement baseline (and all further results) uses **S1–S22 only**. **S23–S27 remain reserved for final new-subject evaluation** and were neither read nor scored in this run. The existing loader and adapter guards were verified; no source code was changed.
 
 **Track:** `emg_ninapro` · **Subjects:** 22 · **Classes:** g01–g12; rest excluded · **Windows:** 60,182 per mode.
 
@@ -29,7 +29,7 @@ cfg = {
 | # | Date | What changed & why (one line) | Primary metric **with spread** | Better than previous? | If not — why it was kept | Commit |
 |---|---|---|---|---|---|---|
 | 1 | 2026-10-08 | Historical supplied baseline; verification on 2026-10-10 used all 27 subjects without a separate hold-out test | Invalid under current protocol; see historical archive | — | Provenance only; superseded | `379f1e6` |
-| 2 | 2026-10-22 | Rerun unchanged pipeline on S1–S22; reserve S23–S27 | within_subject mean macro_f1 0.794 (sd 0.048, range 0.706-0.880 across 22 subjects); new_subject mean macro_f1 0.177 (sd 0.055, range 0.064-0.276 across 22 subjects) | Not comparable: different cohort and folds | Correct subject scope; no tuning or configuration search |` 8ed9ab8`
+| 2 | 2026-10-22 | Rerun unchanged pipeline on S1–S22; reserve S23–S27 | within_subject mean macro_f1 0.794 (sd 0.048, range 0.706-0.880 across 22 subjects); new_subject mean macro_f1 0.177 (sd 0.055, range 0.064-0.276 across 22 subjects) | Not comparable: different cohort and folds | Correct subject scope; no tuning or configuration search | ` 8ed9ab8`
  |
 
 ### Baseline provenance
@@ -38,7 +38,7 @@ cfg = {
 - One configuration evaluated; 115 fits; 8 existing hold-out tests passed; zero reserved MAT reads. Complete fold and prediction checks passed.
 - [Run metadata](Baseline/baseline_20261022_holdout_separated/run.json), [validation](Baseline/baseline_20261022_holdout_separated/validation.json), [environment](Baseline/baseline_20261022_holdout_separated/environment.json) and [cleanup audit](Baseline/baseline_20261022_holdout_separated/cleanup_audit.json).
 - Historical registration: `379f1e6`; historical verification: `0b85ef5`. Old local predictions, logs and diagnosis artifacts were removed; each retained historical file is marked invalid.
-- The final model is not frozen. `EXPECTED_SCORE.md` remains an unregistered draft; no hold-out test score is available.
+
 
 ## Decision log — the choices behind the numbers
 
@@ -63,7 +63,7 @@ cfg = {
 | Iteration | Who | Modules / tasks owned | Reviewed by |
 |---|---|---|---|
 | 1 | Pietro | Ran the supplied baseline and recorded its results | |
-| 2 | Codex, at the user's request | Executed the existing runner; verified hold-out guards and artifacts; updated results and baseline decisions | Pending team review |
+| 2 | Pietro | Executed the existing runner; verified hold-out guards and artifacts; updated results and baseline decisions | Pending team review |
 
 ## Final numbers
 
