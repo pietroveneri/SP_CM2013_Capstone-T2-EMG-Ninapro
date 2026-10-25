@@ -37,7 +37,7 @@ cfg = {
 - Existing runner: `src/run_baseline.py`; source revision `a534402e790e014265de3837accf4b97b6d45f28`; executed sources unchanged and hashed in `run.json`.
 - One configuration evaluated; 115 fits; 8 existing hold-out tests passed; zero reserved MAT reads. Complete fold and prediction checks passed.
 - [Run metadata](Baseline/baseline_20261022_holdout_separated/run.json), [validation](Baseline/baseline_20261022_holdout_separated/validation.json), [environment](Baseline/baseline_20261022_holdout_separated/environment.json) and [cleanup audit](Baseline/baseline_20261022_holdout_separated/cleanup_audit.json).
-- Historical registration: `379f1e6`; historical verification: `0b85ef5`. Old local predictions, logs and diagnosis artifacts were removed; each retained historical file is marked invalid.
+- Historical registration: `379f1e6`; historical verification: `0b85ef5`. 
 
 
 ## Decision log — the choices behind the numbers
@@ -45,12 +45,12 @@ cfg = {
 | Pipeline module | Option chosen | Alternative(s) considered | Why this one (one sentence) | Iteration | Revised later? |
 |---|---|---|---|---|---|
 | 1. Data loading | DB1 E1; S1–S22; restimulus/rerepetition; rest excluded | Historical all-27 scope (invalid) | Reserve S23–S27 for final new-subject inference | 2 | Yes: corrected subject scope |
-| 2. Preprocessing | Identity; 20-sample windows, 15-sample step at 100 Hz | No alternatives evaluated | Preserve the supplied reference on the stored EMG envelope | 2 | No |
-| 3. Feature extraction | 50 features: MAV, RMS, WL, variance and magnitude-spectrum frequency centroid per channel | No alternatives evaluated | Preserve the supplied representation for controlled comparisons | 2 | No |
-| 4. Feature selection | `select="none"` | No alternatives evaluated | Keep all 50 features in the reference run | 2 | No |
-| 5. Classification, incl. `imbalance` | StandardScaler -> RF; 200 trees; `class_weight="balanced"`; seed 0 | No alternatives evaluated | Fit scaling and the supplied classifier inside each training fold | 2 | No |
-| 6. Inference | OOF; 5 repetition folds per subject; 5 subject folds for new-subject | Historical folds containing S23–S27 (invalid) | Keep evaluation groups separate from training in each mode | 2 | Yes: development folds regenerated |
-| 7. Reporting | Both modes; per-subject spread; pooled metrics, confusion matrices and separate per-fold spread | Historical all-27 reports (invalid) | Distinguish subject variability from the across-fold expected-score statistic | 2 | Yes: corrected scope and provenance |
+| 2. Preprocessing |  |  |  |  |  |
+| 3. Feature extraction |  |  |  | |  |
+| 4. Feature selection |  |  |  |  |  |
+| 5. Classification, incl. `imbalance` | seed 0 |  |  | |  |
+| 6. Inference |  | |  |  | |
+| 7. Reporting |  | |  |  |  |
 
 ## Revisions — the ones that went backwards
 
@@ -62,18 +62,16 @@ cfg = {
 
 | Iteration | Who | Modules / tasks owned | Reviewed by |
 |---|---|---|---|
-| 1 | Pietro | Ran the supplied baseline and recorded its results | |
+| 1 | Pietro | Ran the supplied baseline and recorded its results | Invalid |
 | 2 | Pietro | Executed the existing runner; verified hold-out guards and artifacts; updated results and baseline decisions | Pending team review |
 
 ## Final numbers
 
-These are development baseline references; final-model selection and hold-out evaluation remain pending.
-
 | | Value | Under what split |
 |---|---|---|
-| Primary metric, development baseline (mean + spread) | New-subject macro-F1 0.190 ± 0.016 across folds; 0.177 ± 0.055 across subjects | 5-fold GroupKFold on S1–S22 subjects |
-| Secondary metrics, development baseline | Pooled macro-F1 0.196; κ 0.127; balanced accuracy 0.199; accuracy 0.199; per-class recall in BASELINE.md | Same subject folds |
-| Held-out set — scored once, never tuned against | Pending; S23–S27 not read or scored in this run | Final frozen-model inference only |
+| Primary metric, development baseline (mean + spread) |  | 5-fold GroupKFold on S1–S22 subjects |
+| Secondary metrics, development baseline | | Same subject folds |
+| Held-out set — scored once, never tuned against |  |  |
 | Supplied baseline, same harness | Within-subject 0.794 ± 0.048; new-subject 0.177 ± 0.055 (subject spread) | Corrected S1–S22 scope |
-| Configurations evaluated in the replacement run | 1 | Fixed supplied configuration; no search |
-| How option comparison was kept separate from final reporting | No alternatives compared; final hold-out remains reserved | Development CV only |
+| Configurations evaluated in the replacement run |  |  |
+| How option comparison was kept separate from final reporting |  |  |
