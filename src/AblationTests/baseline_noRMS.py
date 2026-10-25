@@ -1,7 +1,11 @@
-"""Baseline RMS ablation: retain MAV, WL, variance and mean frequency."""
+"""Evaluate the RMS ablation and export paired subject F1 differences from baseline."""
 
+import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from AblationTests.compare_subject_f1 import run_comparison
 from emg_ninapro import EMGNinaproTrack
 
 
@@ -15,28 +19,7 @@ class NoRMSTrack(EMGNinaproTrack):
 
 
 def main():
-    # Same configuration, data and evaluation modes as run_baseline.py.
-    cfg = {
-        "seed": 0,
-        "select": "none",
-        "imbalance": "balanced",
-        "cv_max_splits": 5,
-        "loso_max_groups": 12,
-    }
-
-    root = Path(__file__).resolve().parents[1]
-    track = NoRMSTrack()
-    track.download(root / "NinaPro_Mat", subset=range(1, 23))
-    records = track.load(root / "NinaPro_Mat", exercise="E1")
-    track.assert_no_holdout(records)
-    if not records:
-        raise RuntimeError("No recordings found. Check the data path.")
-
-    results = track.evaluate_modes(records, cfg=cfg)
-
-    for mode, result in results.items():
-        print("Baseline without RMS:", mode, result["summary"])
-        track.report(result)
+    run_comparison(NoRMSTrack(), "noRMS")
 
 
 if __name__ == "__main__":
