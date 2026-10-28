@@ -26,17 +26,70 @@ cfg = {
 
 ## Iteration log
 
+**2026-10-28 preprocessing audit:** iterations 3–5 are invalid as inductive
+cross-validation estimates. Their per-subject normalization was fitted on all
+windows before the subject/repetition splits, including the evaluated windows.
+The values below are retained only as historical, transductive results; they do
+not establish performance or a significant difference. The identity-preprocessing
+baseline in iteration 2 is not affected by this specific leak. Corrected runs
+must fit every learned preprocessing parameter on each training fold only.
+
 | # | Date | What changed & why (one line) | Primary metric **with spread** | Better than previous? | If not — why it was kept | Commit |
 |---|---|---|---|---|---|---|
 | 1 | 2026-10-08 | Historical supplied baseline; verification on 2026-10-10 used all 27 subjects without a separate hold-out test | Invalid under current protocol; see historical archive | — | Provenance only; superseded | `379f1e6` |
 | 2 | 2026-10-22 | Rerun unchanged pipeline on S1–S22; reserve S23–S27 | within_subject mean macro_f1 0.794 (sd 0.048, range 0.706-0.880 across 22 subjects); new_subject mean macro_f1 0.177 (sd 0.055, range 0.064-0.276 across 22 subjects) | Not comparable: different cohort and folds | Correct subject scope; no tuning or configuration search | ` 8ed9ab8` |
-| 3 | 2026-10-24 | Run of selected preprocessing option without editing baseline features/classifiers: per-subject z-score only, no filter | within_subject 0.773 (sd 0.053, range 0.675–0.875); new_subject 0.242 (sd 0.063, range 0.058–0.368) | no significant difference | potential to improve with adjusted feature extraction / classifiers | `ce1db46` |
-| 4 | 2026-10-24 | Run of selected preprocessing option without editing baseline features/classifiers: peak scaling, no centering, no filter (guard 0.05) (Wei et al. (2022)) | within_subject 0.795 (sd 0.051, range 0.697–0.879); new_subject 0.195 (sd 0.056, range 0.068–0.316) | no significant difference | potential to improve with adjusted feature extraction / classifiers | `ce1db46` |
-| 5 | 2026-10-24 | Run of selected preprocessing option without editing baseline features/classifiers: median (3) + Savitzky-Golay (5, 2) + z-score | within_subject 0.763 (sd 0.054, range 0.663–0.866); new_subject 0.244 (sd 0.064, range 0.065–0.388) | no significant difference | worth passing on to test whether light smoothing helps once features change | `ce1db46` |
+| 3 | 2026-10-24 | Per-subject z-score, no filter | **Invalid: leakage.** Historical within 0.773 ± 0.053; new 0.242 ± 0.063 (subject SD) | Not assessed | Historical only | `ce1db46` |
+| 4 | 2026-10-24 | Peak scaling, no centering or filter (guard 0.05) | **Invalid: leakage.** Historical within 0.795 ± 0.051; new 0.195 ± 0.056 (subject SD) | Not assessed | Historical only | `ce1db46` |
+| 5 | 2026-10-24 | Median (3) + Savitzky-Golay (5, 2) + z-score | **Invalid: leakage.** Historical within 0.763 ± 0.054; new 0.244 ± 0.064 (subject SD) | Not assessed | Historical only | `ce1db46` |
+
+### Current preprocessing without signal normalization — 2026-10-28
+
+Options 2 and 5 are now identity: their former z-score or peak scaling has
+been removed. They correspond to the identity-preprocessing baseline in
+iteration 2. Option 3 retains median (3) and Savitzky–Golay (5, order 2),
+without signal normalization. The feature scaler remains fitted on the training
+fold as part of the classifier. Results are development estimates; SD is the
+sample standard deviation.
+
+| Recipe | Within-subject macro-F1, mean ± SD across subjects | New-subject macro-F1, mean ± SD across subjects | New-subject macro-F1, mean ± SD across 5 folds | Archive |
+|---|---:|---:|---:|---|
+| Identity (options 2 and 5) | 0.794 ± 0.048 | 0.177 ± 0.055 | 0.190 ± 0.016 | [Baseline](Baseline/baseline_20261022_holdout_separated/README.md) |
+| Median (3) + Savitzky–Golay (5, 2), no normalization | 0.793 ± 0.049 | 0.177 ± 0.053 | 0.191 ± 0.012 |  |
+
+Each smoothing evaluation has one out-of-fold prediction for each of 60,182
+development windows. The split assignments and input/source hashes were checked;
+hold-out reads were not instrumented and no hold-out evaluation was performed.
+These point estimates do not establish a statistically significant difference.
+
+### Historical fold-fitted normalization experiments — 2026-10-28
+
+These experiments remain valid for their stated protocol, but are **superseded**
+by the current preprocessing design, which does not normalize the signal.
+They do not describe the current code or its expected score.
+
+Normalization is fitted separately on training windows in every fold. For
+new-subject folds, channel statistics are pooled over training subjects and
+applied to the unseen subjects without fitting on their recordings. Within-subject
+folds use only that subject's training repetitions. The baseline features and
+classifier are unchanged. These are development results, not final hold-out
+scores. Standard deviations below are sample SDs.
+
+| Recipe | Within-subject macro-F1, mean ± SD across subjects | New-subject macro-F1, mean ± SD across subjects | New-subject macro-F1, mean ± SD across 5 folds | Archive |
+|---|---:|---:|---:|---|
+| Z-score; no filter | 0.771 ± 0.052 | 0.175 ± 0.052 | 0.188 ± 0.019 | [Run and validation](Preprocessing/fold_safe_20261028/) |
+| Peak scaling; guard 0.05; no filter | 0.794 ± 0.048 | 0.176 ± 0.055 | 0.190 ± 0.015 | [Run and validation](Preprocessing/peak_20261028/) |
+| Median (3) + Savitzky–Golay (5, 2) + z-score | 0.761 ± 0.053 | 0.174 ± 0.050 | 0.186 ± 0.017 | [Run and validation](Preprocessing/smooth_20261028/) |
+
+The z-score archive is marked `partial` because the original three-option run
+was stopped after this recipe completed, to avoid repeating an independently
+running peak-scaling experiment. Its two evaluation modes and validation are
+complete. These point estimates alone do not establish statistical significance.
+See [preprocessing protocol](Preprocessing/README.md) for filtering and
+deployment limitations.
 
 ### Baseline provenance
 
-- Existing runner: `src/run_baseline.py`; source revision `a534402e790e014265de3837accf4b97b6d45f28`; executed sources unchanged and hashed in `run.json`.
+- Existing runner: `src/run_baseline.py`.
 - One configuration evaluated; 115 fits; 8 existing hold-out tests passed; zero reserved MAT reads. Complete fold and prediction checks passed.
 - [Run metadata](Baseline/baseline_20261022_holdout_separated/run.json), [validation](Baseline/baseline_20261022_holdout_separated/validation.json), [environment](Baseline/baseline_20261022_holdout_separated/environment.json) and [cleanup audit](Baseline/baseline_20261022_holdout_separated/cleanup_audit.json).
 - Historical registration: `379f1e6`; historical verification: `0b85ef5`. 
