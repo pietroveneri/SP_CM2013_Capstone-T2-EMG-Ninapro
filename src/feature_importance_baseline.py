@@ -1,3 +1,5 @@
+# File: src/feature_importance_baseline.py
+# This script computes the feature importance of the original baseline model on the NinaPro E1 dataset.
 
 import sys
 import json
