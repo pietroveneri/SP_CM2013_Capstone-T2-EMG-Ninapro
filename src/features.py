@@ -53,6 +53,7 @@ def _expanded_win_features(win, fs=FS):
             median_frequency = 0.0
 
 #rms removed from features because it is highly correlated with MAV and adds little information. It is still computed for completeness, but not returned. TJ 23/10
+# return rms for feature importance analysis, but not for the reduced feature sets? TJ 29/10
         features.extend([
             mav,
             waveform_length,
@@ -60,6 +61,7 @@ def _expanded_win_features(win, fs=FS):
             relative_mav[ch],
             mean_frequency,
             median_frequency,
+            rms,
         ])
 
     return np.asarray(features)
@@ -101,13 +103,13 @@ FEATURE_TYPES = (
 
 
 def expanded_feature_names(n_channels=10):
-    retained_features = [
-        feature for feature in FEATURE_TYPES 
-        if feature != "RMS"
-    ]  # helps reduce feature correlation and dimensionality, while retaining the most informative features. TJ 23/10
+    # retained_features = [
+    #     feature for feature in FEATURE_TYPES 
+    #     if feature != "RMS"
+    # ]  # helps reduce feature correlation and dimensionality, while retaining the most informative features. TJ 23/10
 
     return [
         f"ch{channel:02d}_{feature}"
         for channel in range(1, n_channels + 1)
-        for feature in retained_features
-    ]
+                # for feature in retained_features
+        for feature in FEATURE_TYPES ]
