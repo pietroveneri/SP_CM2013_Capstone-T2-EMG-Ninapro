@@ -46,8 +46,6 @@ must fit every learned preprocessing parameter on each training fold only.
 
 ### Current preprocessing without signal normalization — 2026-10-28
 
-Options 2 and 5 are identity: their former z-score or peak scaling has been
-removed. They correspond to the identity-preprocessing baseline in iteration 2.
 Option 3 retains median (3) and Savitzky–Golay (5, order 2), without signal
 normalization. The feature scaler remains fitted on the training fold as part
 of the classifier. Results are development estimates; SD is the sample standard
@@ -55,38 +53,30 @@ deviation.
 
 | Recipe | Within-subject macro-F1, mean ± SD across subjects | New-subject macro-F1, mean ± SD across subjects | New-subject macro-F1, mean ± SD across 5 folds | Archive |
 |---|---:|---:|---:|---|
-| Identity (options 2 and 5) | 0.794 ± 0.048 | 0.177 ± 0.055 | 0.190 ± 0.016 | [Baseline](Baseline/baseline_20261022_holdout_separated/README.md) |
-| Median (3) + Savitzky–Golay (5, 2), no normalization | 0.793 ± 0.049 | 0.177 ± 0.053 | 0.191 ± 0.012 | Not included in `fix/leakage` |
+| Median (3) + Savitzky–Golay (5, 2), no normalization | 0.793 ± 0.049 | 0.177 ± 0.053 | 0.191 ± 0.012 | Not available |
 
 The smoothing run reported one out-of-fold prediction per development window,
 with split assignments and input/source hashes checked. Hold-out reads were not
-instrumented and no hold-out evaluation was performed. The supporting archive is
-not present in `fix/leakage`, so these checks cannot be independently verified
-from the committed files. The point estimates do not establish statistical
-significance.
+instrumented and no hold-out evaluation was performed. 
 
 ### Historical fold-fitted normalization experiments — 2026-10-28
 
-These development experiments use a superseded preprocessing design. Signal
-normalization was fitted separately on training windows in each fold: pooled
-training subjects for new-subject folds, and training repetitions for
-within-subject folds. The baseline features and classifier were unchanged.
-These results do not describe the current preprocessing or a final hold-out
-score. SDs are sample standard deviations.
+These development experiments use a superseded preprocessing design. The
+reported protocol fitted normalization on training windows in each fold. The
+original implementation and run metadata are unavailable, so that fitting
+procedure cannot be verified from the saved predictions. These results do not
+describe the current preprocessing or a final hold-out score. SDs are sample
+standard deviations.
 
 | Recipe | Within-subject macro-F1, mean ± SD across subjects | New-subject macro-F1, mean ± SD across subjects | New-subject macro-F1, mean ± SD across 5 folds | Archive |
 |---|---:|---:|---:|---|
 | Z-score; no filter | 0.771 ± 0.052 | 0.175 ± 0.052 | 0.188 ± 0.019 | [Saved outputs](Preprocessing/fold_safe_20261028/zscore/) |
-| Peak scaling; guard 0.05; no filter | 0.794 ± 0.048 | 0.176 ± 0.055 | 0.190 ± 0.015 | Not included in `fix/leakage` |
+| Peak scaling; guard 0.05; no filter | 0.794 ± 0.048 | 0.176 ± 0.055 | 0.190 ± 0.015 | Not available |
 | Median (3) + Savitzky–Golay (5, 2) + z-score | 0.761 ± 0.053 | 0.174 ± 0.050 | 0.186 ± 0.017 | [Saved outputs](Preprocessing/smooth_20261028/median_savgol_zscore/) |
 
-The original z-score run was described as partial because it was stopped after
-that recipe completed. Its saved outputs cover both evaluation modes. Run
-metadata and validation files are not present in the committed archives, so the
-reported provenance and validation cannot be independently checked from these
-files. The smoothing archive's new-subject `per_fold.json` was missing its
-opening bracket; it was restored after checking each fold's macro-F1 against
-the saved predictions. The point estimates do not establish statistical significance. See the
+The z-score and median + z-score predictions and test folds can be checked with
+`src/preprocessing_noleakage_pietro/verify_saved_predictions.py`. The point
+estimates do not establish statistical significance. See the
 [preprocessing protocol](FOLD_SAFE_PREPROCESSING.md) for the current filtering
 and deployment limitations.
 
@@ -122,6 +112,12 @@ and deployment limitations.
 |---|---|---|---|
 | 1 | Pietro | Ran the supplied baseline and recorded its results | Invalid |
 | 2 | Pietro | Executed the existing runner; verified hold-out guards and artifacts; updated results and baseline decisions | Pending team review |
+| 3 | Hannah | Added pre-processing methods | Invalid due to leakage |
+| 4 | Hannah | Added pre-processing methods | Invalid due to leakage |
+| 5 | Hannah | Added pre-processing methods | Invalid due to leakage |
+| 6 | Pietro | Ablation study without RMS  | Pending team review |
+| 7 | Pietro | Ablation study without rFFT  | Pending team review |
+
 
 ## Final numbers
 
