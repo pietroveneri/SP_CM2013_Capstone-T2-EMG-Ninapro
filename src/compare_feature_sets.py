@@ -159,6 +159,7 @@ for fold in folds:
             for i, column in enumerate(columns):
                 importance_results.append({
                     "fold": fold_id,
+                    "feature_set": set_name,
                     "feature": names[column],
                     "importance": result.importances_mean[i],
                     "shuffle_sd": result.importances_std[i],
@@ -171,9 +172,9 @@ subject_df = pd.DataFrame(subject_results)
 importance_df = pd.DataFrame(importance_results)
 
 ranking = (
-    importance_df.groupby("feature")["importance"]
+    importance_df.groupby(["feature_set", "feature"])["importance"]
     .agg(mean_importance="mean", fold_sd="std")
-    .sort_values("mean_importance", ascending=False)
+    .sort_values(["feature_set", "mean_importance"], ascending=[True, False])
 )
 
 # Equal weight for each subject.
@@ -202,7 +203,8 @@ summary.to_csv(OUTPUT / "feature_set_summary.csv")
 print("\nFEATURE SET COMPARISON")
 print(summary.round(4).to_string())
 
-print("\nTOP 20 FEATURES")
-print(ranking.head(20).round(5).to_string())
+for set_name in ("full_70", "full_60"):
+    print(f"\nTOP 20 FEATURES: {set_name}")
+    print(ranking.loc[set_name].head(20).round(5).to_string())
 
 print(f"\nSaved results to {OUTPUT}")
