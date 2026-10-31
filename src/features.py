@@ -93,12 +93,12 @@ def extract_window_features(rec: Recording, cfg=None):
 
 FEATURE_TYPES = (
     "MAV",
-    "RMS",
     "WL",
     "VAR",
     "relative_MAV",
     "mean_frequency",
     "median_frequency",
+    "RMS",
 )
 
 
