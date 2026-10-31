@@ -42,3 +42,8 @@ data/holdout/*
 
 # output files
 outputs/*
+
+*/plots/
+!plots/
+plots/*
+*/plots/*
