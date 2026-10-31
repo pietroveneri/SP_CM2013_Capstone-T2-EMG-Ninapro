@@ -98,6 +98,12 @@ class FoldSafePreprocessingTrack(EMGNinaproTrack):
         groups = np.concatenate([np.repeat(r.group, len(r.labels)) for r in filtered])
         reps = np.concatenate([np.asarray(r.meta["rep"]) for r in filtered])
 
+        for subject in sorted({r.group for r in filtered}):
+            ids = np.flatnonzero(groups == subject)
+            n_rep, n_class = len(set(reps[ids].tolist())), len(set(labels[ids].tolist()))
+            if n_rep < 2 or n_class < 2:
+                raise ValueError(f"subject {subject}: expected at least 2 repetitions and 2 classes; got {n_rep} repetitions and {n_class} classes")
+
         def evaluate_folds(folds, split_unit, group_unit):
             yt, yp, gg, ff = [], [], [], []
             for k, (tr, te) in enumerate(folds):
@@ -124,8 +130,6 @@ class FoldSafePreprocessingTrack(EMGNinaproTrack):
                 ids = np.flatnonzero(groups == subject)
                 rs, ys = reps[ids], labels[ids]
                 n_rep = len(set(rs.tolist()))
-                if n_rep < 2 or len(set(ys.tolist())) < 2:
-                    continue
                 for tr, te in GroupKFold(n_splits=min(5, n_rep)).split(ids, ys, rs):
                     yield ids[tr], ids[te]
 
