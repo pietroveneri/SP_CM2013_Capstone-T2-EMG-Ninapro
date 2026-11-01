@@ -1,3 +1,6 @@
+if __name__ == "__main__":
+    raise SystemExit("Run run_lda_regularized.py to evaluate the classifier and generate plots.")
+
 import matplotlib.pyplot as plt
 import numpy as np
 

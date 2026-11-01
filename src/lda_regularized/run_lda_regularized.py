@@ -11,7 +11,7 @@ from experiments import ExpandedFeatureTrack
 from emg_ninapro import EMGNinaproTrack
 from features import expanded_feature_names
 from classifier_evaluation import evaluate_modes_progress
-from lda_regularized.plot_results import save_plots
+from lda_regularized.lda_plot_results import save_plots
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -48,6 +48,8 @@ def main():
     track.assert_no_holdout(records)
     if len(records) != 22 or {r.group for r in records} != {f"S{i}" for i in range(1, 23)}:
         raise ValueError("Expected one development recording for each subject S1-S22")
+    output = Path(__file__).resolve().parent / "plots"
+    output.mkdir(parents=True, exist_ok=True)
     for domain in DOMAINS:
         track = LDATrack(domain)
         start = perf_counter()
@@ -55,7 +57,7 @@ def main():
         elapsed = perf_counter() - start
         for mode, result in results.items():
             track.report(result, title=f"{domain} - {mode} (both modes: {elapsed:.2f} s)")
-        save_plots(results, domain, Path(__file__).resolve().parent / "plots")
+        save_plots(results, domain, output)
 
 
 if __name__ == "__main__":
