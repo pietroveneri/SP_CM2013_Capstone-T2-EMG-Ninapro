@@ -43,6 +43,25 @@ must fit every learned preprocessing parameter on each training fold only.
 | 5 | 2026-10-24 | Median (3) + Savitzky-Golay (5, 2) + z-score | **Invalid: leakage.** Historical within 0.763 (sd 0.054, range 0.663–0.866); new 0.244 (sd 0.064, range 0.065–0.388) | Not assessed | Historical only | `ce1db46` |
 | 6 | 2026-10-25 | Ablation on the baseline: remove RMS from each channel | within_subject 0.788 (sd 0.051, range 0.692–0.877); new_subject 0.178 (sd 0.054, range 0.079–0.271) across 22 subjects | vs baseline: within_subject −0.006736; new_subject +0.001654 mean subject macro_f1 | comparison of RMS contribution | `9d3dcd9` |
 | 7 | 2026-10-25 | Ablation on the baseline: remove rFFT mean frequency from each channel | within_subject 0.797 (sd 0.048, range 0.703–0.881); new_subject 0.178 (sd 0.052, range 0.065–0.261) across 22 subjects | vs baseline: within_subject +0.002661; new_subject +0.000990 mean subject macro_f1 | comparison of mean frequency contribution | `9d3dcd9` |
+| 8 |  |  | | | | `` |
+| 9 |  |  |  |    |  | `` |
+| 10 |  |  |  |  |  | `` |
+| 11 | 2026-11-01 | Random Forest with full feature set  |  |  |  | `` |
+| 12 | 2026-11-01 | Random Forest with time feature set |  |  |  | `` |
+| 13 | 2026-11-01 |Random Forest with amplitude feature set  |  |  |  | `` |
+| 14 | 2026-11-01 | LDA with baseline feature set |  |  |  | `` |
+| 15 | 2026-11-01 | LDA Forest with full feature set |  |  |  | `` |
+| 16 | 2026-11-01 |  LDA with time feature set|  |  |  | `` |
+| 17 | 2026-11-01 | LDA with amplitude feature set |  |  |  | `` |
+| 18 | 2026-11-01 | SVM  with baseline feature set |  |  |  | `` |
+| 19 | 2026-11-01 | SVM  with full feature set |  |  |  | `` |
+| 20 | 2026-11-01 | SVM  with time feature set |  |  |  | `` |
+| 21 | 2026-11-01 | SVM  with amplitude feature set |  |  |  | `` |
+| 22 | 2026-11-01 | k-NN (n=5) with baseline feature set |  |  |  | `` |
+| 23 | 2026-11-01 | k-NN (n=5) with full feature set |  |  |  | `` |
+| 24 | 2026-11-01 | k-NN (n=5) with time feature set |  |  |  | `` |
+| 25 | 2026-11-01 | k-NN (n=5) with amplitude feature set |  |  |  | `` |
+
 
 ### Current preprocessing without signal normalization — 2026-10-28
 
@@ -117,6 +136,11 @@ and deployment limitations.
 | 5 | Hannah | Added pre-processing methods | Invalid due to leakage |
 | 6 | Pietro | Ablation study without RMS  | Pending team review |
 | 7 | Pietro | Ablation study without rFFT  | Pending team review |
+| 8->10 | Thomas | Feature extraction  | Pending team review |
+| 11->20 | Pietro | Explored different classifiers | Pending team review |
+
+
+
 
 
 ## Final numbers
