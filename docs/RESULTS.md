@@ -46,21 +46,23 @@ must fit every learned preprocessing parameter on each training fold only.
 | 8 |  |  | | | | `` |
 | 9 |  |  |  |    |  | `` |
 | 10 |  |  |  |  |  | `` |
-| 11 | 2026-11-01 | Random Forest with full feature set  |  |  |  | `` |
-| 12 | 2026-11-01 | Random Forest with time feature set |  |  |  | `` |
-| 13 | 2026-11-01 |Random Forest with amplitude feature set  |  |  |  | `` |
-| 14 | 2026-11-01 | LDA with baseline feature set |  |  |  | `` |
-| 15 | 2026-11-01 | LDA Forest with full feature set |  |  |  | `` |
-| 16 | 2026-11-01 |  LDA with time feature set|  |  |  | `` |
-| 17 | 2026-11-01 | LDA with amplitude feature set |  |  |  | `` |
-| 18 | 2026-11-01 | SVM  with baseline feature set |  |  |  | `` |
-| 19 | 2026-11-01 | SVM  with full feature set |  |  |  | `` |
-| 20 | 2026-11-01 | SVM  with time feature set |  |  |  | `` |
-| 21 | 2026-11-01 | SVM  with amplitude feature set |  |  |  | `` |
-| 22 | 2026-11-01 | k-NN (n=5) with baseline feature set |  |  |  | `` |
-| 23 | 2026-11-01 | k-NN (n=5) with full feature set |  |  |  | `` |
-| 24 | 2026-11-01 | k-NN (n=5) with time feature set |  |  |  | `` |
-| 25 | 2026-11-01 | k-NN (n=5) with amplitude feature set |  |  |  | `` |
+| 11 | 2026-11-01 | Random Forest with full feature set | Within 0.809 (SD 0.047, range 0.727–0.888); new 0.176 (SD 0.051, range 0.075–0.273) | vs #2: within +0.015; new −0.001 | Feature-set comparison | `e6800f3` |
+| 12 | 2026-11-01 | Random Forest with time feature set | Within 0.812 (SD 0.046, range 0.727–0.885); new 0.172 (SD 0.052, range 0.071–0.270) | vs #11: within +0.003; new −0.004 | Feature-set comparison | `e6800f3` |
+| 13 | 2026-11-01 | Random Forest with amplitude feature set | Within 0.807 (SD 0.044, range 0.728–0.878); new 0.170 (SD 0.048, range 0.075–0.241) | vs #12: within −0.005; new −0.002 | Feature-set comparison | `e6800f3` |
+| 14 | 2026-11-01 | LDA with baseline feature set | Within 0.716 (SD 0.047, range 0.595–0.783); new 0.190 (SD 0.053, range 0.109–0.274) | vs #2: within −0.078; new +0.013 | Classifier comparison | `e6800f3` |
+| 15 | 2026-11-01 | LDA with full feature set | Within 0.742 (SD 0.051, range 0.607–0.806); new 0.180 (SD 0.063, range 0.075–0.315) | vs #14: within +0.026; new −0.010 | Feature-set comparison | `e6800f3` |
+| 16 | 2026-11-01 | LDA with time feature set | Within 0.739 (SD 0.051, range 0.593–0.802); new 0.179 (SD 0.065, range 0.071–0.315) | vs #15: within −0.003; new −0.001 | Feature-set comparison | `e6800f3` |
+| 17 | 2026-11-01 | LDA with amplitude feature set | Within 0.720 (SD 0.052, range 0.573–0.780); new 0.169 (SD 0.066, range 0.060–0.278) | vs #16: within −0.019; new −0.010 | Feature-set comparison | `e6800f3` |
+| 18 | 2026-11-01 | SVM with baseline feature set | Within 0.757 (SD 0.053, range 0.639–0.836); new 0.181 (SD 0.060, range 0.060–0.285) | vs #2: within −0.037; new +0.004 | Classifier comparison | `e6800f3` |
+| 19 | 2026-11-01 | SVM with full feature set | Within 0.777 (SD 0.050, range 0.670–0.851); new 0.179 (SD 0.061, range 0.067–0.306) | vs #18: within +0.020; new −0.002 | Feature-set comparison | `e6800f3` |
+| 20 | 2026-11-01 | SVM with time feature set | Within 0.792 (SD 0.047, range 0.696–0.872); new 0.175 (SD 0.060, range 0.069–0.309) | vs #19: within +0.015; new −0.004 | Feature-set comparison | `e6800f3` |
+| 21 | 2026-11-01 | SVM with amplitude feature set | Within 0.798 (SD 0.046, range 0.704–0.875); new 0.162 (SD 0.058, range 0.067–0.294) | vs #20: within +0.006; new −0.013 | Feature-set comparison | `e6800f3` |
+| 22 | 2026-11-01 | k-NN (n=5) with baseline feature set | Within 0.675 (SD 0.062, range 0.543–0.754); new 0.150 (SD 0.039, range 0.077–0.219) | vs #2: within −0.119; new −0.027 | Classifier comparison | `e6800f3` |
+| 23 | 2026-11-01 | k-NN (n=5) with full feature set | Within 0.688 (SD 0.055, range 0.561–0.780); new 0.148 (SD 0.036, range 0.082–0.208) | vs #22: within +0.013; new −0.002 | Feature-set comparison | `e6800f3` |
+| 24 | 2026-11-01 | k-NN (n=5) with time feature set | Within 0.763 (SD 0.050, range 0.673–0.859); new 0.149 (SD 0.043, range 0.071–0.224) | vs #23: within +0.075; new +0.001 | Feature-set comparison | `e6800f3` |
+| 25 | 2026-11-01 | k-NN (n=5) with amplitude feature set | Within 0.775 (SD 0.051, range 0.686–0.867); new 0.142 (SD 0.043, range 0.077–0.216) | vs #24: within +0.012; new −0.007 | Feature-set comparison | `e6800f3` |
+
+Iterations 11–25 report mean macro-F1 and spread across 22 subjects. Differences use the rounded means above; they do not establish statistical significance. Iterations 14, 18 and 22 also use #2 as the reference for the baseline feature set; the other comparisons use the preceding row. Results are retained for comparison, without implying a final selection. 
 
 
 ### Current preprocessing without signal normalization — 2026-10-28
