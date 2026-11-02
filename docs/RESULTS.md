@@ -101,6 +101,23 @@ estimates do not establish statistical significance. See the
 [preprocessing protocol](FOLD_SAFE_PREPROCESSING.md) for the current filtering
 and deployment limitations.
 
+### Feature-set results - 2026-10-30
+
+All feature sets used identical subject-grouped development splits. Results give equal weight to each of the 22 development subjects.
+
+| Feature set | Count | Mean subject macro-F1 ± SD | Difference vs 70 features |
+|---|---:|---:|---:|
+| Full including RMS - MAV, RMS, WL, VAR, relative MAV, mean/median frequency| 70 | 0.1751 ± 0.0525 | — |
+| Full excluding RMS - MAV, WL, VAR, relative MAV, mean/median frequency| 60 | **0.1777 ± 0.0528** | **+0.0026** |
+| Time-domain - MAV, WL, VAR, relative MAV | 40 | 0.1731 ± 0.0530 | −0.0020 |
+| Amplitude - MAV, relative MAV  | 20 | 0.1704 ± 0.0496 | −0.0047 |
+
+The 60-feature set achieved the highest mean subject macro-F1. It outperformed the 70-feature reference for 14 of 22 subjects and in four of five pooled test-fold scores. Its average improvement was modest: 0.0026 macro-F1, approximately 0.26 percentage points.
+
+Further reduction to 40 or 20 features lowered mean performance. The 60-feature set exceeded the 40-feature set in all five pooled test-fold scores, supporting retention of the frequency features under the tested settings.
+
+The 60-feature set was therefore provisionally selected for further evaluation. These development results do not establish statistical significance, and absolute new-subject performance remained low. 
+
 ### Baseline provenance
 
 - Existing runner: `src/run_baseline.py`; source revision `a534402e790e014265de3837accf4b97b6d45f28`; executed sources unchanged and hashed in `run.json`.
@@ -116,7 +133,7 @@ and deployment limitations.
 | 1. Data loading | DB1 E1; S1–S22; restimulus/rerepetition; rest excluded | Historical all-27 scope (invalid) | Reserve S23–S27 for final new-subject inference | 2 | Yes: corrected subject scope |
 | 2. Preprocessing |  |  |  |  |  |
 | 3. Feature extraction |  |  |  | |  |
-| 4. Feature selection |  |  |  |  |  |
+| 4. Feature selection | 60-feature set excl RMS | 70 incl RMS, 40 time dom, 20 frequency dom | Best performance overall albeit moderate Macro-f1 = 0.1777 | 2 | Yes after leakage was detected in preprocessing |
 | 5. Classification, incl. `imbalance` | seed 0 |  |  | |  |
 | 6. Inference |  | |  |  | |
 | 7. Reporting |  | |  |  |  |
