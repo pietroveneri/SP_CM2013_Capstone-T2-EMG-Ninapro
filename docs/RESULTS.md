@@ -132,8 +132,8 @@ The 60-feature set was therefore provisionally selected for further evaluation. 
 |---|---|---|---|---|---|
 | 1. Data loading | DB1 E1; S1–S22; restimulus/rerepetition; rest excluded | Historical all-27 scope (invalid) | Reserve S23–S27 for final new-subject inference | 2 | Yes: corrected subject scope |
 | 2. Preprocessing |  |  |  |  |  |
-| 3. Feature extraction |  |  |  | |  |
-| 4. Feature selection | 60-feature set excl RMS | 70 incl RMS, 40 time dom, 20 frequency dom | Best performance overall albeit moderate Macro-f1 = 0.1777 | 2 | Yes after leakage was detected in preprocessing |
+| 3. Feature extraction | Seven descriptors per channel: MAV, RMS, WL, VAR, relative MAV, mean and median frequency; 70 candidate features | Original 50-feature set | To capture channel activation amplitude, temporal variation and envelope spectral content | 8-10 | Yes: added relative MAV and median frequency, and revised the spectral calculation |
+| 4. Feature selection | 60-feature set excl RMS | 70 incl RMS, 40 time dom, 20 frequency dom | Best performance overall albeit moderate Macro-f1 = 0.1777 | 8-10 | Yes after leakage was detected in preprocessing |
 | 5. Classification, incl. `imbalance` | seed 0 |  |  | |  |
 | 6. Inference |  | |  |  | |
 | 7. Reporting |  | |  |  |  |
