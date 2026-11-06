@@ -62,8 +62,7 @@ must fit every learned preprocessing parameter on each training fold only.
 | 24 | 2026-11-01 | k-NN (n=5) with time feature set | Within 0.763 (SD 0.050, range 0.673–0.859); new 0.149 (SD 0.043, range 0.071–0.224) | vs #23: within +0.075; new +0.001 | Feature-set comparison | `e6800f3` |
 | 25 | 2026-11-01 | k-NN (n=5) with amplitude feature set | Within 0.775 (SD 0.051, range 0.686–0.867); new 0.142 (SD 0.043, range 0.077–0.216) | vs #24: within +0.012; new −0.007 | Feature-set comparison | `e6800f3` |
 
-Iterations 11–25 report mean macro-F1 and spread across 22 subjects. Differences use the rounded means above; they do not establish statistical significance. Iterations 14, 18 and 22 also use #2 as the reference for the baseline feature set; the other comparisons use the preceding row. Results are retained for comparison, without implying a final selection. 
-
+Iterations 14, 18 and 22 also use #2 as the reference for the baseline feature set; the other comparisons use the preceding row. Results are retained for comparison, without implying a final selection. 
 
 ### Current preprocessing without signal normalization — 2026-10-28
 
@@ -132,8 +131,8 @@ The 60-feature set was therefore provisionally selected for further evaluation. 
 |---|---|---|---|---|---|
 | 1. Data loading | DB1 E1; S1–S22; restimulus/rerepetition; rest excluded | Historical all-27 scope (invalid) | Reserve S23–S27 for final new-subject inference | 2 | Yes: corrected subject scope |
 | 2. Preprocessing |  |  |  |  |  |
-| 3. Feature extraction | Seven descriptors per channel: MAV, RMS, WL, VAR, relative MAV, mean and median frequency; 70 candidate features | Original 50-feature set | To capture channel activation amplitude, temporal variation and envelope spectral content | 8-10 | Yes: added relative MAV and median frequency, and revised the spectral calculation |
-| 4. Feature selection | 60-feature set excl RMS | 70 incl RMS, 40 time dom, 20 frequency dom | Best performance overall albeit moderate Macro-f1 = 0.1777 | 8-10 | Yes after leakage was detected in preprocessing |
+| 3. Feature extraction |  |  |  |  |
+| 4. Feature selection |  |  |  |  |  |
 | 5. Classification, incl. `imbalance` | seed 0 |  |  | |  |
 | 6. Inference |  | |  |  | |
 | 7. Reporting |  | |  |  |  |
