@@ -43,9 +43,9 @@ must fit every learned preprocessing parameter on each training fold only.
 | 5 | 2026-10-24 | Median (3) + Savitzky-Golay (5, 2) + z-score | **Invalid: leakage.** Historical within 0.763 (sd 0.054, range 0.663–0.866); new 0.244 (sd 0.064, range 0.065–0.388) | Not assessed | Historical only | `ce1db46` |
 | 6 | 2026-10-25 | Ablation on the baseline: remove RMS from each channel | within_subject 0.788 (sd 0.051, range 0.692–0.877); new_subject 0.178 (sd 0.054, range 0.079–0.271) across 22 subjects | vs baseline: within_subject −0.006736; new_subject +0.001654 mean subject macro_f1 | comparison of RMS contribution | `9d3dcd9` |
 | 7 | 2026-10-25 | Ablation on the baseline: remove rFFT mean frequency from each channel | within_subject 0.797 (sd 0.048, range 0.703–0.881); new_subject 0.178 (sd 0.052, range 0.065–0.261) across 22 subjects | vs baseline: within_subject +0.002661; new_subject +0.000990 mean subject macro_f1 | comparison of mean frequency contribution | `9d3dcd9` |
-| 8 |  |  | | | | `` |
-| 9 |  |  |  |    |  | `` |
-| 10 |  |  |  |  |  | `` |
+| 8 | 2026-10-30 | Remove RMS from the expanded 70-feature set to test whether it adds value (60 features) | New-subject mean macro-F1 0.1777 (subject SD 0.0528; n=22); within-subject not evaluated | vs 70: +0.0026; 14/22 subjects improved | Provisionally retained: highest mean in this comparison, with 10 fewer features |  `42127b8` |
+| 9 | 2026-10-30 | Keep MAV, WL, VAR and relative MAV to test a time-domain representation (40 features) | New-subject mean macro-F1 0.1731 (subject SD 0.0530; n=22); within-subject not evaluated | vs 70: −0.0020; 9/22 subjects improved | Retained in the log as a comparison; removing frequency features scored 0.0046 below the 60-feature set |  `42127b8` |
+| 10 | 2026-10-30 | Keep MAV and relative MAV to test whether amplitude features alone are sufficient (20 features) | New-subject mean macro-F1 0.1704 (subject SD 0.0496; n=22); within-subject not evaluated | vs 70: −0.0047; 8/22 subjects improved | Retained in the log as the smallest comparison set; lowest mean in this experiment |  `42127b8` |
 | 11 | 2026-11-01 | Random Forest with full feature set | Within 0.809 (SD 0.047, range 0.727–0.888); new 0.176 (SD 0.051, range 0.075–0.273) | vs #2: within +0.015; new −0.001 | Feature-set comparison | `e6800f3` |
 | 12 | 2026-11-01 | Random Forest with time feature set | Within 0.812 (SD 0.046, range 0.727–0.885); new 0.172 (SD 0.052, range 0.071–0.270) | vs #11: within +0.003; new −0.004 | Feature-set comparison | `e6800f3` |
 | 13 | 2026-11-01 | Random Forest with amplitude feature set | Within 0.807 (SD 0.044, range 0.728–0.878); new 0.170 (SD 0.048, range 0.075–0.241) | vs #12: within −0.005; new −0.002 | Feature-set comparison | `e6800f3` |
@@ -104,7 +104,7 @@ and deployment limitations.
 
 All feature sets used identical subject-grouped development splits. Results give equal weight to each of the 22 development subjects.
 
-| Feature set | Count | Mean subject macro-F1 ± SD | Difference vs 70 features |
+| Feature set | Count | New subjects: Mean subject macro-F1 ± SD  | Difference vs 70 features |
 |---|---:|---:|---:|
 | Full including RMS - MAV, RMS, WL, VAR, relative MAV, mean/median frequency| 70 | 0.1751 ± 0.0525 | — |
 | Full excluding RMS - MAV, WL, VAR, relative MAV, mean/median frequency| 60 | **0.1777 ± 0.0528** | **+0.0026** |
