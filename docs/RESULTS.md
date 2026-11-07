@@ -79,27 +79,6 @@ The smoothing run reported one out-of-fold prediction per development window,
 with split assignments and input/source hashes checked. Hold-out reads were not
 instrumented and no hold-out evaluation was performed. 
 
-### Historical fold-fitted normalization experiments — 2026-10-28
-
-These development experiments use a superseded preprocessing design. The
-reported protocol fitted normalization on training windows in each fold. The
-original implementation and run metadata are unavailable, so that fitting
-procedure cannot be verified from the saved predictions. These results do not
-describe the current preprocessing or a final hold-out score. SDs are sample
-standard deviations.
-
-| Recipe | Within-subject macro-F1, mean ± SD across subjects | New-subject macro-F1, mean ± SD across subjects | New-subject macro-F1, mean ± SD across 5 folds | Archive |
-|---|---:|---:|---:|---|
-| Z-score; no filter | 0.771 ± 0.052 | 0.175 ± 0.052 | 0.188 ± 0.019 | [Saved outputs](Preprocessing/fold_safe_20261028/zscore/) |
-| Peak scaling; guard 0.05; no filter | 0.794 ± 0.048 | 0.176 ± 0.055 | 0.190 ± 0.015 | Not available |
-| Median (3) + Savitzky–Golay (5, 2) + z-score | 0.761 ± 0.053 | 0.174 ± 0.050 | 0.186 ± 0.017 | [Saved outputs](Preprocessing/smooth_20261028/median_savgol_zscore/) |
-
-The z-score and median + z-score predictions and test folds can be checked with
-`src/preprocessing_noleakage_pietro/verify_saved_predictions.py`. The point
-estimates do not establish statistical significance. See the
-[preprocessing protocol](FOLD_SAFE_PREPROCESSING.md) for the current filtering
-and deployment limitations.
-
 ### Feature-set results - 2026-10-30
 
 All feature sets used identical subject-grouped development splits. Results give equal weight to each of the 22 development subjects.
