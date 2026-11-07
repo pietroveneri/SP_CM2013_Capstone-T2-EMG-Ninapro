@@ -62,8 +62,8 @@ preprocessing and the same baseline classifier for the 70-, 60-, 40- and
 permutation importance, so it can take considerable time. Fold scores,
 subject scores, feature importance and the summary are written to
 `outputs/feature_selection/`. This comparison does not change the features
-used by `run_baseline.py`. The `full_60` set excludes RMS; its provisional
-selection is recorded in [docs/RESULTS.md](docs/RESULTS.md).
+used by `run_baseline.py`. The `full_60` set excludes RMS; the comparison
+results are recorded in [docs/RESULTS.md](docs/RESULTS.md).
 
 ## Development baseline — hold-out separated
 
