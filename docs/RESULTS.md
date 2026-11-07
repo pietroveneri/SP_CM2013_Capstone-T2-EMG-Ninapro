@@ -43,9 +43,9 @@ must fit every learned preprocessing parameter on each training fold only.
 | 5 | 2026-10-24 | Median (3) + Savitzky-Golay (5, 2) + z-score | **Invalid: leakage.** Historical within 0.763 (sd 0.054, range 0.663–0.866); new 0.244 (sd 0.064, range 0.065–0.388) | Not assessed | Historical only | `ce1db46` |
 | 6 | 2026-10-25 | Ablation on the baseline: remove RMS from each channel | within_subject 0.788 (sd 0.051, range 0.692–0.877); new_subject 0.178 (sd 0.054, range 0.079–0.271) across 22 subjects | vs baseline: within_subject −0.006736; new_subject +0.001654 mean subject macro_f1 | comparison of RMS contribution | `9d3dcd9` |
 | 7 | 2026-10-25 | Ablation on the baseline: remove rFFT mean frequency from each channel | within_subject 0.797 (sd 0.048, range 0.703–0.881); new_subject 0.178 (sd 0.052, range 0.065–0.261) across 22 subjects | vs baseline: within_subject +0.002661; new_subject +0.000990 mean subject macro_f1 | comparison of mean frequency contribution | `9d3dcd9` |
-| 8 | 2026-10-30 | Remove RMS from the expanded 70-feature set (60 features) | New-subject mean macro-F1 0.1776 (subject SD 0.0533; n=22); within-subject not evaluated | vs 70: +0.0021; 16/22 subjects improved | Feature-set comparison | `b23e079` |
-| 9 | 2026-10-30 | Keep MAV, WL, VAR and relative MAV (40 features) | New-subject mean macro-F1 0.1722 (subject SD 0.0522; n=22); within-subject not evaluated | vs 70: −0.0033; 6/22 subjects improved | Feature-set comparison | `b23e079` |
-| 10 | 2026-10-30 | Keep MAV and relative MAV (20 features) | New-subject mean macro-F1 0.1696 (subject SD 0.0482; n=22); within-subject not evaluated | vs 70: −0.0059; 9/22 subjects improved | Feature-set comparison | `b23e079` |
+| 8 | 2026-10-31 | Remove RMS from the expanded 70-feature set (60 features) | New-subject mean macro-F1 0.1776 (subject SD 0.0533; n=22); within-subject not evaluated | vs 70: +0.0021; 16/22 subjects improved | Feature-set comparison | `b23e079` |
+| 9 | 2026-10-31 | Keep MAV, WL, VAR and relative MAV (40 features) | New-subject mean macro-F1 0.1722 (subject SD 0.0522; n=22); within-subject not evaluated | vs 70: −0.0033; 6/22 subjects improved | Feature-set comparison | `b23e079` |
+| 10 | 2026-10-31 | Keep MAV and relative MAV (20 features) | New-subject mean macro-F1 0.1696 (subject SD 0.0482; n=22); within-subject not evaluated | vs 70: −0.0059; 9/22 subjects improved | Feature-set comparison | `b23e079` |
 | 11 | 2026-11-01 | Random Forest with full feature set | Within 0.809 (SD 0.047, range 0.727–0.888); new 0.176 (SD 0.051, range 0.075–0.273) | vs #2: within +0.015; new −0.001 | Feature-set comparison | `e6800f3` |
 | 12 | 2026-11-01 | Random Forest with time feature set | Within 0.812 (SD 0.046, range 0.727–0.885); new 0.172 (SD 0.052, range 0.071–0.270) | vs #11: within +0.003; new −0.004 | Feature-set comparison | `e6800f3` |
 | 13 | 2026-11-01 | Random Forest with amplitude feature set | Within 0.807 (SD 0.044, range 0.728–0.878); new 0.170 (SD 0.048, range 0.075–0.241) | vs #12: within −0.005; new −0.002 | Feature-set comparison | `e6800f3` |
@@ -79,7 +79,7 @@ The smoothing run reported one out-of-fold prediction per development window,
 with split assignments and input/source hashes checked. Hold-out reads were not
 instrumented and no hold-out evaluation was performed. 
 
-### Feature-set results - 2026-10-30
+### Feature-set results - 2026-10-31
 
 All feature sets used identical subject-grouped development splits. Results give equal weight to each of the 22 development subjects.
 
