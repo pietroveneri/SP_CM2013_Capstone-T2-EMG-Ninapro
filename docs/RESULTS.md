@@ -61,7 +61,7 @@ must fit every learned preprocessing parameter on each training fold only.
 | 23 | 2026-11-01 | k-NN (n=5) with full feature set | Within 0.688 (SD 0.055, range 0.561–0.780); new 0.148 (SD 0.036, range 0.082–0.208) | vs #22: within +0.013; new −0.002 | Feature-set comparison | `e6800f3` |
 | 24 | 2026-11-01 | k-NN (n=5) with time feature set | Within 0.763 (SD 0.050, range 0.673–0.859); new 0.149 (SD 0.043, range 0.071–0.224) | vs #23: within +0.075; new +0.001 | Feature-set comparison | `e6800f3` |
 | 25 | 2026-11-01 | k-NN (n=5) with amplitude feature set | Within 0.775 (SD 0.051, range 0.686–0.867); new 0.142 (SD 0.043, range 0.077–0.216) | vs #24: within +0.012; new −0.007 | Feature-set comparison | `e6800f3` |
-| 26 | 2026-11-08 | Fixed 50/50 RF (time feature set) - LDA ensemble (baseline feature set) | Within 0.764 ± 0.040 (range 0.658–0.819); new 0.191 ± 0.058 (range 0.064–0.289) | vs #12: within −0.048; vs #14: new +0.001 | Ensemble comparison | — |
+| 26 | 2026-11-08 | Fixed 50/50 RF (time feature set) - LDA ensemble (baseline feature set) | Within 0.764 ± 0.040 (range 0.658–0.819); new 0.191 ± 0.058 (range 0.064–0.289) | vs #12: within −0.048; vs #14: new +0.001 | Ensemble comparison | f5b35a3 |
 
 Iterations 14, 18 and 22 also use #2 as the reference for the baseline feature set; #26 uses the strongest component in each mode (#12 and #14). The other comparisons use the preceding row. Results are retained for comparison, without implying a final selection.
 

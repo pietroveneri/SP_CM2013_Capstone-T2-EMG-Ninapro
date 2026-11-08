@@ -50,6 +50,8 @@ dataset. Its numbers are plumbing checks. The second runs the supplied
 50-feature baseline on S1–S22, downloading missing development files if needed,
 and reports both within-subject and new-subject results.
 
+Run `python src/run_mixed_5050.py` to evaluate the 50/50 ensemble; it requires the development data to be prepared beforehand.
+
 To repeat the development feature-set comparison:
 
 ```powershell
