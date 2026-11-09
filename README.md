@@ -67,6 +67,18 @@ subject scores, feature importance and the summary are written to
 used by `run_baseline.py`. The `full_60` set excludes RMS; the comparison
 results are recorded in [docs/RESULTS.md](docs/RESULTS.md).
 
+Install the optional envelope CNN dependencies and run the experiment from the
+repository root:
+
+```shell
+.venv/bin/python -m pip install -r requirements-cnn.txt
+.venv/bin/python src/envelope_cnn/run_envelope_cnn.py
+```
+
+On Intel macOS, where newer PyTorch wheels are unavailable, this installs
+PyTorch 2.2.2 and uses NumPy 1.x with compatible pandas, SciPy, and ContourPy
+versions. Other platforms use PyTorch 2.4 or newer with NumPy 2.
+
 ## Development baseline — hold-out separated
 
 The supplied pipeline was rerun unchanged on **S1–S22** on 2026-10-22: 60,182 windows per mode. **S23–S27 were neither read nor scored** and remain reserved for final inference.

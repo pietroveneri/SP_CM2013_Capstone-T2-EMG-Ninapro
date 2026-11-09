@@ -1,0 +1,12 @@
+# Optional dependency for src/envelope_cnn/run_envelope_cnn.py.
+# Intel macOS wheels stop at PyTorch 2.2.2, which requires NumPy 1.x.
+numpy<2; sys_platform == "darwin" and platform_machine == "x86_64"
+torch==2.2.2; sys_platform == "darwin" and platform_machine == "x86_64"
+
+# Keep the existing scientific stack compatible with NumPy 1.x.
+pandas<3; sys_platform == "darwin" and platform_machine == "x86_64"
+scipy<1.16; sys_platform == "darwin" and platform_machine == "x86_64"
+contourpy<1.4; sys_platform == "darwin" and platform_machine == "x86_64"
+
+# Other platforms can use a NumPy 2-compatible PyTorch release.
+torch>=2.4; sys_platform != "darwin" or platform_machine != "x86_64"
