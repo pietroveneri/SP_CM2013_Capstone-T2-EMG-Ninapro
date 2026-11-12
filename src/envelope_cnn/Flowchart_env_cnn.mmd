@@ -1,0 +1,37 @@
+---
+references:
+  - "File: /src/envelope_cnn/run_envelope_cnn.py"
+generationTime: 2026-11-09T12:19:20.235Z
+---
+flowchart TD
+    A["Start script"] --> B["Check PyTorch and NumPy compatibility"]
+    B --> C{"Compatible?"}
+    C -->|No| D["Raise RuntimeError"]
+    C -->|Yes| E["Load EMG records and verify no holdout data"]
+    E --> F["Combine signals, labels, subjects, and repetitions"]
+    F --> G["Parse input, seed, epochs, and batch size"]
+    G --> H{"Input is envelope?"}
+    H -->|Yes| I["Prepare envelope data"]
+    H -->|No| J["Extract selected window features"]
+    I --> K["Validate and prepare model input"]
+    J --> K
+    K --> L["Load archived new-subject folds"]
+    L --> M["Build within-subject folds by subject and repetition"]
+    M --> N["Create output directory"]
+    N --> O["Evaluate new-subject and within-subject modes"]
+    O --> P["Initialize predictions and fold tracking"]
+    P --> Q{"More folds?"}
+    Q -->|Yes| R["Fit model on training fold"]
+    R --> S{"CNN input?"}
+    S -->|Yes| T["Build Conv1D model"]
+    S -->|No| U["Build dense model"]
+    T --> V["Train with balanced loss over epochs and batches"]
+    U --> V
+    V --> W["Predict test-fold probabilities"]
+    W --> X["Store predictions and fold score"]
+    X --> Q
+    Q -->|No| Y["Compute subject and pooled metrics"]
+    Y --> Z["Save scores and predictions to CSV"]
+    Z --> AA{"More evaluation modes?"}
+    AA -->|Yes| P
+    AA -->|No| AB["Save combined summary CSV"]

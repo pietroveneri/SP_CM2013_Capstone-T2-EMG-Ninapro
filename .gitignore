@@ -39,3 +39,11 @@ data/raw/
 data/holdout/*
 !data/holdout/.gitkeep
 *.mat
+
+# output files
+outputs/*
+
+*/plots/
+!plots/
+plots/*
+*/plots/*
