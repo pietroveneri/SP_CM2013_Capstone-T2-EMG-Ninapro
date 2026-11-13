@@ -125,8 +125,8 @@ def fit_predict(train, test):
 
     if use_cnn:
         model = nn.Sequential(
-            nn.Conv1d(10, 16, kernel_size=3, padding=1),
-            nn.ReLU(),
+            nn.Conv1d(10, 16, kernel_size=3, padding=1), # 10 channels, 16 filters
+            nn.ReLU(),  # Activation function
             nn.Conv1d(16, 32, kernel_size=3, padding=1),
             nn.ReLU(),
             nn.AdaptiveAvgPool1d(4),
