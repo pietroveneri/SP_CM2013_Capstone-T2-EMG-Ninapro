@@ -127,15 +127,15 @@ The 60-feature set exceeded the 70-feature set for 16 of 22 subjects and in all 
 | Iteration | Who | Modules / tasks owned | Reviewed by |
 |---|---|---|---|
 | 1 | Pietro | Ran the supplied baseline and recorded its results | Invalid |
-| 2 | Pietro | Executed the existing runner; verified hold-out guards and artifacts; updated results and baseline decisions | Pending team review |
+| 2 | Pietro | Executed the existing runner; verified hold-out guards and artifacts; updated results and baseline decisions | Full team |
 | 3 | Hannah | Added pre-processing methods | Invalid due to leakage |
 | 4 | Hannah | Added pre-processing methods | Invalid due to leakage |
 | 5 | Hannah | Added pre-processing methods | Invalid due to leakage |
-| 6 | Pietro | Ablation study without RMS  | Pending team review |
-| 7 | Pietro | Ablation study without rFFT  | Pending team review |
-| 8->10 | Thomas | Feature extraction  | Pending team review |
-| 11->26 | Pietro | Explored different classifiers | Pending team review |
-| 27->29 | Thomas | CNN implementation on features | Pending team review |
+| 6 | Pietro | Ablation study without RMS  | Full team |
+| 7 | Pietro | Ablation study without rFFT  | Full team |
+| 8->10 | Thomas | Feature extraction  | Full team |
+| 11->26 | Pietro | Explored different classifiers | Full team |
+| 27->29 | Thomas | CNN implementation on features | Full team |
 
 
 
