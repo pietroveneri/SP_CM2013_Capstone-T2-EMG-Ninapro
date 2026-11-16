@@ -68,6 +68,23 @@ must fit every learned preprocessing parameter on each training fold only.
 
 Iterations 14, 18 and 22 also use #2 as the reference for the baseline feature set; #26 uses the strongest component in each mode (#12 and #14). The other comparisons use the preceding row. Results are retained for comparison, without implying a final selection.
 
+### MLP predictions: Cohen's κ
+
+| Features | Mode | Subject κ mean ± SD | Subject range | Pooled κ |
+|---|---|---:|---:|---:|
+| 20 | within-subject | 0.6880 ± 0.0578 | 0.5541–0.7874 | 0.6882 |
+| 20 | new-subject | 0.1440 ± 0.0753 | −0.0165–0.3375 | 0.1431 |
+| 40 | within-subject | 0.7068 ± 0.0584 | 0.5702–0.7940 | 0.7063 |
+| 40 | new-subject | 0.1456 ± 0.0682 | 0.0074–0.2955 | 0.1430 |
+| 60 | within-subject | 0.6935 ± 0.0573 | 0.5661–0.7821 | 0.6938 |
+| 60 | new-subject | 0.1472 ± 0.0703 | −0.0123–0.2914 | 0.1449 |
+
+The historical runner at `32f03fd` defines a 64-unit MLP with dropout 0.2,
+balanced cross-entropy and Adam (learning rate 0.001); its defaults are seed 0,
+20 epochs and batch size 256.
+For figures generated directly from the archived CSVs, their source hashes,
+and the comparison with the original figures, see [MLP figure audit](MLP_verified/README.md).
+
 ### Current preprocessing without signal normalization — 2026-10-28
 
 Option 3 retains median (3) and Savitzky–Golay (5, order 2), without signal

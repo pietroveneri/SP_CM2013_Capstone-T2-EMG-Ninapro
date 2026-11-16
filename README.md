@@ -72,7 +72,19 @@ repository root:
 
 ```shell
 .venv/bin/python -m pip install -r requirements-cnn.txt
-.venv/bin/python src/envelope_cnn/run_envelope_cnn.py
+.venv/bin/python src/MLP/run_envelope_cnn.py
+```
+
+On Windows PowerShell, use `.venv\Scripts\python.exe` in place of
+`.venv/bin/python` in these commands.
+
+Use `--input 60` for the 60-feature MLP (or `40` or `20` for the other
+feature sets). Results are written to `src/MLP/mlp_60` for `--input 60`,
+or to the corresponding `mlp_40`, `mlp_20`, or `envelope_cnn` directory.
+Generate figures from a run with, for example:
+
+```shell
+.venv/bin/python src/MLP/plot_envelope_cnn.py src/MLP/mlp_60
 ```
 
 On Intel macOS, where newer PyTorch wheels are unavailable, this installs
