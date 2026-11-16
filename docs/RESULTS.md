@@ -64,7 +64,11 @@ must fit every learned preprocessing parameter on each training fold only.
 | 26 | 2026-11-08 | Fixed 50/50 RF (time feature set) - LDA ensemble (baseline feature set) | Within 0.764 ± 0.040 (range 0.658–0.819); new 0.191 ± 0.058 (range 0.064–0.289) | vs #12: within −0.048; vs #14: new +0.001 | Ensemble comparison | `f5b35a3` |
 | 27 | 2026-11-08  | MLP with 60 features to compare classifiers on the same input | Within-subject mean macro-F1 0.7185 ± 0.0521 (range 0.6025–0.8019); new-subject 0.1842 ± 0.0683 (range 0.0579–0.3386); n=22 | vs RF-60: new +0.0065; matched within-subject comparison not evaluated | Provides the reference for MLP-40 and MLP-20 | `32f03fd` |
 | 28 | 2026-11-08 | MLP with 40 time-domain features | Within-subject mean macro-F1 0.7303 ± 0.0530 (range 0.6040–0.8132); new-subject 0.1818 ± 0.0669 (range 0.0628–0.3427); n=22 | vs #27: within +0.0117; new −0.0024 | Fewer features improved the within-subject mean, with a small drop on new subjects | `32f03fd` |
-| 30 | 2026-11-08 | MLP with 20 amplitude features | Within-subject mean macro-F1 0.7136 ± 0.0522 (range 0.5930–0.8059); new-subject 0.1825 ± 0.0727 (range 0.0477–0.3772); n=22 | vs #28: within −0.0167; new +0.0007 | Halved the feature count with nearly unchanged mean new-subject performance, but lower within-subject performance | `32f03fd` |
+| 29 | 2026-11-08 | MLP with 20 amplitude features | Within-subject mean macro-F1 0.7136 ± 0.0522 (range 0.5930–0.8059); new-subject 0.1825 ± 0.0727 (range 0.0477–0.3772); n=22 | vs #28: within −0.0167; new +0.0007 | Halved the feature count with nearly unchanged mean new-subject performance, but lower within-subject performance | `32f03fd` |
+| 30 | 2026-11-13 | RF: jointly remove MAV and RMS from the baseline (50→30 features) to test whether their removal improves subject transfer | Within 0.719 (SD 0.061, range 0.575–0.819); new 0.175 (SD 0.054, range 0.066–0.280), across 22 subjects | vs same-run RF baseline: within −0.076; new −0.002 | Not selected; retained as an ablation result | `TBD` |
+| 31 | 2026-11-16 | LDA: repeat the baseline MAV/RMS ablation (50→30 features) | Within 0.635 (SD 0.054, range 0.523–0.722); new 0.183 (SD 0.049, range 0.103–0.274), across 22 subjects | vs same-run LDA baseline: within −0.081; new −0.007 | Not selected; performance declined in both modes | `TBD` |
+| 32 | 2026-11-16 | k-NN (k=5): repeat the baseline MAV/RMS ablation using the corrected 30-feature extractor | Within 0.553 (SD 0.071, range 0.391–0.678); new 0.142 (SD 0.033, range 0.071–0.191), across 22 subjects | vs same-run k-NN baseline: within −0.121; new −0.008 | Not selected; baseline without absolute features | `TBD` |
+| 33 | 2026-11-16 | SVM-RBF: repeat the baseline MAV/RMS ablation using the corrected 30-feature extractor | Within 0.671 (SD 0.059, range 0.538–0.760); new 0.174 (SD 0.054, range 0.064–0.275), across 22 subjects | vs same-run SVM baseline: within −0.086; new −0.007 | Not selected; baseline without absolute features | `TBD` |
 
 Iterations 14, 18 and 22 also use #2 as the reference for the baseline feature set; #26 uses the strongest component in each mode (#12 and #14). The other comparisons use the preceding row. Results are retained for comparison, without implying a final selection.
 
@@ -136,6 +140,7 @@ The 60-feature set exceeded the 70-feature set for 16 of 22 subjects and in all 
 | 8->10 | Thomas | Feature extraction  | Pending team review |
 | 11->26 | Pietro | Explored different classifiers | Pending team review |
 | 27->29 | Thomas | CNN implementation on features | Pending team review |
+| 30->33 | Thomas | Removing absolute MAV and RMS from baseline | Pending team review |
 
 
 
