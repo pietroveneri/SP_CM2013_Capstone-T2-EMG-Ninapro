@@ -1,4 +1,4 @@
-# Optional dependency for src/envelope_cnn/run_envelope_cnn.py.
+# Optional dependency for src/MLP/run_envelope_cnn.py.
 # Intel macOS wheels stop at PyTorch 2.2.2, which requires NumPy 1.x.
 numpy<2; sys_platform == "darwin" and platform_machine == "x86_64"
 torch==2.2.2; sys_platform == "darwin" and platform_machine == "x86_64"

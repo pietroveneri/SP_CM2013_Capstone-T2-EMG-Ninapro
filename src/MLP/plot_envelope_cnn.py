@@ -82,7 +82,7 @@ def plot_results(output=OUTPUT):
         figures.append((fig_roc, "cnn_roc_auc"))
 
     for fig, name in figures:
-        path = OUTPUT / f"{name}.png"
+        path = output / f"{name}.png"
         fig.savefig(path, dpi=200)
         print(f"Saved {path}")
         plt.close(fig)

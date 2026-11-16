@@ -5,7 +5,7 @@ import sys
 
 import numpy as np
 import pandas as pd
-from sklearn.metrics import f1_score
+from sklearn.metrics import cohen_kappa_score, f1_score
 from sklearn.model_selection import GroupKFold, LeaveOneGroupOut
 
 import matplotlib
@@ -41,15 +41,6 @@ from features import extract_window_features, expanded_feature_names
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-track = EMGNinaproTrack()
-records = track.load(ROOT / "NinaPro_Mat", exercise="E1")
-track.assert_no_holdout(records)
-
-X = np.concatenate([r.epochs['emg'] for r in records])
-labels = np.concatenate([r.labels for r in records])
-subjects = np.concatenate([np.repeat(r.group, len(r.labels)) for r in records])
-repetitions = np.concatenate([r.meta["rep"] for r in records])
-
 parser = argparse.ArgumentParser()
 parser.add_argument(
     "--input", choices=("envelope", "60", "40", "20"), default="envelope"
@@ -58,6 +49,15 @@ parser.add_argument("--seed", type=int, default=0)
 parser.add_argument("--epochs", type=int, default=20)
 parser.add_argument("--batch-size", type=int, default=256)
 args = parser.parse_args()
+
+track = EMGNinaproTrack()
+records = track.load(ROOT / "NinaPro_Mat", exercise="E1")
+track.assert_no_holdout(records)
+
+X = np.concatenate([r.epochs['emg'] for r in records])
+labels = np.concatenate([r.labels for r in records])
+subjects = np.concatenate([np.repeat(r.group, len(r.labels)) for r in records])
+repetitions = np.concatenate([r.meta["rep"] for r in records])
 
 SEED = args.seed
 EPOCHS = args.epochs
@@ -236,6 +236,9 @@ def evaluate_mode(mode, splits):
                 predictions[subjects == subject],
                 average="macro",
             ),
+            "cohens_kappa": cohen_kappa_score(
+                y[subjects == subject], predictions[subjects == subject]
+            ),
         }
         for subject in np.unique(subjects)
     ])
@@ -265,6 +268,11 @@ def evaluate_mode(mode, splits):
         "pooled_macro_f1": f1_score(y, predictions, average="macro"),
         "mean_fold_macro_f1": np.mean(fold_scores),
         "fold_sd": np.std(fold_scores, ddof=1),
+        "mean_subject_cohens_kappa": subject_df["cohens_kappa"].mean(),
+        "subject_cohens_kappa_sd": subject_df["cohens_kappa"].std(ddof=1),
+        "subject_cohens_kappa_min": subject_df["cohens_kappa"].min(),
+        "subject_cohens_kappa_max": subject_df["cohens_kappa"].max(),
+        "pooled_cohens_kappa": cohen_kappa_score(y, predictions),
     }
 
     print(
@@ -282,5 +290,5 @@ summaries = [
 ]
 pd.DataFrame(summaries).to_csv(output / "cnn_summary.csv", index=False)
 
-# python -u src/envelope_cnn/run_envelope_cnn.py --input 60
-# python src/envelope_cnn/plot_envelope_cnn.py outputs/mlp_60
+# python -u src/MLP/run_envelope_cnn.py --input 60
+# python src/MLP/plot_envelope_cnn.py src/MLP/mlp_60
