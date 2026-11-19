@@ -1,13 +1,15 @@
 # MLP figure provenance
 
 The PNGs in `mlp_20`, `mlp_40` and `mlp_60` here were generated on
-2026-11-16 from copies of the four CSVs in the corresponding `src/MLP/mlp_*`
-directory using the corrected `src/MLP/plot_envelope_cnn.py`. Confusion and
+2026-11-16 using the corrected `src/MLP/plot_envelope_cnn.py`. For each input
+size, the two prediction CSVs are in `src/MLP/mlp_*`. The two subject-score
+CSVs used for these figures are now in the [original score archive](../audit_20261119/mlp_legacy_scores/). Confusion and
 ROC use both prediction CSVs; macro-F1 uses both subject-score CSVs. They are
 out-of-fold development results, not a hold-out evaluation.
 
 The historical `cnn_confusion.png`, `cnn_macro_f1.png` and `cnn_roc_auc.png`
-in each of the three source directories were compared with these regenerated
+now in [the legacy figure archive](../audit_20261119/mlp_legacy_figures/)
+were compared with these regenerated
 images: all nine differ pixel-for-pixel. Rendering and library differences can
 cause differences; this comparison does not establish that an original image
 is wrong or identify its historical input. Their provenance remains unverified.

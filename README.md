@@ -79,17 +79,17 @@ On Windows PowerShell, use `.venv\Scripts\python.exe` in place of
 `.venv/bin/python` in these commands.
 
 Use `--input 60` for the 60-feature MLP (or `40` or `20` for the other
-feature sets). Results are written to `src/MLP/mlp_60` for `--input 60`,
-or to the corresponding `mlp_40`, `mlp_20`, or `envelope_cnn` directory.
+feature sets). Each run writes to a fresh directory under `outputs/`, such as
+`outputs/mlp_60`. Use `--output-dir PATH` to choose another run directory.
 Generate figures from a run with, for example:
 
 ```shell
-.venv/bin/python src/MLP/plot_envelope_cnn.py src/MLP/mlp_60
+.venv/bin/python src/MLP/plot_envelope_cnn.py outputs/mlp_60
 ```
 
 On Intel macOS, where newer PyTorch wheels are unavailable, this installs
 PyTorch 2.2.2 and uses NumPy 1.x with compatible pandas, SciPy, and ContourPy
-versions. Other platforms use PyTorch 2.4 or newer with NumPy 2.
+versions. Other platforms use PyTorch 2.15.0 with NumPy 2.
 
 ## Development baseline — hold-out separated
 
@@ -120,10 +120,11 @@ src/
 ├── emg_ninapro.py      # EMG track integration
 ├── report.py           # supplied reporting utilities
 ├── run_baseline.py     # supplied baseline runner
-├── preprocessing.py    # team preprocessing
+├── preprocessing_noleakage_pietro/  # development preprocessing experiments
 ├── features.py         # team feature engineering
-├── models.py           # team ML models
-└── experiments.py      # experiment configurations/runners
+├── random_forest/, lda_regularized/, svm_rbf/, knn/  # classifier experiments
+├── MLP/                # neural-network runner and archived feature-MLP runs
+└── experiments.py      # expanded-feature track used by the classifier runners
 
 docs/                   # track documentation and RESULTS.md
 Notes/                  # internal notes

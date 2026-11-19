@@ -3,7 +3,22 @@ from sklearn.base import clone
 from sklearn.metrics import auc, roc_curve
 from sklearn.model_selection import GroupKFold, LeaveOneGroupOut
 
+from adapter import OverSampled, SMOTEd
 from bsp.notebook_checks import assert_no_subject_leak
+
+
+def configure_imbalance(estimator, cfg):
+    """Apply a supported training-fold sampler to a classifier pipeline."""
+    mode = cfg["imbalance"]
+    if mode == "none":
+        return estimator
+    if mode == "resample":
+        return OverSampled(estimator=estimator, random_state=cfg["seed"])
+    if mode in ("smote", "adasyn"):
+        return SMOTEd(estimator=estimator, random_state=cfg["seed"],
+                      k_neighbors=cfg["smote_k"], sampler=mode)
+    raise ValueError(f"{estimator.steps[-1][0]}: unsupported imbalance={mode!r}. "
+                     "Available sampling modes: none, resample, smote, adasyn.")
 
 
 def fold_roc(model, X_test, y_test, labels):
