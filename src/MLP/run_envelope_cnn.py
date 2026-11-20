@@ -1,23 +1,19 @@
-import json 
+import argparse
+import json
+import os
 from importlib.metadata import version
 from pathlib import Path
 import sys
 
 import numpy as np
 import pandas as pd
-from sklearn.metrics import cohen_kappa_score, f1_score
-from sklearn.model_selection import GroupKFold, LeaveOneGroupOut
-
-import matplotlib
-
-matplotlib.use("Agg")  # Save figures without opening a window.
-import matplotlib.pyplot as plt
-from sklearn.metrics import ConfusionMatrixDisplay, auc, roc_curve
 
 SRC = Path(__file__).resolve().parents[1]
 ROOT = SRC.parent
 sys.path.insert(0, str(SRC))
 
+from MLP.score_predictions import score_predictions
+from development_folds import development_folds
 from emg_ninapro import EMGNinaproTrack
 
 torch_version = tuple(
@@ -31,14 +27,19 @@ if torch_version < (2, 4) and numpy_major_version >= 2:
         f'"{sys.executable}" -m pip install -r "{ROOT / "requirements-cnn.txt"}"'
     )
 
+# cuBLAS reads this when the CUDA context is created.
+os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
 
-import argparse
 from features import extract_window_features, expanded_feature_names
 
 
+torch.use_deterministic_algorithms(True)
+torch.backends.cudnn.benchmark = False
+torch.backends.cudnn.deterministic = True
+torch.set_num_threads(1)
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 parser = argparse.ArgumentParser()
@@ -48,6 +49,7 @@ parser.add_argument(
 parser.add_argument("--seed", type=int, default=0)
 parser.add_argument("--epochs", type=int, default=20)
 parser.add_argument("--batch-size", type=int, default=256)
+parser.add_argument("--output-dir", type=Path, help="Fresh directory for this run")
 args = parser.parse_args()
 
 track = EMGNinaproTrack()
@@ -171,49 +173,22 @@ def fit_predict(train, test):
     return probabilities.argmax(axis=1), probabilities
 
 # -------------------------------------------------------------------------------------------------
-#  Load the pre-defined folds for new-subject evaluation, and generate 5-fold within-subject splits.
-
-fold_path = (
-    ROOT / "docs" / "Baseline"
-    / "baseline_20261022_holdout_separated" / "folds.json"
-)
-
-archived = json.loads(fold_path.read_text())
-
-new_subject = []
-for f in sorted(
-    (f for f in archived if f["mode"] == "new_subject"),
-    key=lambda f: f["fold"],
-):
-    train_groups = set(f["train_groups"])
-    test_groups = set(f["test_groups"])
-    assert train_groups.isdisjoint(test_groups)
-
-    train = np.flatnonzero(np.isin(subjects, list(train_groups)))
-    test = np.flatnonzero(np.isin(subjects, list(test_groups)))
-    assert len(train) == f["train_n"] and len(test) == f["test_n"]
-    new_subject.append((train, test))
-
-assert len(new_subject) == 5
-
-within_subject = []
-for subject in np.unique(subjects):
-    rows = np.flatnonzero(subjects == subject)
-    reps = repetitions[rows]
-    cv = GroupKFold(n_splits=5)
-    for tr, te in cv.split(X[rows], y[rows], groups=reps):
-        assert set(reps[tr]).isdisjoint(reps[te])
-        within_subject.append((rows[tr], rows[te]))
-
-output = Path(__file__).resolve().parent / run_name
-output.mkdir(parents=True, exist_ok=True)
+# Map both modes to the archived subject and repetition assignments.
+splits = development_folds(subjects, repetitions)
+output = args.output_dir or ROOT / "outputs" / run_name
+output.mkdir(parents=True, exist_ok=False)
+settings = {"input": args.input, "seed": SEED, "epochs": EPOCHS, "batch_size": BATCH_SIZE,
+            "torch": torch.__version__, "numpy": np.__version__, "device": str(DEVICE),
+            "device_name": torch.cuda.get_device_name(DEVICE) if DEVICE.type == "cuda" else "CPU",
+            "cuda": torch.version.cuda, "cudnn": torch.backends.cudnn.version(),
+            "deterministic_algorithms": torch.are_deterministic_algorithms_enabled()}
+(output / "settings.json").write_text(json.dumps(settings, indent=2) + "\n", encoding="utf-8")
 
 
 def evaluate_mode(mode, splits):
     probabilities = np.full((len(y), len(classes)), np.nan, dtype=np.float32)
     predictions = np.full(len(y), -1, dtype=int)
     fold_ids = np.full(len(y), -1, dtype=int)
-    fold_scores = []
 
     for fold, (train, test) in enumerate(splits):
         assert np.all(fold_ids[test] == -1), "Repeated test window"
@@ -221,28 +196,8 @@ def evaluate_mode(mode, splits):
 
         predictions[test], probabilities[test] = fit_predict(train, test)
         fold_ids[test] = fold
-        fold_scores.append(
-            f1_score(y[test], predictions[test], average="macro")
-        )
-
     assert np.all(fold_ids >= 0), "Missing test windows"
     assert np.isfinite(probabilities).all(), "Missing class probabilities"
-
-    subject_df = pd.DataFrame([
-        {
-            "subject": subject,
-            "macro_f1": f1_score(
-                y[subjects == subject],
-                predictions[subjects == subject],
-                average="macro",
-            ),
-            "cohens_kappa": cohen_kappa_score(
-                y[subjects == subject], predictions[subjects == subject]
-            ),
-        }
-        for subject in np.unique(subjects)
-    ])
-    subject_df.to_csv(output / f"{mode}_subject_scores.csv", index=False)
 
     prediction_df = pd.DataFrame({
         "window": np.arange(len(y)),
@@ -256,24 +211,8 @@ def evaluate_mode(mode, splits):
         prediction_df[f"p_{label}"] = probabilities[:, k]
     prediction_df.to_csv(output / f"{mode}_predictions.csv", index=False)
 
-    scores = subject_df["macro_f1"]
-    summary = {
-        "mode": mode,
-        "n_subjects": len(scores),
-        "n_folds": len(splits),
-        "mean_subject_macro_f1": scores.mean(),
-        "subject_sd": scores.std(ddof=1),
-        "subject_min": scores.min(),
-        "subject_max": scores.max(),
-        "pooled_macro_f1": f1_score(y, predictions, average="macro"),
-        "mean_fold_macro_f1": np.mean(fold_scores),
-        "fold_sd": np.std(fold_scores, ddof=1),
-        "mean_subject_cohens_kappa": subject_df["cohens_kappa"].mean(),
-        "subject_cohens_kappa_sd": subject_df["cohens_kappa"].std(ddof=1),
-        "subject_cohens_kappa_min": subject_df["cohens_kappa"].min(),
-        "subject_cohens_kappa_max": subject_df["cohens_kappa"].max(),
-        "pooled_cohens_kappa": cohen_kappa_score(y, predictions),
-    }
+    subject_df, summary = score_predictions(prediction_df, mode)
+    subject_df.to_csv(output / f"{mode}_subject_scores.csv", index=False)
 
     print(
         f"{mode}: mean subject macro-F1 "
@@ -284,11 +223,5 @@ def evaluate_mode(mode, splits):
     return summary
 
 
-summaries = [
-    evaluate_mode("new_subject", new_subject),
-    evaluate_mode("within_subject", within_subject),
-]
+summaries = [evaluate_mode(mode, folds) for mode, folds in splits.items()]
 pd.DataFrame(summaries).to_csv(output / "cnn_summary.csv", index=False)
-
-# python -u src/MLP/run_envelope_cnn.py --input 60
-# python src/MLP/plot_envelope_cnn.py src/MLP/mlp_60

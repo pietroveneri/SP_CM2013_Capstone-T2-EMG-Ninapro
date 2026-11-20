@@ -8,8 +8,7 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import ConfusionMatrixDisplay, auc, roc_curve
 
-PLOT_DIR = Path(__file__).resolve().parent
-OUTPUT = PLOT_DIR / "mlp_40"
+OUTPUT = Path(__file__).resolve().parents[2] / "outputs/mlp_40"
 MODES = ("within_subject", "new_subject")
 
 

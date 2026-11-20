@@ -1,0 +1,10 @@
+{
+  "new_subject": {
+    "summary": "mean macro_f1 0.191 (sd 0.058, range 0.064-0.289 across 22 subjects)",
+    "macro_f1": 0.217
+  },
+  "within_subject": {
+    "summary": "mean macro_f1 0.764 (sd 0.040, range 0.658-0.819 across 22 subjects)",
+    "macro_f1": 0.761
+  }
+}

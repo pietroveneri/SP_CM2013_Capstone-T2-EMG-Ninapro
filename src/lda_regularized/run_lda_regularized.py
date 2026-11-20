@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from experiments import ExpandedFeatureTrack
 from emg_ninapro import EMGNinaproTrack
 from features import expanded_feature_names
-from classifier_evaluation import evaluate_modes_progress
+from classifier_evaluation import configure_imbalance, evaluate_modes_progress
 from lda_regularized.lda_plot_results import save_plots
 
 
@@ -26,8 +26,10 @@ DOMAINS = {
 
 
 class LDATrack(ExpandedFeatureTrack):
-    def __init__(self, domain):
-        super().__init__()
+    MODEL_CFG_KEYS = frozenset({"shrinkage"})
+
+    def __init__(self, domain, cfg=None):
+        super().__init__(cfg={"imbalance": CFG["imbalance"], **(cfg or {})})
         self.columns = None if DOMAINS[domain] is None else [
             i for i, name in enumerate(expanded_feature_names())
             if name.split("_", 1)[1] in DOMAINS[domain]]
@@ -39,7 +41,9 @@ class LDATrack(ExpandedFeatureTrack):
         return X[:, self.columns], y, group
 
     def baseline(self, cfg=None):
-        return make_pipeline(StandardScaler(), LinearDiscriminantAnalysis(solver="lsqr", shrinkage="auto"))
+        cfg = self._cfg(cfg)
+        model = LinearDiscriminantAnalysis(solver="lsqr", shrinkage=cfg.get("shrinkage", "auto"))
+        return configure_imbalance(make_pipeline(StandardScaler(), model), cfg)
 
 
 def main():

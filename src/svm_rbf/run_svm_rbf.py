@@ -26,8 +26,10 @@ DOMAINS = {
 
 
 class SVMTrack(ExpandedFeatureTrack):
-    def __init__(self, domain):
-        super().__init__()
+    MODEL_CFG_KEYS = frozenset({"C", "gamma"})
+
+    def __init__(self, domain, cfg=None):
+        super().__init__(cfg={"imbalance": CFG["imbalance"], **(cfg or {})})
         self.columns = None if DOMAINS[domain] is None else [
             i for i, name in enumerate(expanded_feature_names())
             if name.split("_", 1)[1] in DOMAINS[domain]]
@@ -39,7 +41,14 @@ class SVMTrack(ExpandedFeatureTrack):
         return X[:, self.columns], y, group
 
     def baseline(self, cfg=None):
-        return make_pipeline(StandardScaler(), SVC(kernel="rbf", class_weight="balanced"))
+        cfg = self._cfg(cfg)
+        mode = cfg["imbalance"]
+        if mode not in ("none", "balanced"):
+            raise ValueError(f"SVM supports imbalance='none' or 'balanced', got {mode!r}")
+        model = SVC(kernel="rbf", C=cfg.get("C", 1.0), gamma=cfg.get("gamma", "scale"),
+                    class_weight="balanced" if mode == "balanced" else None,
+                    random_state=cfg["seed"])
+        return make_pipeline(StandardScaler(), model)
 
 
 def main():

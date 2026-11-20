@@ -9,4 +9,4 @@ scipy<1.16; sys_platform == "darwin" and platform_machine == "x86_64"
 contourpy<1.4; sys_platform == "darwin" and platform_machine == "x86_64"
 
 # Other platforms can use a NumPy 2-compatible PyTorch release.
-torch>=2.4; sys_platform != "darwin" or platform_machine != "x86_64"
+torch==2.15.0; sys_platform != "darwin" or platform_machine != "x86_64"
