@@ -8,6 +8,16 @@ import numpy as np
 BASELINE = Path(__file__).resolve().parents[1] / "docs/Baseline/baseline_20261022_holdout_separated"
 
 
+def load_development_records(track, data):
+    """Keep the archived training row order across operating systems and cache layouts."""
+    records = track.load(data, exercise="E1")
+    track.assert_no_holdout(records)
+    if len(records) != 22 or {r.group for r in records} != {f"S{i}" for i in range(1, 23)}:
+        raise ValueError("Expected one E1 recording for each subject S1-S22 in " + str(data))
+    # The original Windows run sorted MAT filenames, e.g. S10_A1_E1.mat before S1_A1_E1.mat.
+    return sorted(records, key=lambda r: f"{r.group}_A1_E1.mat")
+
+
 def development_folds(subjects, repetitions):
     subjects, repetitions = np.asarray(subjects), np.asarray(repetitions)
     expected = {f"S{i}" for i in range(1, 23)}

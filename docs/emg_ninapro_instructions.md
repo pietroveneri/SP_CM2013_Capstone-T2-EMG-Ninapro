@@ -1,6 +1,6 @@
 # Track instructions — EMG gesture, Ninapro DB1
 
-*Attach the dataset card (`emg_ninapro_card.md`). Adapter: `../src/emg_ninapro.py`.*
+*Attach the [EMG dataset card](emg_ninapro_card.md). The [track adapter](../src/emg_ninapro.py) implements the DB1 pipeline.*
 
 > **Before you build — background & literature review.** Refresh the methods and do a short literature
 > review of the application domain using **[`BACKGROUND_MAP.md`](BACKGROUND_MAP.md)** (the "EMG gesture"
@@ -180,7 +180,7 @@ and record both numbers in `RESULTS_TEMPLATE.md`.
 ## 6. Rules
 - Compare against the supplied baseline **honestly, per mode** — beating it is not required; a
   defended decision to keep a lower-scoring pipeline earns full marks (Criterion 7). Never mix
-  modes or report within-subject as if it were new-subject. State the split unit with every number. Report the metric **with its spread** across subjects (`rep["summary"]`), not a lone pooled number. Grading: [`CAPSTONE_REPORT_RUBRIC.md`](CAPSTONE_REPORT_RUBRIC.md) (team) + [`INDIVIDUAL_ASSESSMENT.md`](INDIVIDUAL_ASSESSMENT.md) (individual).
+  modes or report within-subject as if it were new-subject. State the split unit with every number. Report the metric **with its spread** across subjects (`rep["summary"]`), not a lone pooled number. Grading: [`CAPSTONE_REPORT_RUBRIC.md`](https://github.com/farhad-abtahi/CM2013/blob/main/tracks/CAPSTONE_REPORT_RUBRIC.md) (team) + [`INDIVIDUAL_ASSESSMENT.md`](https://github.com/farhad-abtahi/CM2013/blob/main/tracks/INDIVIDUAL_ASSESSMENT.md) (individual).
 
 ## 7. Known pitfalls
 See the card: DB1 is a **rectified envelope** (no zero-crossing/SSC features), cross-subject sEMG is

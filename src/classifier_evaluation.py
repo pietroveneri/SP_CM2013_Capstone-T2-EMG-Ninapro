@@ -3,7 +3,9 @@ from sklearn.base import clone
 from sklearn.metrics import auc, roc_curve
 from sklearn.model_selection import GroupKFold, LeaveOneGroupOut
 
-from adapter import OverSampled, SMOTEd
+from adapter import OverSampled, Recording, SMOTEd
+from development_folds import development_folds
+from preprocessing import GuardedAverageReference, filter_windows
 from bsp.notebook_checks import assert_no_subject_leak
 
 
@@ -40,7 +42,7 @@ def fold_roc(model, X_test, y_test, labels):
     return {"tpr": np.mean(curves, axis=0), "auc": float(np.mean(areas))}
 
 
-def evaluate_modes_progress(track, records, cfg):
+def evaluate_modes_progress(track, records, cfg, *, preprocessing="none", archived_folds=False):
     track.assert_no_holdout(records)
     if not records:
         raise ValueError("No recordings to evaluate")
@@ -55,7 +57,17 @@ def evaluate_modes_progress(track, records, cfg):
         if np.issubdtype(reps.dtype, np.number) and not np.isfinite(reps).all():
             raise ValueError(f"{record.group}: invalid repetition metadata")
     cfg = track._cfg(cfg)
-    X, y, subjects, repetitions = track._build(records, cfg)
+    if preprocessing == "guarded-reference":
+        fs = records[0].fs
+        if any(r.fs != fs for r in records):
+            raise ValueError("Expected the same sampling rate for all subjects")
+        X = np.concatenate([r.epochs["emg"] for r in records])
+        y = np.concatenate([r.labels for r in records])
+        subjects = np.concatenate([np.repeat(r.group, len(r.labels)) for r in records])
+        repetitions = np.concatenate([r.meta["rep"] for r in records])
+    else:
+        records = [filter_windows(r, preprocessing) for r in records]
+        X, y, subjects, repetitions = track._build(records, cfg)
     track._assert_no_holdout_groups(subjects.tolist())
     unique_subjects = sorted(set(subjects.tolist()))
     if len(unique_subjects) < 2:
@@ -64,58 +76,56 @@ def evaluate_modes_progress(track, records, cfg):
         mask = subjects == subject
         if len(np.unique(repetitions[mask])) < 2 or len(np.unique(y[mask])) < 2:
             raise ValueError(f"{subject}: within-subject evaluation requires at least two repetitions and classes")
-    if len(unique_subjects) <= int(cfg.get("loso_max_groups", 12)):
-        splitter = LeaveOneGroupOut()
+    if archived_folds:
+        splits = development_folds(subjects, repetitions)
     else:
-        splitter = GroupKFold(n_splits=min(int(cfg.get("cv_max_splits", 5)), len(unique_subjects)))
+        if len(unique_subjects) <= cfg["loso_max_groups"]:
+            splitter = LeaveOneGroupOut()
+        else:
+            splitter = GroupKFold(n_splits=min(cfg["cv_max_splits"], len(unique_subjects)))
+        within = []
+        for subject in unique_subjects:
+            ids = np.flatnonzero(subjects == subject)
+            reps = repetitions[ids]
+            cv = GroupKFold(n_splits=min(5, len(np.unique(reps))))
+            within.extend((ids[tr], ids[te]) for tr, te in cv.split(ids, y[ids], reps))
+        splits = {"new_subject": splitter.split(X, y, subjects), "within_subject": within}
 
-    def evaluate_fold(X_train, y_train, X_test, y_test):
-        selector = track.select_features(X_train, y_train, cfg)
-        model = clone(track._baseline(cfg))
-        model.fit(selector.transform(X_train), y_train)
-        X_test = selector.transform(X_test)
-        predicted = model.predict(X_test)
-        if np.asarray(predicted).shape != y_test.shape:
-            raise ValueError("The number of predictions does not match the test windows")
-        roc = fold_roc(model, X_test, y_test, track.meta.classes)
-        return predicted, roc
+    reports = {}
+    for mode, folds in splits.items():
+        test_rows, predictions, fold_ids, rocs = [], [], [], []
+        for fold, (train, test) in enumerate(folds):
+            if mode == "new_subject":
+                assert_no_subject_leak(subjects[train], subjects[test])
+            X_train, X_test = X[train], X[test]
+            if preprocessing == "guarded-reference":
+                reference = GuardedAverageReference().fit(X_train)
+                def referenced_features(windows, labels):
+                    rec = Recording("fold", fs, {"emg": reference.transform(windows)}, labels)
+                    return track.extract_features(rec, cfg)[0]
+                X_train = referenced_features(X_train, y[train])
+                X_test = referenced_features(X_test, y[test])
+            selector = track.select_features(X_train, y[train], cfg)
+            model = clone(track._baseline(cfg))
+            model.fit(selector.transform(X_train), y[train])
+            X_test = selector.transform(X_test)
+            predicted = model.predict(X_test)
+            if predicted.shape != y[test].shape:
+                raise ValueError("The number of predictions does not match the test windows")
+            test_rows.append(test)
+            predictions.append(predicted)
+            fold_ids.append(np.full(len(test), fold))
+            rocs.append(fold_roc(model, X_test, y[test], track.meta.classes))
 
-    yt, yp, groups, folds = [], [], [], []
-    roc_folds = []
-    counts = np.zeros(len(y), dtype=int)
-    for fold, (train, test) in enumerate(splitter.split(X, y, subjects)):
-        assert_no_subject_leak(subjects[train], subjects[test])
-        predicted, roc = evaluate_fold(X[train], y[train], X[test], y[test])
-        np.add.at(counts, test, 1)
-        roc_folds.append(roc)
-        yt.extend(y[test]); yp.extend(predicted)
-        groups.extend(subjects[test]); folds.extend([fold] * len(test))
-    if not np.all(counts == 1) or len(yp) != len(y):
-        raise ValueError("New-subject evaluation must predict each window exactly once")
-    new_subject = track._make_report(yt, yp, groups=groups, folds=folds,
-                                     n_groups=len(unique_subjects))
-    new_subject["roc_folds"] = roc_folds
-
-    yt, yp, groups, folds = [], [], [], []
-    roc_folds = []
-    counts = np.zeros(len(y), dtype=int)
-    fold = 0
-    for subject in unique_subjects:
-        mask = subjects == subject
-        Xs, ys, reps = X[mask], y[mask], repetitions[mask]
-        indices = np.flatnonzero(mask)
-        n_reps = len(set(reps.tolist()))
-        for train, test in GroupKFold(n_splits=min(5, n_reps)).split(Xs, ys, reps):
-            predicted, roc = evaluate_fold(Xs[train], ys[train], Xs[test], ys[test])
-            np.add.at(counts, indices[test], 1)
-            roc_folds.append(roc)
-            yt.extend(ys[test]); yp.extend(predicted)
-            groups.extend([subject] * len(test)); folds.extend([fold] * len(test))
-            fold += 1
-    if not np.all(counts == 1) or len(yp) != len(y):
-        raise ValueError("Within-subject evaluation must predict each window exactly once")
-    within = track._make_report(yt, yp, groups=groups, folds=folds,
-                                split_unit="repetition (within subject)",
-                                n_groups=len(unique_subjects), group_unit="subject")
-    within["roc_folds"] = roc_folds
-    return {"within_subject": within, "new_subject": new_subject}
+        ids = np.concatenate(test_rows)
+        if not np.array_equal(np.sort(ids), np.arange(len(y))):
+            name = "New-subject" if mode == "new_subject" else "Within-subject"
+            raise ValueError(f"{name} evaluation must predict each window exactly once")
+        report = track._make_report(
+            y[ids], np.concatenate(predictions), groups=subjects[ids], folds=np.concatenate(fold_ids),
+            split_unit="subject" if mode == "new_subject" else "repetition (within subject)",
+            group_unit="subject", n_groups=len(unique_subjects),
+        )
+        report.update(roc_folds=rocs, source_window=ids, repetition=repetitions[ids])
+        reports[mode] = report
+    return reports

@@ -114,7 +114,7 @@ The 60-feature set exceeded the 70-feature set for 16 of 22 subjects and in all 
 
 ### Baseline provenance
 
-- Existing runner: `src/run_baseline.py`; source revision `a534402e790e014265de3837accf4b97b6d45f28`; executed sources unchanged and hashed in `run.json`.
+- The [original baseline runner](https://github.com/pietroveneri/SP_CM2013_Capstone-T2-EMG-Ninapro/blob/a534402e790e014265de3837accf4b97b6d45f28/src/run_baseline.py) is pinned to the source revision recorded in the run metadata. To repeat it on this branch, use the [baseline command](../README.md#classical-experiments).
 - One configuration evaluated; 115 fits; 8 existing hold-out tests passed; zero reserved MAT reads. Complete fold and prediction checks passed.
 - [Run metadata](Baseline/baseline_20261022_holdout_separated/run.json), [validation](Baseline/baseline_20261022_holdout_separated/validation.json), [environment](Baseline/baseline_20261022_holdout_separated/environment.json) and [cleanup audit](Baseline/baseline_20261022_holdout_separated/cleanup_audit.json).
 - Historical registration: `379f1e6`; historical verification: `0b85ef5`. 

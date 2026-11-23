@@ -1,6 +1,6 @@
 ---
 references:
-  - "File: /src/envelope_cnn/run_envelope_cnn.py"
+  - "File: /src/MLP/run_envelope_cnn.py"
 generationTime: 2026-11-09T12:19:20.235Z
 ---
 flowchart TD
@@ -16,7 +16,7 @@ flowchart TD
     I --> K["Validate and prepare model input"]
     J --> K
     K --> L["Load archived new-subject folds"]
-    L --> M["Build within-subject folds by subject and repetition"]
+    L --> M["Load archived within-subject repetition folds"]
     M --> N["Create output directory"]
     N --> O["Evaluate new-subject and within-subject modes"]
     O --> P["Initialize predictions and fold tracking"]

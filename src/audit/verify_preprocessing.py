@@ -63,10 +63,11 @@ def verify():
                     assert not set(group["subject"]) & set(split["train_groups"])
 
             scores = [item["macro_f1"] for item in per_subject]
-            print(f"{archive.name} {mode}: {np.mean(scores):.3f} ± {np.std(scores, ddof=1):.3f}")
+            setting = "new_subject · No calibration" if mode == "new_subject" else mode
+            print(f"{archive.name} {setting} across subjects: {np.mean(scores):.3f} ± {np.std(scores, ddof=1):.3f}")
             if mode == "new_subject":
                 scores = [item["macro_f1"] for item in per_fold]
-                print(f"{archive.name} new_subject folds: {np.mean(scores):.3f} ± {np.std(scores, ddof=1):.3f}")
+                print(f"{archive.name} new_subject · No calibration across folds: {np.mean(scores):.3f} ± {np.std(scores, ddof=1):.3f}")
 
 
 if __name__ == "__main__":

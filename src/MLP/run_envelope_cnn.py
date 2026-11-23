@@ -16,6 +16,16 @@ from MLP.score_predictions import score_predictions
 from development_folds import development_folds
 from emg_ninapro import EMGNinaproTrack
 
+parser = argparse.ArgumentParser(description="Train the envelope CNN or a feature MLP on DB1 E1 development folds.")
+parser.add_argument(
+    "--input", choices=("envelope", "60", "40", "20"), default="envelope"
+)
+parser.add_argument("--seed", type=int, default=0)
+parser.add_argument("--epochs", type=int, default=20)
+parser.add_argument("--batch-size", type=int, default=256)
+parser.add_argument("--output-dir", type=Path, help="Fresh directory for this run")
+args = parser.parse_args()
+
 torch_version = tuple(
     int(part) for part in version("torch").split("+", 1)[0].split(".")[:2]
 )
@@ -33,7 +43,7 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
 
-from features import extract_window_features, expanded_feature_names
+from features import extract_window_features, feature_columns
 
 
 torch.use_deterministic_algorithms(True)
@@ -41,16 +51,6 @@ torch.backends.cudnn.benchmark = False
 torch.backends.cudnn.deterministic = True
 torch.set_num_threads(1)
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-parser = argparse.ArgumentParser()
-parser.add_argument(
-    "--input", choices=("envelope", "60", "40", "20"), default="envelope"
-)
-parser.add_argument("--seed", type=int, default=0)
-parser.add_argument("--epochs", type=int, default=20)
-parser.add_argument("--batch-size", type=int, default=256)
-parser.add_argument("--output-dir", type=Path, help="Fresh directory for this run")
-args = parser.parse_args()
 
 track = EMGNinaproTrack()
 records = track.load(ROOT / "NinaPro_Mat", exercise="E1")
@@ -65,27 +65,18 @@ SEED = args.seed
 EPOCHS = args.epochs
 BATCH_SIZE = args.batch_size
 
-feature_sets = {
-    "60": {"MAV", "WL", "VAR", "relative_MAV",
-           "mean_frequency", "median_frequency"},
-    "40": {"MAV", "WL", "VAR", "relative_MAV"},
-    "20": {"MAV", "relative_MAV"},
-}
+feature_sets = {"60": "full_60", "40": "time_40", "20": "amplitude_20"}
 
 use_cnn = args.input == "envelope"
 run_name = "envelope_cnn" if use_cnn else f"mlp_{args.input}"
 
 if not use_cnn:
-    names = expanded_feature_names()
-    columns = [
-        i for i, name in enumerate(names)
-        if name.split("_", 1)[1] in feature_sets[args.input]
-    ]
+    columns = feature_columns(feature_sets[args.input])
 
     rows = []
     for record in records:
         features, feature_labels, subject = extract_window_features(record)
-        assert features.shape[1] == len(names)
+        assert features.shape[1] == 70
         assert np.array_equal(feature_labels, record.labels)
         assert subject == record.group
         rows.append(features[:, columns])
@@ -177,7 +168,7 @@ def fit_predict(train, test):
 splits = development_folds(subjects, repetitions)
 output = args.output_dir or ROOT / "outputs" / run_name
 output.mkdir(parents=True, exist_ok=False)
-settings = {"input": args.input, "seed": SEED, "epochs": EPOCHS, "batch_size": BATCH_SIZE,
+settings = {"new_subject_setting": "No calibration", "input": args.input, "seed": SEED, "epochs": EPOCHS, "batch_size": BATCH_SIZE,
             "torch": torch.__version__, "numpy": np.__version__, "device": str(DEVICE),
             "device_name": torch.cuda.get_device_name(DEVICE) if DEVICE.type == "cuda" else "CPU",
             "cuda": torch.version.cuda, "cudnn": torch.backends.cudnn.version(),
@@ -214,8 +205,9 @@ def evaluate_mode(mode, splits):
     subject_df, summary = score_predictions(prediction_df, mode)
     subject_df.to_csv(output / f"{mode}_subject_scores.csv", index=False)
 
+    label = "New-subject · No calibration" if mode == "new_subject" else "Within-subject"
     print(
-        f"{mode}: mean subject macro-F1 "
+        f"{label} mean subject macro-F1 "
         f"{summary['mean_subject_macro_f1']:.4f} ± {summary['subject_sd']:.4f}; "
         f"pooled {summary['pooled_macro_f1']:.4f}",
         flush=True,

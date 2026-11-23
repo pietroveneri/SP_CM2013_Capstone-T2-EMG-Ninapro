@@ -1,7 +1,6 @@
 # File: src/feature_importance_baseline.py
 # This script computes the feature importance of the original baseline model on the NinaPro E1 dataset.
 
-import sys
 import json
 from pathlib import Path
 
@@ -11,6 +10,7 @@ from sklearn.base import clone
 
 ROOT = Path(__file__).resolve().parents[1]
 
+from development_folds import load_development_records
 from emg_ninapro import EMGNinaproTrack
 
 # Original baseline configuration
@@ -23,15 +23,11 @@ cfg = {
 }
 
 track = EMGNinaproTrack()
-records = track.load(ROOT / "NinaPro_Mat", exercise="E1")
-track.assert_no_holdout(records)
+records = load_development_records(track, ROOT / "NinaPro_Mat")
 
 # Build the original 50-feature matrix
 X, y, subjects, _ = track._build(records, cfg)
 
-assert {r.group for r in records} == {
-    f"S{i}" for i in range(1, 23)
-}
 assert X.shape[1] == 50
 assert np.isfinite(X).all()
 
