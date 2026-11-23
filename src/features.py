@@ -1,10 +1,10 @@
-from adapter import Recording
-from emg_ninapro import FS
+"""DB1 per-window features and the column order used by all expanded feature sets."""
 import numpy as np
 
-# This produces 7 features × 10 channels = 70 features. 
-# The power scaling cancels in the mean and median frequency calculations, so an absolute PSD calibration is unnecessary here.
-# TJ 18/10
+from adapter import Recording
+from emg_ninapro import EMGNinaproTrack, FS
+
+
 def _expanded_win_features(win, fs=FS):
     """Features from a window shaped [samples, channels]."""
     win = np.asarray(win, dtype=float)
@@ -52,8 +52,6 @@ def _expanded_win_features(win, fs=FS):
             mean_frequency = 0.0
             median_frequency = 0.0
 
-#rms removed from features because it is highly correlated with MAV and adds little information. It is still computed for completeness, but not returned. TJ 23/10
-# return rms for feature importance analysis, but not for the reduced feature sets? TJ 29/10
         features.extend([
             mav,
             waveform_length,
@@ -67,29 +65,11 @@ def _expanded_win_features(win, fs=FS):
     return np.asarray(features)
 
 
-# Applies the feature function to every window. It should preserve labels and the subject identifier TJ 18/10
 def extract_window_features(rec: Recording, cfg=None):
-        """Module 3 — per-window, per-channel time-domain descriptors (MAV, RMS,
-        waveform length, variance) plus a mean-frequency term. Rectification and
-        envelope smoothing, per-channel normalisation, and a wider window are all
-        candidate improvements that belong partly in `preprocess()` — the window
-        length in particular trades responsiveness against feature stability."""
-        windows = rec.epochs["emg"]
+    """Return one expanded feature row per window, its gesture and subject."""
+    X = np.vstack([_expanded_win_features(window, fs=rec.fs) for window in rec.epochs["emg"]])
+    return X, np.asarray(rec.labels), rec.group
 
-        X = np.vstack([
-            _expanded_win_features(window, fs=rec.fs)
-            for window in windows])
-
-        y = np.asarray(rec.labels)
-
-        return X, y, rec.group
-    ## Result has the following structure:
-
-        # | Output      | Shape/content |
-
-        # | `X`         | Number of windows × 70 features |
-        # | `y`         | One gesture label per window |
-        # | `rec.group` | Subject identifier, such as `"S1"` |
 
 FEATURE_TYPES = (
     "MAV",
@@ -102,14 +82,36 @@ FEATURE_TYPES = (
 )
 
 
-def expanded_feature_names(n_channels=10):
-    # retained_features = [
-    #     feature for feature in FEATURE_TYPES 
-    #     if feature != "RMS"
-    # ]  # helps reduce feature correlation and dimensionality, while retaining the most informative features. TJ 23/10
+FEATURE_SETS = {
+    "full_70": FEATURE_TYPES,
+    "full_60": FEATURE_TYPES[:-1],  # omit RMS
+    "time_40": ("MAV", "WL", "VAR", "relative_MAV"),
+    "amplitude_20": ("MAV", "relative_MAV"),
+}
 
-    return [
-        f"ch{channel:02d}_{feature}"
-        for channel in range(1, n_channels + 1)
-                # for feature in retained_features
-        for feature in FEATURE_TYPES ]
+
+def expanded_feature_names(n_channels=10):
+    return [f"ch{channel:02d}_{feature}" for channel in range(1, n_channels + 1)
+            for feature in FEATURE_TYPES]
+
+
+def feature_columns(feature_set, n_channels=10):
+    families = FEATURE_SETS[feature_set]
+    return [i for i, name in enumerate(expanded_feature_names(n_channels))
+            if name.split("_", 1)[1] in families]
+
+
+class FeatureTrack(EMGNinaproTrack):
+    """Choose the supplied 50-feature extractor or columns of the expanded matrix."""
+    def __init__(self, feature_set="full_70", cfg=None):
+        super().__init__(cfg=cfg)
+        self.feature_set = feature_set
+        if feature_set != "baseline" and feature_set not in FEATURE_SETS:
+            raise ValueError(f"Unknown feature set {feature_set!r}")
+
+    def extract_features(self, rec, cfg=None):
+        if self.feature_set == "baseline":
+            return super().extract_features(rec, cfg)
+        X, y, subject = extract_window_features(rec, cfg)
+        columns = feature_columns(self.feature_set, rec.epochs["emg"].shape[-1])
+        return X[:, columns], y, subject

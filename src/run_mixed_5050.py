@@ -4,22 +4,18 @@ from pathlib import Path
 
 import numpy as np
 from sklearn.base import clone
-from sklearn.model_selection import GroupKFold
 
-from random_forest.run_rf import RFTrack, CFG as RF_CFG
-from lda_regularized.run_lda_regularized import LDATrack, CFG as LDA_CFG
+from classifiers import MODELS
+from development_folds import development_folds, load_development_records
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def main():
-    rf_track, lda_track = RFTrack("time"), LDATrack("baseline")
-    records = rf_track.load(ROOT / "NinaPro_Mat", exercise="E1")
-    rf_track.assert_no_holdout(records)
-    if {r.group for r in records} != {f"S{i}" for i in range(1, 23)} or len(records) != 22:
-        raise ValueError("Expected exactly the 22 development recordings")
-    xr, yr, subjects, repetitions = rf_track._build(records, RF_CFG)
-    xl, yl, subjects_l, repetitions_l = lda_track._build(records, LDA_CFG)
+    rf_track, lda_track = MODELS["rf"]("time_40"), MODELS["lda"]("baseline")
+    records = load_development_records(rf_track, ROOT / "NinaPro_Mat")
+    xr, yr, subjects, repetitions = rf_track._build(records, rf_track.cfg)
+    xl, yl, subjects_l, repetitions_l = lda_track._build(records, lda_track.cfg)
     for a, b in ((yr, yl), (subjects, subjects_l), (repetitions, repetitions_l)):
         if not np.array_equal(a, b):
             raise ValueError("Feature pipelines disagree on window metadata")
@@ -29,7 +25,7 @@ def main():
 
     def run_fold(train, test):
         models = []
-        for track, cfg, X in ((rf_track, RF_CFG, xr), (lda_track, LDA_CFG, xl)):
+        for track, cfg, X in ((rf_track, rf_track.cfg, xr), (lda_track, lda_track.cfg, xl)):
             selector = track.select_features(X[train], yr[train], cfg)
             model = clone(track._baseline(cfg)).fit(selector.transform(X[train]), yr[train])
             if set(model.classes_) != set(labels):
@@ -40,18 +36,9 @@ def main():
         return labels[np.argmax((models[0] + models[1]) / 2, axis=1)]
 
     output = {}
-    for mode in ("new_subject", "within_subject"):
+    for mode, splits in development_folds(subjects, repetitions).items():
         predictions = np.empty(len(yr), dtype=object)
         fold_ids = np.full(len(yr), -1, dtype=int)
-        splits = []
-        if mode == "new_subject":
-            splits = list(GroupKFold(n_splits=5).split(xr, yr, subjects))
-        else:
-            for subject in sorted(set(subjects)):
-                indices = np.flatnonzero(subjects == subject)
-                reps = repetitions[indices]
-                for train, test in GroupKFold(n_splits=min(5, len(set(reps)))).split(xr[indices], yr[indices], reps):
-                    splits.append((indices[train], indices[test]))
         for fold, (train, test) in enumerate(splits):
             grouping = subjects if mode == "new_subject" else repetitions
             if set(grouping[train]) & set(grouping[test]) or np.any(fold_ids[test] != -1):

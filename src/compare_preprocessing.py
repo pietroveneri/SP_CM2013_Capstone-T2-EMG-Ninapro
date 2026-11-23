@@ -12,108 +12,24 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
+from development_folds import load_development_records
 from emg_ninapro import EMGNinaproTrack
-from filter_option02 import FilterOption02
-from filter_option03 import FilterOption03
-from features import extract_window_features, expanded_feature_names
+from preprocessing import filter_windows
+from features import FEATURE_SETS, extract_window_features, expanded_feature_names
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT / "data" / "raw"
+DATA_DIR = ROOT / "NinaPro_Mat"
 OUTPUT_DIR = ROOT / "outputs" / "preprocessing_comparison"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 loader = EMGNinaproTrack()
-records = loader.load(DATA_DIR, exercise="E1")
+records = load_development_records(loader, DATA_DIR)
 
-if not records:
-    raise RuntimeError(f"No recordings found in {DATA_DIR}")
-
-loader.assert_no_holdout(records)
-
-
-gestures = [
-    "g01", "g02", "g03", "g04", "g05", "g06", "g07", "g08", "g09", "g10", "g11", "g12", "g13"
-]
-# index 0, "Thumb abduction"
-# index 1, "Index flexion"
-# index 2, "Middle flexion"
-# index 3, "Ring flexion"
-# index 4, "Little flexion"
-# index 5, "Thumb adduction"
-# index 6, "Index extension"
-# index 7, "Middle extension"
-# index 8, "Ring extension"
-# index 9, "Little extension"
-# index 10, "Thumb flexion"
-# index 11, "Index abduction"
-# index 12, "Middle abduction"
-# index 13, "Ring abduction"
-
-
-
-options = {
-    "Original": None,
-    "02": FilterOption02(),
-    "03": FilterOption03(),
-}
-
-# -------------------------------------------------
-# # Per subject, gesture and channel, store the median feature value for each preprocessing option.
-# GESTURE = "g01"  
-# CHANNEL = 1
-
-# # Per subject, gesture and channel, store the median feature value for each preprocessing option.
-# feature_types = [
-#     "MAV", "WL", "VAR", "relative_MAV",
-#     "mean_frequency", "median_frequency",
-# ]
-# names = expanded_feature_names()
-
-# for record in records:
-#     mask = np.asarray(record.labels) == GESTURE
-#     if not mask.any():
-#         continue
-
-#     matrices = {}
-#     for name, option in options.items():
-#         processed = (
-#             record if option is None
-#             else option.preprocess(record)
-#         )
-#         matrices[name] = extract_window_features(processed)[0]
-
-#     fig, axes = plt.subplots(2, 3, figsize=(12, 7))
-
-#     for ax, feature in zip(axes.ravel(), feature_types):
-#         column = names.index(f"ch{CHANNEL:02d}_{feature}")
-
-#         ax.boxplot(
-#             [X[mask, column] for X in matrices.values()],
-#             showfliers=False,
-#         )
-#         ax.set_xticks(range(1, 5), options.keys())
-#         ax.set_title(feature)
-#         ax.grid(axis="y", alpha=0.2)
-
-#     fig.suptitle(
-#         f"{record.group} — {GESTURE}, channel {CHANNEL}"
-#     )
-#     fig.tight_layout()
-#     fig.savefig(
-#         OUTPUT_DIR / f"{record.group}_{GESTURE}_ch{CHANNEL:02d}.png",
-#         dpi=150,
-#         bbox_inches="tight",
-#     )
-#     plt.close(fig)
-
-# -------------------------------------------------
+options = ("none", "median-savgol")
 
 # Summary of feature distributions across all subjects, gestures and channels.
-feature_types = [
-    "MAV", "WL", "VAR", "relative_MAV",
-    "mean_frequency", "median_frequency",
-]
+feature_types = FEATURE_SETS["full_60"]
 
 names = expanded_feature_names()
 
@@ -128,11 +44,8 @@ for record in records:
 
     # Extract features once per preprocessing option.
     matrices = {}
-    for name, option in options.items():
-        processed = (
-            record if option is None
-            else option.preprocess(record)
-        )
+    for name in options:
+        processed = filter_windows(record, name)
         matrices[name] = extract_window_features(processed)[0]
 
     labels = np.asarray(record.labels)
@@ -164,7 +77,7 @@ for ax, feature in zip(axes.ravel(), feature_types):
     ax.boxplot(values, showfliers=False)
     ax.set_xticks(
         range(1, len(options) + 1),
-        list(options.keys()),
+        list(options),
     )
     ax.set_title(feature)
     ax.grid(axis="y", alpha=0.2)

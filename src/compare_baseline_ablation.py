@@ -7,10 +7,11 @@ import math
 from pathlib import Path
 from statistics import mean
 
-from emg_ninapro import FS, N_CH, STEP, WIN
+from development_folds import load_development_records
+from emg_ninapro import EMGNinaproTrack, FS, N_CH, STEP, WIN
 
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 SUBJECTS = tuple(f"S{i}" for i in range(1, 23))
 MODES = ("within_subject", "new_subject")
 CFG = {
@@ -84,8 +85,21 @@ def _compare(result, baseline, mode):
     return rows
 
 
-def run_comparison(track, variant_name):
+class BaselineAblation(EMGNinaproTrack):
+    def __init__(self, variant):
+        super().__init__()
+        # Baseline columns per channel: MAV, RMS, WL, VAR, rFFT centroid.
+        self.omit = {"noRMS": 1, "norFFT": 4}[variant]
+
+    def extract_features(self, rec, cfg=None):
+        X, y, subject = super().extract_features(rec, cfg)
+        columns = [i for i in range(X.shape[1]) if i % 5 != self.omit]
+        return X[:, columns], y, subject
+
+
+def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("variant", choices=("noRMS", "norFFT"))
     parser.add_argument(
         "--baseline-dir", type=Path,
         default=ROOT / "docs" / "Baseline" / "baseline_20261022_holdout_separated",
@@ -93,17 +107,17 @@ def run_comparison(track, variant_name):
     )
     parser.add_argument(
         "--output-dir", type=Path,
-        default=ROOT / "docs" / "Baseline" / f"ablation_{variant_name}_vs_baseline",
         help="Destination for the two subject CSVs and comparison.md.",
     )
     args = parser.parse_args()
+    variant_name = args.variant
+    track = BaselineAblation(variant_name)
+    if args.output_dir is None:
+        args.output_dir = ROOT / "outputs" / f"ablation_{variant_name}_vs_baseline"
     baseline = _load_baseline(args.baseline_dir)
 
     track.download(ROOT / "NinaPro_Mat", subset=range(1, 23))
-    records = track.load(ROOT / "NinaPro_Mat", exercise="E1")
-    track.assert_no_holdout(records)
-    if {rec.group for rec in records} != set(SUBJECTS):
-        raise ValueError("Expected recordings for all 22 development subjects, S1-S22.")
+    records = load_development_records(track, ROOT / "NinaPro_Mat")
 
     print(f"Evaluating {variant_name}; reference baseline: {args.baseline_dir}")
     results = track.evaluate_modes(records, cfg=dict(CFG))
@@ -152,3 +166,6 @@ def run_comparison(track, variant_name):
 
     (args.output_dir / "comparison.md").write_text("\n".join(report) + "\n", encoding="utf-8")
 
+
+if __name__ == "__main__":
+    main()

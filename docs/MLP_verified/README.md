@@ -2,7 +2,7 @@
 
 The PNGs in `mlp_20`, `mlp_40` and `mlp_60` here were generated on
 2026-11-16 using the corrected `src/MLP/plot_envelope_cnn.py`. For each input
-size, the two prediction CSVs are in `src/MLP/mlp_*`. The two subject-score
+size, the two prediction CSVs are alongside the figures in the corresponding subdirectory. The two subject-score
 CSVs used for these figures are now in the [original score archive](../audit_20261119/mlp_legacy_scores/). Confusion and
 ROC use both prediction CSVs; macro-F1 uses both subject-score CSVs. They are
 out-of-fold development results, not a hold-out evaluation.

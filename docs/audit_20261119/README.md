@@ -9,9 +9,9 @@ equal weight. Both subject and fold SDs use the sample standard deviation.
 | Iterations | Evidence | Origin |
 | --- | --- | --- |
 | #8–#10 and their 70-feature reference | [Feature counts, fold scores, subject scores and summary](feature_selection/) | Recovered CSVs from the development feature comparison at `b23e079`. The four new-subject RF prediction files below are audit replays. |
-| #11–#25 | [Indexed prediction CSVs](classifiers/) and [recomputed metrics](replay_summary.csv) | Audit replays of the classifier configurations documented with their original [RF](../../src/random_forest/rf_20261101), [LDA](../../src/lda_regularized/lda_20261101), [SVM](../../src/svm_rbf/svm_20261101) and [5-NN](../../src/knn/knn_20261101_5nn) logs at `fa65e4f`. |
+| #11–#25 | [Indexed prediction CSVs](classifiers/) and [recomputed metrics](replay_summary.csv) | Audit replays of the classifier configurations documented with their original [RF](../classifiers/random_forest/rf_20261101), [LDA](../classifiers/lda_regularized/lda_20261101), [SVM](../classifiers/svm_rbf/svm_20261101) and [5-NN](../classifiers/knn/knn_20261101_5nn) logs at `fa65e4f`. |
 | #26 | [Both prediction arrays and summary](mixed_5050/) | Recovered 50/50 ensemble outputs. Each NPZ contains the subject, repetition, fold, true label and prediction in source-window order. |
-| #27–#29 | Updated run tables for [MLP-20](../../src/MLP/mlp_20/), [MLP-40](../../src/MLP/mlp_40/) and [MLP-60](../../src/MLP/mlp_60/), with subject and pooled κ | Derived from the six original MLP prediction CSVs. Each score table retains the folds actually used by that historical run. |
+| #27–#29 | Updated run tables for [MLP-20](../MLP_verified/mlp_20/), [MLP-40](../MLP_verified/mlp_40/) and [MLP-60](../MLP_verified/mlp_60/), with subject and pooled κ | Derived from the six original MLP prediction CSVs. Each score table retains the folds actually used by that historical run. |
 | Fixed median and Savitzky–Golay smoothing | [Run metadata, predictions and reports](../Preprocessing/no_normalization_audit_20261119/) | A new run of option 3 without signal normalization. The run metadata includes the SHA-256 of the 22 development MAT files and the executed sources. |
 
 Both smoothing filters are centred within each window. A decision using these
@@ -57,9 +57,9 @@ From the repository root, use a fresh destination for each replay.
 
 ```shell
 python src/audit/replay_classifiers.py --jobs 4 --output outputs/classifier_replay
-python src/preprocessing_noleakage_pietro/run_no_normalization_smoothing.py --output-dir docs/Preprocessing/smoothing_replay
-python src/audit/verify_replay.py --classifiers outputs/classifier_replay --smoothing docs/Preprocessing/smoothing_replay
-python src/MLP/score_predictions.py src/MLP/mlp_60 outputs/mlp_60_rescored
+python src/classifiers.py --model rf --features baseline --preprocessing median-savgol --output-dir outputs/smoothing_replay
+python src/audit/verify_replay.py --classifiers outputs/classifier_replay --smoothing outputs/smoothing_replay
+python src/MLP/score_predictions.py docs/MLP_verified/mlp_60 outputs/mlp_60_rescored
 ```
 
 With no options, the verifier checks the committed archive. It compares the CSVs against the baseline windows and folds,

@@ -18,13 +18,13 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.inspection import permutation_importance
 from sklearn.metrics import f1_score
 
-from experiments import ExpandedFeatureTrack
-from features import expanded_feature_names
+from development_folds import load_development_records
+from features import FeatureTrack, expanded_feature_names
 
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT / "data/raw"
+DATA_DIR = ROOT / "NinaPro_Mat"
 OUTPUT_DIR = ROOT / "outputs" / "feature_analysis"
 
 FEATURE_NAMES = expanded_feature_names()
@@ -271,13 +271,8 @@ def plot_feature_importance(X, y, train, test, names):
 
 
 def main():
-    track = ExpandedFeatureTrack()
-    records = track.load(DATA_DIR, exercise="E1")
-
-    if not records:
-        raise RuntimeError(f"No E1 recordings found in {DATA_DIR}")
-
-    track.assert_no_holdout(records)
+    track = FeatureTrack("full_70")
+    records = load_development_records(track, DATA_DIR)
 
     feature_rows = []
     labels = []

@@ -58,7 +58,7 @@ def verify_mlp(reference, mode):
     keys = ["subject", "subject_window"]
     reference = reference.assign(subject_window=reference.groupby("subject").cumcount()).set_index(keys)
     for size in (20, 40, 60):
-        path = SRC / "MLP" / f"mlp_{size}"
+        path = SRC.parent / "docs/MLP_verified" / f"mlp_{size}"
         frame = pd.read_csv(path / f"{mode}_predictions.csv")
         np.testing.assert_array_equal(frame.window, np.arange(len(reference)))
         aligned = frame.assign(subject_window=frame.groupby("subject").cumcount()).set_index(keys)
@@ -92,7 +92,7 @@ def verify(classifiers, smooth):
                 domains.append("baseline")
             elif mode == "new_subject":
                 domains.append("full_60")
-            log = (SRC / path).read_text(encoding="utf-8")
+            log = (SRC.parent / "docs/classifiers" / path).read_text(encoding="utf-8")
             for domain in domains:
                 name = f"{model}_{domain}"
                 frame = pd.read_csv(classifiers / name / f"{mode}.csv.gz")
@@ -119,10 +119,24 @@ def verify(classifiers, smooth):
                 f"{s['subject_f1_max']:.3f} across 22 subjects)")
         rows.append(s)
 
-        frame = pd.read_csv(smooth / "median_savgol_no_normalization" / mode / "predictions.csv")
-        pd.testing.assert_frame_equal(reference[["subject", "fold", "y_true"]], frame[["subject", "fold", "y_true"]])
+        # November's archive nests the recipe. Current single-run outputs store modes directly.
+        recipe = "median_savgol_no_normalization"
+        legacy = (smooth / recipe).is_dir()
+        folder = smooth / recipe if legacy else smooth
+        if not legacy:
+            run = json.loads((smooth / "run.json").read_text(encoding="utf-8"))
+            if (run["status"], run["model"], run["features"], run["preprocessing"]) != (
+                    "complete", "rf", "baseline", "median-savgol"):
+                raise ValueError("Expected a completed RF baseline median-savgol replay")
+        frame = pd.read_csv(folder / mode / "predictions.csv")
+        keys = ["subject", "fold", "y_true"] if legacy else IDENTITY
+        pd.testing.assert_frame_equal(reference[keys], frame[keys])
+        if not legacy:
+            original = SRC.parent / "docs/Preprocessing/no_normalization_audit_20261119" / recipe
+            pd.testing.assert_series_equal(frame.y_pred, pd.read_csv(original / mode / "predictions.csv").y_pred)
         s, _, _ = summarize(frame, mode, "smoothing")
-        summary = json.loads((smooth / "summary.json").read_text())["median_savgol_no_normalization"][mode]
+        summaries = json.loads((smooth / "summary.json").read_text(encoding="utf-8"))
+        summary = (summaries[recipe] if legacy else summaries)[mode]
         for key, saved in (("subject", "per_subject_spread"), ("fold", "per_fold_spread")):
             origin = summary[saved]["macro_f1"]
             np.testing.assert_allclose([s[f"{key}_f1_mean"], s[f"{key}_f1_sd"]],

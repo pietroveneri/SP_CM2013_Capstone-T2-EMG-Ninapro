@@ -8,12 +8,10 @@ import pytest
 SRC = Path(__file__).resolve().parents[1] / "src"
 sys.path.insert(0, str(SRC))
 from adapter import Recording
-from experiments import ExpandedFeatureTrack
+from features import FeatureTrack
 from visualize_features import FEATURE_NAMES, FEATURE_SET
 from development_folds import BASELINE, development_folds
-from knn.run_knn import KNNTrack
-from lda_regularized.run_lda_regularized import LDATrack
-from svm_rbf.run_svm_rbf import SVMTrack
+from classifiers import KNNTrack, LDATrack, SVMTrack
 
 
 def test_plot_labels_match_the_extracted_columns():
@@ -21,7 +19,7 @@ def test_plot_labels_match_the_extracted_columns():
     gain = np.arange(1, 11)[None, :]
     windows = (2 + np.sin(2 * np.pi * t / 5)) * gain
     record = Recording("S1", 100, {"emg": windows[None]}, np.array(["g01"]))
-    values = ExpandedFeatureTrack().extract_features(record)[0][0]
+    values = FeatureTrack().extract_features(record)[0][0]
     by_name = dict(zip(FEATURE_NAMES, values, strict=True))
     assert FEATURE_SET == "expanded_70"
     for channel in range(10):
@@ -41,8 +39,8 @@ def test_model_config_reaches_estimators():
     assert "shrinkage" not in lda.feature_cfg_keys()
     assert lda.baseline()[-1].shrinkage == 0.3
     assert lda.baseline({"shrinkage": 0.1})[-1].shrinkage == 0.1
-    assert KNNTrack("time").baseline({"n_neighbors": 3})[-1].n_neighbors == 3
-    svm = SVMTrack("amplitude")
+    assert KNNTrack("time_40").baseline({"n_neighbors": 3})[-1].n_neighbors == 3
+    svm = SVMTrack("amplitude_20")
     assert svm.baseline()[-1].class_weight == "balanced"
     params = svm.baseline({"imbalance": "none", "C": 2, "gamma": 0.5, "seed": 42})[-1]
     assert (params.class_weight, params.C, params.gamma, params.random_state) == (None, 2, 0.5, 42)
