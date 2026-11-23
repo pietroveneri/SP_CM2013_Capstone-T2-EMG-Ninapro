@@ -1,6 +1,6 @@
 # Subject macro-F1: norFFT vs baseline
 
-Baseline archive: `C:\Users\h3r03\OneDrive\Desktop\KTH\SP_CM2013_Capstone-T2-EMG-Ninapro\docs\Baseline\baseline_20261022_holdout_separated`
+[Baseline run archive](../baseline_20261022_holdout_separated/)
 
 Configuration: `{"cv_max_splits": 5, "imbalance": "balanced", "loso_max_groups": 12, "seed": 0, "select": "none"}`
 

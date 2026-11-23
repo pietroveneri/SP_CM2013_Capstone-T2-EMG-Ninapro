@@ -4,8 +4,10 @@ import argparse
 import csv
 import json
 import math
+import os
 from pathlib import Path
 from statistics import mean
+from urllib.parse import quote
 
 from development_folds import load_development_records
 from emg_ninapro import EMGNinaproTrack, FS, N_CH, STEP, WIN
@@ -125,9 +127,15 @@ def main():
     comparisons = {mode: _compare(results[mode], baseline[mode], mode) for mode in MODES}
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
+    baseline_path = args.baseline_dir.resolve()
+    try:
+        relative_path = Path(os.path.relpath(baseline_path, args.output_dir.resolve()))
+        baseline_url = quote(relative_path.as_posix())
+    except ValueError:  # Windows paths on separate drives cannot be relative.
+        baseline_url = baseline_path.as_uri()
     report = [
         f"# Subject macro-F1: {variant_name} vs baseline", "",
-        f"Baseline archive: `{args.baseline_dir.resolve()}`", "",
+        f"[Baseline run archive]({baseline_url.rstrip('/')}/)", "",
         f"Configuration: `{json.dumps(CFG, sort_keys=True)}`", "",
         "Exercise E1, S1-S22, 12 gestures. Macro-F1 is computed from each subject's "
         "out-of-fold predictions across all its test windows.", "",

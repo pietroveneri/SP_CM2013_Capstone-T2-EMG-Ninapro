@@ -136,7 +136,7 @@ Follow the [course hold-out protocol](https://github.com/farhad-abtahi/CM2013/bl
 - `src/` contains the executable workflows and their implementations. The course adapter and DB1 loader live in `src/adapter.py` and `src/emg_ninapro.py`.
 - `docs/` contains the results log, original classifier logs and figures, archived predictions, and fold definitions. See [results](docs/RESULTS.md).
 - `outputs/` holds local reproductions. `NinaPro_Mat/` supplies the development recordings. `data/holdout/` is reserved for final inference.
-- `Notes/` and `Reference/` contain course and background material.
+- [Notes](Notes/) and [Reference](Reference/) contain course and background material. The [original code guide](Notes/Capstone%20Project%20-%20Quick%20Guide%20to%20all%20Code.pdf) describes an earlier repository layout. For current paths and commands, see [Classical experiments](#classical-experiments).
 
 Each experiment or isolated change is developed on a short-lived branch:
 ```
