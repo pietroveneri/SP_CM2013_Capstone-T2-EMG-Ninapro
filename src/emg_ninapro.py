@@ -326,7 +326,16 @@ class EMGNinaproTrack(TrackAdapter):
 
 
 if __name__ == "__main__":
+    import argparse
+    from pathlib import Path
+
+    parser = argparse.ArgumentParser(description="Run the synthetic EMG smoke test or prepare DB1 development data.")
+    parser.add_argument("--download-development", action="store_true", help="Cache E1 data for S1-S22")
+    args = parser.parse_args()
     t = EMGNinaproTrack()
+    if args.download_development:
+        t.download(Path(__file__).resolve().parents[1] / "NinaPro_Mat", subset=range(1, 23))
+        raise SystemExit(0)
     print(t.dataset_card())
     modes = t.evaluate_modes(t.smoke())
     from sklearn.metrics import f1_score

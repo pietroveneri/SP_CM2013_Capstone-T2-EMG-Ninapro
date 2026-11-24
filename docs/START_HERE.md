@@ -14,19 +14,20 @@ they behave differently on EEG vs ECG vs IMU vs EMG vs CTG.
 
 | Step | What you do | Where |
 |------|-------------|-------|
-| **1. Pick a track** | Read its **dataset card** (task, signals, split unit, known pitfalls, measured baseline + yardstick) and **instructions**. | `<track>_card.md`, `<track>_instructions.md` |
-| **2. Refresh + literature review** | Skim the **book sections** that cover each method (a refresher — you already learned them), then do a short (~5–8 source) **literature review** of the *application* to **motivate** your design. This is course outcome **L5** and is graded. | **`BACKGROUND_MAP.md`** |
+| **1. Pick a track** | Read its **dataset card** (task, signals, split unit, known pitfalls, measured baseline + yardstick) and **instructions**. | [EMG dataset card](emg_ninapro_card.md) and [track instructions](emg_ninapro_instructions.md) |
+| **2. Refresh + literature review** | Skim the **book sections** that cover each method (a refresher — you already learned them), then do a short (~5–8 source) **literature review** of the *application* to **motivate** your design. This is course outcome **L5** and is graded. | [Background and literature map](BACKGROUND_MAP.md) |
 | **3. Run the baseline** | Run the EMG track script on **synthetic data offline** by default. Read the **honest metric panel** (κ / macro-F1 / confusion), not accuracy. | from repo root: `python src/emg_ninapro.py` |
 | **4. Improve the baseline** | Do **real DSP** — better preprocessing and **feature construction** (the point of the course), then a better model. Validate **inside the folds**, keep the **declared split unit**. Log each iteration as you go. | the adapter's `preprocess()` and `extract_features()` are where you work; `RESULTS_TEMPLATE.md` is where you log it |
-| **5. Report + submit** | Write up your design (justified, read against the **yardstick**), submit `predictions.csv` for hold-out evaluation, and take a slot in the **cross-track showcase**. | `HOLDOUT_EVALUATION.md`, `CAPSTONE_REPORT_RUBRIC.md`, `report.py` |
+| **5. Report + submit** | Write up your design (justified, read against the **yardstick**), submit `predictions.csv` for hold-out evaluation, and take a slot in the **cross-track showcase**. | [Hold-out protocol](https://github.com/farhad-abtahi/CM2013/blob/main/tracks/HOLDOUT_EVALUATION.md), [team rubric](https://github.com/farhad-abtahi/CM2013/blob/main/tracks/CAPSTONE_REPORT_RUBRIC.md) and [reporting code](../src/report.py) |
 
 ## The seven modules (this is what "pipeline integrity" means)
 
 For this repository's real EMG data, use **S1–S22 only** from `NinaPro_Mat` for
 development and both evaluation modes. **S23–S27** are stored separately in
 `data/holdout` and remain reserved for final frozen-model inference; do not score
-them or use the original archives in `data/raw` for CV. The recursive E1 `.mat`
-loader and final submission flow are described in [`../data/README.md`](../data/README.md).
+them or use the original archives in `data/raw` for CV. The [classical experiment commands](../README.md#classical-experiments)
+use the development recordings. The recursive E1 `.mat` loader and final
+submission flow are described in [`../data/README.md`](../data/README.md).
 
 The adapter is not one `run_everything()` — it is the book's §16.2 pipeline with one method per
 stage, so any stage can be swapped, tested, or rewritten without touching the others:
@@ -75,8 +76,8 @@ Two separate grades, both published in full, no hidden criteria:
 
 | | Points | Scope | Rubric |
 |---|:-:|---|---|
-| **Team project** | 30 | Shared by every team member | **[`CAPSTONE_REPORT_RUBRIC.md`](CAPSTONE_REPORT_RUBRIC.md)** |
-| **Individual** | 10 (5 + 5) | Yours alone — not shared with your team | **[`INDIVIDUAL_ASSESSMENT.md`](INDIVIDUAL_ASSESSMENT.md)** |
+| **Team project** | 30 | Shared by every team member | **[`CAPSTONE_REPORT_RUBRIC.md`](https://github.com/farhad-abtahi/CM2013/blob/main/tracks/CAPSTONE_REPORT_RUBRIC.md)** |
+| **Individual** | 10 (5 + 5) | Yours alone — not shared with your team | **[`INDIVIDUAL_ASSESSMENT.md`](https://github.com/farhad-abtahi/CM2013/blob/main/tracks/INDIVIDUAL_ASSESSMENT.md)** |
 
 Read both now, not the night before you submit — they're written as checklists as much as grading
 sheets, so you can hold your work against them before handing anything in.

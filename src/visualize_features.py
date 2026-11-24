@@ -18,14 +18,18 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.inspection import permutation_importance
 from sklearn.metrics import f1_score
 
-from experiments import ExpandedFeatureTrack
-from features import expanded_feature_names
+from development_folds import load_development_records
+from features import FeatureTrack, expanded_feature_names
 
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT / "data/raw"
+DATA_DIR = ROOT / "NinaPro_Mat"
 OUTPUT_DIR = ROOT / "outputs" / "feature_analysis"
+
+FEATURE_NAMES = expanded_feature_names()
+FEATURE_SET = f"expanded_{len(FEATURE_NAMES)}"
+FEATURE_LABEL = f"{len(FEATURE_NAMES)} expanded input features"
 
 SEED = 0
 WITHIN_SUBJECT = "S1"
@@ -34,12 +38,10 @@ WITHIN_SUBJECT = "S1"
 def save_figure(fig, name):
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    # for extension in ("png"):
-    extension = "png"
-    path = OUTPUT_DIR / f"{name}_no_rms.{extension}"
-    fig.savefig(path, format=extension, dpi=300, bbox_inches="tight")
+    path = OUTPUT_DIR / f"{name}_{FEATURE_SET}.png"
+    fig.savefig(path, dpi=300, bbox_inches="tight")
     plt.close(fig)
-    print(f"Saved: {name}")
+    print(f"Saved {path}")
 
 
 def plot_feature_hierarchy(X_train, names):
@@ -82,7 +84,7 @@ def plot_feature_hierarchy(X_train, names):
     )
     dendrogram_ax.set_ylabel("Distance")
     dendrogram_ax.set_title(
-        "Expanded feature hierarchy — subject-fold training data"
+        f"Correlation hierarchy — {FEATURE_LABEL} — subject-fold training data"
     )
     dendrogram_ax.set_xticks([])
 
@@ -185,7 +187,7 @@ def plot_lda(X, y, train_indices, test_indices, title, name):
     )
 
     fig.suptitle(
-        f"{title}\n"
+        f"{title} — {FEATURE_LABEL}\n"
         "Exploratory supervised projection; fitted on training data only"
     )
     fig.tight_layout(rect=[0, 0, 1, 0.90])
@@ -234,7 +236,7 @@ def plot_feature_importance(X, y, train, test, names):
     ax.axvline(0, color="black", linewidth=0.8)
     ax.set_xlabel("Decrease in macro-F1 after shuffling")
     ax.set_title(
-        "Permutation importance — unseen development subjects\n"
+        f"Permutation importance — {FEATURE_LABEL} — unseen development subjects\n"
         "First subject-grouped fold; error bars: SD over 5 shuffles"
     )
     fig.tight_layout()
@@ -245,7 +247,7 @@ def plot_feature_importance(X, y, train, test, names):
     import csv
 
     with (
-        OUTPUT_DIR / "permutation_importance_no_rms.csv"
+        OUTPUT_DIR / f"permutation_importance_{FEATURE_SET}.csv"
     ).open("w", newline="") as file:
         writer = csv.writer(file)
         writer.writerow([
@@ -269,13 +271,8 @@ def plot_feature_importance(X, y, train, test, names):
 
 
 def main():
-    track = ExpandedFeatureTrack()
-    records = track.load(DATA_DIR, exercise="E1")
-
-    if not records:
-        raise RuntimeError(f"No E1 recordings found in {DATA_DIR}")
-
-    track.assert_no_holdout(records)
+    track = FeatureTrack("full_70")
+    records = load_development_records(track, DATA_DIR)
 
     feature_rows = []
     labels = []
@@ -299,7 +296,7 @@ def main():
     subjects = np.concatenate(subjects)
     repetitions = np.concatenate(repetitions)
 
-    names = expanded_feature_names()
+    names = FEATURE_NAMES
 
     if X.shape[1] != len(names):
         raise ValueError(
@@ -358,7 +355,7 @@ def main():
 
     # Save enough information to identify the splits later.
     np.savez_compressed(
-        OUTPUT_DIR / "projection_split_metadata.npz",
+        OUTPUT_DIR / f"projection_split_metadata_{FEATURE_SET}.npz",
         subject_train=np.unique(subjects[train]),
         subject_test=np.unique(subjects[test]),
         within_subject=WITHIN_SUBJECT,
