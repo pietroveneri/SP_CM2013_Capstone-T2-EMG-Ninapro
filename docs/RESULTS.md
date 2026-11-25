@@ -63,8 +63,10 @@ have leakage. The iteration table reports macro-F1 across 22 subjects (sample SD
 | 27 | 2026-11-08  | MLP with 60 features to compare classifiers on the same input | Within-subject mean macro-F1 0.7185 ± 0.0521 (range 0.6025–0.8019); new-subject 0.1842 ± 0.0683 (range 0.0579–0.3386); n=22 | vs RF-60: new +0.0065; matched within-subject comparison not evaluated | Provides the reference for MLP-40 and MLP-20 | `32f03fd` |
 | 28 | 2026-11-08 | MLP with 40 time-domain features | Within-subject mean macro-F1 0.7303 ± 0.0530 (range 0.6040–0.8132); new-subject 0.1818 ± 0.0669 (range 0.0628–0.3427); n=22 | vs #27: within +0.0117; new −0.0024 | Fewer features improved the within-subject mean, with a small drop on new subjects | `32f03fd` |
 | 29 | 2026-11-08 | MLP with 20 amplitude features | Within-subject mean macro-F1 0.7136 ± 0.0522 (range 0.5930–0.8059); new-subject 0.1825 ± 0.0727 (range 0.0477–0.3772); n=22 | vs #28: within −0.0167; new +0.0007 | Halved the feature count with nearly unchanged mean new-subject performance, but lower within-subject performance | `32f03fd` |
+| 30 | 2026-11-24 | Random Forest with time features and median + Savitzky-Golay preprocessing | Within 0.810 ± 0.047 (range 0.720–0.884); new 0.174 ± 0.052 (range 0.068–0.265) | vs #12: within −0.002; new +0.002 | Preprocessing comparison | `bb8ab0f` |
+| 31 | 2026-11-24 | Fixed 50/50 RF-time and LDA-baseline ensemble with median + Savitzky-Golay preprocessing | Within 0.762 ± 0.041 (range 0.653–0.817); new 0.193 ± 0.059 (range 0.059–0.290) | vs #26: within −0.002; new +0.002 | Preprocessing comparison | `9f7c992` |
 
-Iterations 14, 18 and 22 also use #2 as the reference for the baseline feature set; #26 uses the strongest component in each mode (#12 and #14). The other comparisons use the preceding row. Results are retained for comparison, without implying a final selection.
+Iterations 14, 18 and 22 also use #2 as the reference for the baseline feature set; #26 uses the strongest component in each mode (#12 and #14); #30 compares with #12 and #31 with #26. The other comparisons use the preceding row. Results are retained for comparison, without implying a final selection.
 
 ### MLP predictions: Cohen's κ
 
